@@ -11,7 +11,7 @@ class MecchiUtils:
         self.models = {}
 
     def register_model(self, name, model):
-        print(f"🥁 mecchi: registering model '{name}'")
+        print(f"🥁 mecchi: loading model '{name}'")
         self.models[name] = model
 
     def is_model_registered(self, name):

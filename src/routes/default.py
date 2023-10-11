@@ -12,7 +12,8 @@ def define_routes(app: Flask, mecchi_utils: MecchiUtils):
 
     @app.route("/out_data/<path:filename>")
     def serve_static(filename):
-        return send_from_directory("out_data", filename)
+        out_dir = os.getenv("OUT_DATA", default="out_data")
+        return send_from_directory(out_dir, filename)
 
     @app.route("/mecchi/init", methods=["GET"])
     def initial_config(filename):
@@ -27,7 +28,7 @@ def define_routes(app: Flask, mecchi_utils: MecchiUtils):
                 file_extension = filename.rsplit(".", 1)[1].lower()
                 new_name = uuid.uuid4()
                 new_filename = f"${new_name}.{file_extension}"
-                new_path = os.path.join("out_data", new_filename)
+                new_path = os.path.join("out_data", secure_filename(new_filename))
 
                 file.save(new_path)
                 return {
