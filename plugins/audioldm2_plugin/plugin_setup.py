@@ -6,7 +6,7 @@ import tempfile
 
 
 def setup():
-    activate_venv = os.getenv("ACTIVATE_VENV", default=True)
+    activate_venv = bool(os.environ.get("ACTIVATE_VENV", "True"))
 
     current_path = os.getcwd()
     root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
