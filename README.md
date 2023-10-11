@@ -14,12 +14,12 @@ It is built on [Audiocraft](https://github.com/facebookresearch/audiocraft), [Au
 
 ## Short-term plans
 
-* TTA (text-to-audio) - <span style="color: lime">implemented</span>
-* ATA (audio-to-audio) - <span style="color: red">pending</span>
-* ADU (audio-data-upsampling, "sound upscaling") - <span style="color: lime">implemented</span>
-* ADC (audio-data-completion, "sound inpainting") - <span style="color: red">pending</span>
-* AST (audio-style-transfer) - <span style="color: red">pending</span>
-* ADB (audio-data-blending) - <span style="color: red">pending</span>
+* TTA (text-to-audio) - **implemented**
+* ATA (audio-to-audio) - pending
+* ADU (audio-data-upsampling, "sound upscaling") - **implemented**
+* ADC (audio-data-completion, "sound inpainting") - pending
+* AST (audio-style-transfer) - pending
+* ADB (audio-data-blending) - pending
 
 ## Roadmap
 
