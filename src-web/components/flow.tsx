@@ -51,7 +51,7 @@ export default function MecchiFlow() {
       defaultEdgeOptions={defaultEdgeOptions}
       onConnect={onConnect}>
       <Controls>
-        <ControlButton onClick={() => success('Some success message')} title="toggle palette">
+        <ControlButton onClick={togglePalette} title="toggle palette">
           <div><BsToggles /></div>
         </ControlButton>
       </Controls>
