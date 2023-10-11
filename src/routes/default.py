@@ -21,6 +21,7 @@ def define_routes(app: Flask, mecchi_utils: MecchiUtils):
 
     @app.route("/mecchi/upload", methods=["POST"])
     def upload():
+        out_dir = os.getenv("OUT_DATA", default="out_data")
         file = request.files["file"]
         if file:
             filename = file.filename
@@ -28,7 +29,7 @@ def define_routes(app: Flask, mecchi_utils: MecchiUtils):
                 file_extension = filename.rsplit(".", 1)[1].lower()
                 new_name = uuid.uuid4()
                 new_filename = f"{new_name}.{file_extension}"
-                new_path = os.path.join("out_data", secure_filename(new_filename))
+                new_path = os.path.join(out_dir, secure_filename(new_filename))
 
                 file.save(new_path)
                 return {
