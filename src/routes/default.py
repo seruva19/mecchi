@@ -27,7 +27,7 @@ def define_routes(app: Flask, mecchi_utils: MecchiUtils):
             if filename is not None:
                 file_extension = filename.rsplit(".", 1)[1].lower()
                 new_name = uuid.uuid4()
-                new_filename = f"${new_name}.{file_extension}"
+                new_filename = f"{new_name}.{file_extension}"
                 new_path = os.path.join("out_data", secure_filename(new_filename))
 
                 file.save(new_path)

@@ -16,10 +16,14 @@ class PluginsLoader:
 
     def assemble(self, app: Flask, utils: MecchiUtils):
         print("🥁 mecchi: loading plugins")
-
-        for folder_name in [
+        plugin_folders = [
             f for f in os.listdir(plugins_folder) if not f.startswith(".")
-        ]:
+        ]
+
+        print(
+            f"🥁 mecchi: found {len(plugin_folders)} plugins: {str.join(',', plugin_folders)}"
+        )
+        for folder_name in plugin_folders:
             folder_path = os.path.join(plugins_folder, folder_name)
 
             if os.path.isdir(folder_path):
@@ -93,6 +97,7 @@ class PluginsLoader:
             return False
 
     def install_reqs(self, requirements_file_path):
+        activate_venv = os.getenv("ACTIVATE_VENV", default=True)
         try:
             venv_name = "mecchi_venv"
 
@@ -101,7 +106,9 @@ class PluginsLoader:
             elif os.name == "nt":
                 activate_script = f"{venv_name}\\Scripts\\activate.bat"
 
-            subprocess.run(activate_script, shell=True)
+            if activate_venv:
+                subprocess.run(activate_script, shell=True)
+
             subprocess.run(["pip", "install", "-r", requirements_file_path], check=True)
 
             return True
