@@ -102,15 +102,25 @@ class PluginsLoader:
             venv_name = "mecchi_venv"
 
             if os.name == "posix":
-                activate_script = f". {venv_name}/bin/activate"
+                venv_activation_path = os.path.join(venv_name, "bin", "activate")
+                if activate_venv:
+                    activate_script = f". {venv_activation_path} && {sys.executable} -m pip install -r {requirements_file_path}"
+                else:
+                    activate_script = (
+                        f"{sys.executable} -m pip install -r {requirements_file_path}"
+                    )
             elif os.name == "nt":
-                activate_script = f"{venv_name}\\Scripts\\activate.bat"
+                venv_activation_path = os.path.join(
+                    venv_name, "Scripts", "activate.bat"
+                )
+                if activate_venv:
+                    activate_script = f"call {venv_activation_path} && {sys.executable} -m pip install -r {requirements_file_path}"
+                else:
+                    activate_script = (
+                        f"{sys.executable} -m pip install -r {requirements_file_path}"
+                    )
 
-            if activate_venv:
-                subprocess.run(activate_script, shell=True)
-
-            subprocess.run(["pip", "install", "-r", requirements_file_path], check=True)
-
+            subprocess.run(activate_script, shell=True)
             return True
         except Exception as e:
             return False
