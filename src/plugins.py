@@ -97,7 +97,7 @@ class PluginsLoader:
             return False
 
     def install_reqs(self, requirements_file_path):
-        activate_venv = bool(os.environ.get("ACTIVATE_VENV", "True"))
+        activate_venv = os.environ.get("ACTIVATE_VENV", "False") == "True"
         try:
             venv_name = "mecchi_venv"
 
