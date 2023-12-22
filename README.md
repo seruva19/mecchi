@@ -14,6 +14,11 @@ It is built on [Audiocraft](https://github.com/facebookresearch/audiocraft), [Au
 
 ## Short-term plans
 
+* Revision of the node UI
+* Rework of README 📒
+
+## Modules
+
 * TTA (text-to-audio) - **implemented**
 * ATA (audio-to-audio) - pending
 * ADU (audio-data-upsampling, "sound upscaling") - **implemented**
