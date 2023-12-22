@@ -1,12 +1,12 @@
-import { useMecchiNodeStore } from "../../stores/node-store";
+import { useMecchiNodeStore } from "../../../stores/node-store";
 import { Handle, Position } from "reactflow";
 import { useState } from "react";
-import MecchiNode from "../node-base";
+import MecchiNode from "../../node-base";
 import { tw } from "twind";
-import { MecchiKV } from "../../stores/nodes";
+import { MecchiKV } from "../../../stores/nodes";
 import ky from 'ky';
 
-export const MecchiMusicGenNodeInfo = {
+const MecchiMusicGenNodeInfo = {
   type: 'musicgen',
   view: MecchiMusicGenNode,
   data: {
@@ -41,11 +41,13 @@ export const MecchiMusicGenNodeInfo = {
   }
 }
 
+export default MecchiMusicGenNodeInfo;
+
 const selector = (id: string) => (store: any) => ({
   setParams: (key: string, value: any) => store.updateNode(id, { [key]: value }),
 });
 
-export default function MecchiMusicGenNode({ id, data }: { id: string, data: MecchiKV }) {
+export function MecchiMusicGenNode({ id, data }: { id: string, data: MecchiKV }) {
   const { setParams } = useMecchiNodeStore(selector(id));
 
   return <MecchiNode title="MusicGen" id={id}>

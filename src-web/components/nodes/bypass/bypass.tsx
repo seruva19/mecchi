@@ -1,11 +1,11 @@
-import { MecchiNodeStore, useMecchiNodeStore } from "../../stores/node-store";
+import { MecchiNodeStore, useMecchiNodeStore } from "../../../stores/node-store";
 import { Handle, Position } from "reactflow";
-import MecchiNode from "../node-base";
+import MecchiNode from "../../node-base";
 import { tw } from "twind";
-import { MecchiKV } from "../../stores/nodes";
+import { MecchiKV } from "../../../stores/nodes";
 import ky from 'ky';
 
-export const MecchiBypassNodeInfo = {
+const MecchiBypassNodeInfo = {
   type: 'bypass',
   view: MecchiBypassNode,
   data: {
@@ -25,11 +25,13 @@ export const MecchiBypassNodeInfo = {
   }
 }
 
+export default MecchiBypassNodeInfo;
+
 const selector = (id: string) => (store: MecchiNodeStore) => ({
   setUnload: (e: any) => store.updateNode(id, { unloadAll: e.target.checked }),
 });
 
-export default function MecchiBypassNode({ id, data }: { id: string, data: any }) {
+export function MecchiBypassNode({ id, data }: { id: string, data: any }) {
   const { setUnload } = useMecchiNodeStore(selector(id));
 
   return <MecchiNode title="Bypass" id={id}>

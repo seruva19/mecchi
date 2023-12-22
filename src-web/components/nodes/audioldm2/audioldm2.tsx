@@ -1,7 +1,7 @@
-import MecchiNode from "../node-base";
-import { MecchiKV } from "../../stores/nodes";
+import { MecchiKV } from "../../../stores/nodes";
+import MecchiNode from "../../node-base";
 
-export const MecchiAudioLdm2NodeInfo = {
+const MecchiAudioLdm2NodeInfo = {
   type: 'audioldm2',
   view: MecchiAudioLdm2Node,
   data: {
@@ -13,6 +13,8 @@ export const MecchiAudioLdm2NodeInfo = {
   }
 }
 
+export default MecchiAudioLdm2NodeInfo;
+
 const selector = (id: string) => (store: any) => ({
   setParams: (key: string, value: any) => store.updateNode(id, { [key]: value }),
 });
@@ -21,8 +23,8 @@ export const runInference = () => {
 
 }
 
-export default function MecchiAudioLdm2Node({ id, data }: { id: string, data: MecchiKV }) {
+export function MecchiAudioLdm2Node({ id, data }: { id: string, data: MecchiKV }) {
   return <MecchiNode title="AudioLdm2" id={id}>
-
+    <></>
   </MecchiNode>
 };

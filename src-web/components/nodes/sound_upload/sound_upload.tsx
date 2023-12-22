@@ -1,14 +1,14 @@
-import { MecchiNodeStore, useMecchiNodeStore } from "../../stores/node-store";
+import { MecchiNodeStore, useMecchiNodeStore } from "../../../stores/node-store";
 import { Handle, Position } from "reactflow";
-import MecchiNode from "../node-base";
+import MecchiNode from "../../node-base";
 import { tw } from "twind";
-import { MecchiKV } from "../../stores/nodes";
+import { MecchiKV } from "../../../stores/nodes";
 import Uploady, { useFileInput, useItemFinishListener } from "@rpldy/uploady";
 import UploadButton from "@rpldy/upload-button";
 import { useRef } from "react";
-import { useMecchiViewStore } from "../../stores/view-store";
+import { useMecchiViewStore } from "../../../stores/view-store";
 
-export const MecchiSoundUploadNodeInfo = {
+const MecchiSoundUploadNodeInfo = {
   type: 'sound-upload',
   view: MecchiSoundUploadNode,
   data: {
@@ -19,6 +19,8 @@ export const MecchiSoundUploadNodeInfo = {
     return Promise.resolve({ samples: [state.soundpath] });
   }
 }
+
+export default MecchiSoundUploadNodeInfo;
 
 const selector = (id: string) => (store: MecchiNodeStore) => ({
   setSound: (file: string) => store.updateNode(id, { soundpath: file }),
@@ -47,7 +49,7 @@ const UploadInput = ({ id }: { id: string }) => {
   </form>;
 };
 
-export default function MecchiSoundUploadNode({ id, data }: { id: string, data: any }) {
+export function MecchiSoundUploadNode({ id, data }: { id: string, data: any }) {
   return <MecchiNode title="Sound upload" id={id}>
     <Handle id="soundupload-a" className={`${tw`w-2 h-2`}`} type="target" style={{ top: 40, bottom: 'auto', background: 'orange' }} position={Position.Left}>
       <span className={`${tw`absolute font-bold text-xs ml-2 pr-1 pl-1 rounded`}`} style={{ marginTop: -7 }}>power</span>

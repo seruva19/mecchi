@@ -1,10 +1,4 @@
-import { MecchiEnvironmentNodeInfo } from '../components/nodes/environment';
-import { MecchiUpsamplerNodeInfo } from '../components/nodes/upsampler';
-import { MecchiPlaybackNodeInfo } from '../components/nodes/playback';
-import { MecchiPromptNodeInfo } from '../components/nodes/prompt';
-import { MecchiMusicGenNodeInfo } from '../components/nodes/musicgen';
-import { MecchiSoundUploadNodeInfo } from '../components/nodes/sound_upload';
-import { MecchiBypassNodeInfo } from '../components/nodes/bypass';
+import ky from 'ky';
 
 export type MecchiKV = { [key: string]: any };
 
@@ -15,13 +9,28 @@ export interface MecchiNode {
   transform: (inputs: MecchiKV, state: MecchiKV) => Promise<MecchiKV>;
 }
 
-// TODO: nodes should be registered in external configuration file 
-export const mecchiNodes: MecchiNode[] = [
-  MecchiEnvironmentNodeInfo,
-  MecchiPromptNodeInfo,
-  MecchiMusicGenNodeInfo,
-  MecchiUpsamplerNodeInfo,
-  MecchiPlaybackNodeInfo,
-  MecchiSoundUploadNodeInfo,
-  MecchiBypassNodeInfo
-];
+let _mecchiNodes: MecchiNode[] | undefined = undefined;
+export async function getMecchiNodes(): Promise<MecchiNode[]> {
+  if (!_mecchiNodes) {
+    _mecchiNodes = await loadMecchiNodes();
+  }
+
+  return _mecchiNodes;
+}
+
+async function loadMecchiNodes() {
+  const mecchiNodes = [];
+
+  const result: any = await ky.get('/mecchi/init', {
+    timeout: false
+  }).json();
+
+  const { nodes: nodePaths } = result;
+
+  for (const path of nodePaths) {
+    const module = await import(/* @vite-ignore */ path);
+    mecchiNodes.push(module.default);
+  }
+
+  return mecchiNodes;
+}

@@ -1,14 +1,14 @@
 /** @jsxImportSource @emotion/react */
-import { MecchiNodeStore, useMecchiNodeStore } from "../../stores/node-store";
+import { MecchiNodeStore, useMecchiNodeStore } from "../../../stores/node-store";
 import { Handle, Position } from "reactflow";
-import MecchiNode from "../node-base";
+import MecchiNode from "../../node-base";
 import { css } from "@emotion/react";
 import AudioPlayer from 'react-h5-audio-player';
 import 'react-h5-audio-player/lib/styles.css';
 import { tw } from "twind";
-import { MecchiKV } from "../../stores/nodes";
+import { MecchiKV } from "../../../stores/nodes";
 
-export const MecchiPlaybackNodeInfo = {
+const MecchiPlaybackNodeInfo = {
   type: 'playback',
   view: MecchiPlaybackNode,
   data: {
@@ -24,6 +24,8 @@ export const MecchiPlaybackNodeInfo = {
   }
 }
 
+export default MecchiPlaybackNodeInfo;
+
 const selector = (id: string) => (store: MecchiNodeStore) => ({
 
 });
@@ -34,7 +36,7 @@ const customStyles = css`
   }
 `;
 
-export default function MecchiPlaybackNode({ id, data }: { id: string, data: any }) {
+export function MecchiPlaybackNode({ id, data }: { id: string, data: any }) {
   const { } = useMecchiNodeStore(selector(id));
 
   return <MecchiNode title="Playback" id={id}>

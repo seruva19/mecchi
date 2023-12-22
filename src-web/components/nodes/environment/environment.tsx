@@ -1,12 +1,12 @@
-import { MecchiNodeStore, useMecchiNodeStore } from "../../stores/node-store";
+import { MecchiNodeStore, useMecchiNodeStore } from "../../../stores/node-store";
 import { shallow } from "zustand/shallow";
 import { tw } from 'twind';
 import { Handle, Position } from "reactflow";
-import MecchiNode from "../node-base";
+import MecchiNode from "../../node-base";
 import { ChangeEvent } from "react";
-import { MecchiKV } from "../../stores/nodes";
+import { MecchiKV } from "../../../stores/nodes";
 
-export const MecchiEnvironmentNodeInfo = {
+const MecchiEnvironmentNodeInfo = {
   type: 'environment',
   view: MecchiEnvironmentNode,
   data: {
@@ -20,6 +20,8 @@ export const MecchiEnvironmentNodeInfo = {
   }
 }
 
+export default MecchiEnvironmentNodeInfo;
+
 const nodeSelector = (store: MecchiNodeStore) => ({
   nodes: store.nodes,
   edges: store.edges,
@@ -30,7 +32,7 @@ const selector = (id: string) => (store: MecchiNodeStore) => ({
   setDevice: (e: ChangeEvent<HTMLInputElement>) => store.updateNode(id, { device: e.target.value }),
 });
 
-export default function MecchiEnvironmentNode({ id, data }: { id: string, data: MecchiKV }) {
+export function MecchiEnvironmentNode({ id, data }: { id: string, data: MecchiKV }) {
   const { setDevice } = useMecchiNodeStore(selector(id));
   const { nodes, edges, executePipeline } = useMecchiNodeStore(nodeSelector, shallow);
 

@@ -6,4 +6,4 @@ dist
 mecchi_venv
 node_modules
 out_data
-/plugins/**/.metadata
+/src-web/**/.metadata

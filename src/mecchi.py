@@ -8,8 +8,8 @@ plugins_loader = PluginsLoader()
 
 app = Flask(__name__, template_folder="../dist", static_folder="../dist/assets")
 
-define_routes(app, mecchi_utils)
-plugins_loader.assemble(app, mecchi_utils)
+nodes = plugins_loader.assemble(app, mecchi_utils)
+define_routes(app, mecchi_utils, nodes)
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", debug=False, port=4444)

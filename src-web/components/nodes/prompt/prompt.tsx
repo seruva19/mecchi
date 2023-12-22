@@ -1,11 +1,11 @@
-import { MecchiNodeStore, useMecchiNodeStore } from "../../stores/node-store";
+import { MecchiNodeStore, useMecchiNodeStore } from "../../../stores/node-store";
 import { Handle, Position } from "reactflow";
-import MecchiNode from "../node-base";
+import MecchiNode from "../../node-base";
 import 'react-h5-audio-player/lib/styles.css';
 import { tw } from "twind";
-import { MecchiKV } from "../../stores/nodes";
+import { MecchiKV } from "../../../stores/nodes";
 
-export const MecchiPromptNodeInfo = {
+const MecchiPromptNodeInfo = {
   type: 'prompt',
   view: MecchiPromptNode,
   data: {
@@ -19,11 +19,13 @@ export const MecchiPromptNodeInfo = {
   }
 }
 
+export default MecchiPromptNodeInfo;
+
 const selector = (id: string) => (store: MecchiNodeStore) => ({
   setPrompt: (e: any) => store.updateNode(id, { prompt: e.target.value }),
 });
 
-export default function MecchiPromptNode({ id, data }: { id: string, data: any }) {
+export function MecchiPromptNode({ id, data }: { id: string, data: any }) {
   const { setPrompt } = useMecchiNodeStore(selector(id));
 
   return <MecchiNode title="Prompt" id={id}>

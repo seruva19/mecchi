@@ -1,11 +1,11 @@
-import { MecchiNodeStore, useMecchiNodeStore } from "../../stores/node-store";
+import { MecchiNodeStore, useMecchiNodeStore } from "../../../stores/node-store";
 import { Handle, Position } from "reactflow";
-import MecchiNode from "../node-base";
+import MecchiNode from "../../node-base";
 import { tw } from "twind";
-import { MecchiKV } from "../../stores/nodes";
+import { MecchiKV } from "../../../stores/nodes";
 import ky from 'ky';
 
-export const MecchiUpsamplerNodeInfo = {
+const MecchiUpsamplerNodeInfo = {
   type: 'upsampler',
   view: MecchiUpsamplerNode,
   data: {
@@ -35,13 +35,16 @@ export const MecchiUpsamplerNodeInfo = {
   }
 }
 
+
+export default MecchiUpsamplerNodeInfo;
+
 const selector = (id: string) => (store: MecchiNodeStore) => ({
   setSteps: (e: any) => store.updateNode(id, { steps: +e.target.value }),
   setGuidance: (e: any) => store.updateNode(id, { guidance: +e.target.value }),
   setSeed: (e: any) => store.updateNode(id, { seed: e.target.value }),
 });
 
-export default function MecchiUpsamplerNode({ id, data }: { id: string, data: any }) {
+export function MecchiUpsamplerNode({ id, data }: { id: string, data: any }) {
   const { setSteps, setGuidance, setSeed } = useMecchiNodeStore(selector(id));
 
   return <MecchiNode title="Upsampler" id={id}>

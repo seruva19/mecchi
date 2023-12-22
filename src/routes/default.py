@@ -5,7 +5,7 @@ from werkzeug.utils import secure_filename
 from utils import MecchiUtils
 
 
-def define_routes(app: Flask, mecchi_utils: MecchiUtils):
+def define_routes(app: Flask, mecchi_utils: MecchiUtils, nodes):
     @app.route("/", methods=["GET"])
     def index():
         return render_template("index.html")
@@ -16,8 +16,8 @@ def define_routes(app: Flask, mecchi_utils: MecchiUtils):
         return send_from_directory(out_dir, filename)
 
     @app.route("/mecchi/init", methods=["GET"])
-    def initial_config(filename):
-        return {}
+    def initial_config(config=None):
+        return {"nodes": nodes}
 
     @app.route("/mecchi/upload", methods=["POST"])
     def upload():

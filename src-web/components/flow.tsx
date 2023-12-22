@@ -10,15 +10,9 @@ import ReactFlow, {
 import 'reactflow/dist/style.css';
 import { MecchiNodeStore, useMecchiNodeStore } from '../stores/node-store';
 import { shallow } from 'zustand/shallow';
-import { mecchiNodes } from '../stores/nodes';
 import MecchiPalette from './palette';
 import { BsToggles } from "react-icons/bs";
 import { useMecchiViewStore } from '../stores/view-store';
-const nodeTypes: { [key: string]: any } = {};
-
-mecchiNodes.forEach(node => {
-  nodeTypes[node.type] = node.view;
-});
 
 const defaultEdgeOptions: DefaultEdgeOptions = {
   animated: false,
@@ -33,7 +27,11 @@ const selector = (state: MecchiNodeStore) => ({
   onConnect: state.onConnect,
 });
 
-export default function MecchiFlow() {
+interface IProps {
+  [k: string]: any
+}
+
+export default function MecchiFlow({ nodeTypesKV, nodeTypes }: IProps) {
   const { nodes, edges, onNodesChange, onEdgesChange, onConnect } = useMecchiNodeStore(selector, shallow);
   const { togglePalette, success } = useMecchiViewStore();
 
@@ -44,7 +42,7 @@ export default function MecchiFlow() {
       nodes={nodes}
       edges={edges}
       onNodesChange={onNodesChange}
-      nodeTypes={nodeTypes}
+      nodeTypes={nodeTypesKV}
       onEdgesChange={onEdgesChange}
       snapToGrid={true}
       snapGrid={[20, 20]}
@@ -57,7 +55,7 @@ export default function MecchiFlow() {
       </Controls>
       <MiniMap zoomable pannable />
       <Background variant={BackgroundVariant.Dots} gap={12} size={1} />
-      <MecchiPalette />
+      <MecchiPalette nodeTypes={nodeTypes} />
     </ReactFlow>
   )
 }

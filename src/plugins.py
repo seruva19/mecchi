@@ -7,7 +7,7 @@ import importlib.util
 
 from utils import MecchiUtils
 
-plugins_folder = "plugins"
+root_folder = "src-web/components/nodes"
 
 
 class PluginsLoader:
@@ -15,16 +15,19 @@ class PluginsLoader:
         os.environ["HF_HOME"] = "cache"
 
     def assemble(self, app: Flask, utils: MecchiUtils):
-        print("🥁 mecchi: loading plugins")
-        plugin_folders = [
-            f for f in os.listdir(plugins_folder) if not f.startswith(".")
-        ]
+        print("🥁 mecchi: reading information about nodes")
+        folders = [f for f in os.listdir(root_folder) if not f.startswith(".")]
 
-        print(
-            f"🥁 mecchi: found {len(plugin_folders)} plugins: {str.join(',', plugin_folders)}"
+        folders_with_plugins = self.find_folders_with_plugins(
+            folders, "py", root_folder
         )
-        for folder_name in plugin_folders:
-            folder_path = os.path.join(plugins_folder, folder_name)
+        folders_with_nodes = self.find_folders_with_plugins(folders, "tsx", root_folder)
+        print(
+            f"🥁 mecchi: found {len(folders_with_plugins)} plugins: {str.join(',', folders_with_plugins)}"
+        )
+
+        for folder_name in folders_with_plugins:
+            folder_path = os.path.join(root_folder, folder_name)
 
             if os.path.isdir(folder_path):
                 sys.path.append(folder_path)
@@ -82,6 +85,21 @@ class PluginsLoader:
                 else:
                     print(f"⛔ mecchi: module '{plugin_module_path}' not found")
 
+        node_paths = [
+            os.path.join(
+                folder_path,
+                os.path.basename(folder_path) + ".tsx",
+            )
+            for folder_path in folders_with_nodes
+        ]
+        print(f"🥁 mecchi: found {len(node_paths)} nodes: {str.join(',', node_paths)}")
+
+        web_node_paths = [
+            "../components/nodes/" + path.replace("\\", "/") for path in node_paths
+        ]
+
+        return web_node_paths
+
     def custom_setup(self, folder_name, setup_path):
         try:
             spec = importlib.util.spec_from_file_location(f"{folder_name}", setup_path)
@@ -124,3 +142,12 @@ class PluginsLoader:
             return True
         except Exception as e:
             return False
+
+    def find_folders_with_plugins(self, folders, extension, base_directory):
+        return [
+            folder
+            for folder in folders
+            if os.path.isdir(os.path.join(base_directory, folder))
+            and f"{folder}.{extension}"
+            in os.listdir(os.path.join(base_directory, folder))
+        ]

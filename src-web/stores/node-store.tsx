@@ -14,7 +14,7 @@ import {
 
 import { nanoid } from 'nanoid';
 import { createWithEqualityFn } from 'zustand/traditional';
-import { mecchiNodes } from './nodes';
+import { getMecchiNodes } from './nodes';
 import { runMecchiPipeline } from '../pipelines/pipeline-builder';
 
 export interface MecchiNodeStore {
@@ -44,7 +44,8 @@ export const useMecchiNodeStore = createWithEqualityFn<MecchiNodeStore>((set, ge
     });
   },
 
-  createNode: (type: string) => {
+  createNode: async (type: string) => {
+    const mecchiNodes = await getMecchiNodes();
     const id = nanoid();
     const data = mecchiNodes.find(n => n.type === type)!.data;
     const position = { x: 0, y: 0 };

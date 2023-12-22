@@ -1,5 +1,5 @@
 import { Edge, Node } from 'reactflow'
-import { MecchiKV, mecchiNodes } from '../stores/nodes'
+import { MecchiKV, getMecchiNodes } from '../stores/nodes'
 
 // TODO: current implementation is sequential-only, so even operations that could be run simultaneously
 // are executed one after another. This is not optimal, and needs to be rewritten. Also DAG traversal algorithm
@@ -52,6 +52,7 @@ const topologicalSort = (startNode: Node, nodes: Node[], edges: Edge[]): TopoSor
 const activate = async (tsn: TopoSortedNode, nodes: TopoSortedNode[], flow: any): Promise<void> => {
   const transform = async (tsn: TopoSortedNode): Promise<void> => {
     if (!tsn.processed) {
+      const mecchiNodes = await getMecchiNodes();
       console.info(`activating node '${tsn.node.type}' with id '${tsn.node.id}'`)
       const prototype = mecchiNodes.find(mn => mn.type == tsn.node.type)!;
 
