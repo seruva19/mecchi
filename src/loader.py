@@ -90,7 +90,7 @@ class NodeLoader:
         node_paths = [
             os.path.join(
                 node,
-                os.path.basename(node),
+                os.path.basename(node) + ".js",
             )
             for node in nodes
         ]
