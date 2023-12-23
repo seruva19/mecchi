@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import 'reactflow/dist/style.css';
 import MecchiFlow from './flow';
 import { css } from '@emotion/react';
@@ -29,11 +28,12 @@ export default function MecchiCanvas() {
 
   return (
     <>
-      <div className="mecchi-canvas" css={css`
-        width: 100vw;
-        position: fixed;
-        top: 0;
-        height: 100vh;`} onContextMenu={(e) => { }}>
+      <div style={{
+        width: '100vw',
+        position: "fixed",
+        top: 0,
+        height: '100vh',
+      }} onContextMenu={(e) => { }}>
         <MecchiFlow nodeTypesKV={nodeTypesKV} nodeTypes={nodeTypes} />
         <ToastContainer position="bottom-center"
           autoClose={5000}
