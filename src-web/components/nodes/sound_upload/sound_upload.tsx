@@ -7,6 +7,7 @@ import Uploady, { useFileInput, useItemFinishListener } from "@rpldy/uploady";
 import UploadButton from "@rpldy/upload-button";
 import { useRef } from "react";
 import { useMecchiViewStore } from "../../../stores/view-store";
+import React from "react";
 
 const MecchiSoundUploadNodeInfo = {
   type: 'sound-upload',

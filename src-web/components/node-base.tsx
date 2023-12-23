@@ -1,6 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import { UseBoundStoreWithEqualityFn } from "zustand/traditional";
-import { ReactNode, useState } from "react";
+import { ReactNode } from "react";
 import { tw } from 'twind';
 import { css } from "@emotion/react";
 import { MecchiNodeStore, useMecchiNodeStore } from "../stores/node-store";

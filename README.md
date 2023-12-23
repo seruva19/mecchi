@@ -47,7 +47,12 @@ To launch application, run:
 ```
 npm run serve
 ```
+<!---
+## Try online 
 
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1_hg2a_hwtsEEreQN7EQEKX4GWj5zBvZt)
+<br>
+-->
 ## Documentation
 
 "Let the code speak, for it tells a complete story within its syntax." (c) gpt-3.5-turbo 😏

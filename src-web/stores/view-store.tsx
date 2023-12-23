@@ -1,8 +1,5 @@
-import { create } from 'zustand'
-import { combine } from 'zustand/middleware'
-import { MecchiNode } from './nodes'
 import { createWithEqualityFn } from 'zustand/traditional'
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 interface MecchiViewStore {
   paletteVisible: boolean;
