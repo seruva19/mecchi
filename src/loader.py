@@ -97,7 +97,8 @@ class NodeLoader:
         print(f"🥁 mecchi: found {len(nodes)} nodes: {str.join(',', nodes)}")
 
         web_node_paths = [
-            "../components/nodes/" + path.replace("\\", "/") for path in node_paths
+            "../assets/components/nodes/" + path.replace("\\", "/")
+            for path in node_paths
         ]
 
         return web_node_paths
