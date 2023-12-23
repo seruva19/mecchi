@@ -7,7 +7,6 @@ import AudioPlayer from 'react-h5-audio-player';
 import 'react-h5-audio-player/lib/styles.css';
 import { tw } from "twind";
 import { MecchiKV } from "../../../stores/nodes";
-import React from "react";
 
 const MecchiPlaybackNodeInfo = {
   type: 'playback',
