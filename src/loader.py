@@ -10,7 +10,7 @@ from utils import MecchiUtils
 root_folder = "src-web/components/nodes"
 
 
-class PluginsLoader:
+class NodeLoader:
     def __init__(self):
         os.environ["HF_HOME"] = "cache"
 
@@ -85,14 +85,16 @@ class PluginsLoader:
                 else:
                     print(f"⛔ mecchi: module '{plugin_module_path}' not found")
 
+        nodes = [os.path.basename(folder_path) for folder_path in folders_with_nodes]
+
         node_paths = [
             os.path.join(
-                folder_path,
-                os.path.basename(folder_path) + ".tsx",
+                node,
+                os.path.basename(node),
             )
-            for folder_path in folders_with_nodes
+            for node in nodes
         ]
-        print(f"🥁 mecchi: found {len(node_paths)} nodes: {str.join(',', node_paths)}")
+        print(f"🥁 mecchi: found {len(nodes)} nodes: {str.join(',', nodes)}")
 
         web_node_paths = [
             "../components/nodes/" + path.replace("\\", "/") for path in node_paths

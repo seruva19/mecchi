@@ -3,6 +3,7 @@ import subprocess
 import sys
 import os
 import tempfile
+from pathlib import Path
 
 repo_url = "https://github.com/haoheliu/versatile_audio_super_resolution.git"
 commit_hash = "3e90b6c"
@@ -21,7 +22,7 @@ def setup():
     os.chdir(current_path)
 
     subdirectory_path = os.path.join(temp_audiosr, "audiosr")
-    destination_dir = "plugins/audiosr_plugin/"
+    destination_dir = Path(local_path).parent
 
     if os.path.exists(subdirectory_path) and os.path.isdir(subdirectory_path):
         destination_subdirectory = os.path.join(destination_dir, "audiosr")

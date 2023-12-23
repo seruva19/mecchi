@@ -10,19 +10,19 @@
     "module": "ESNext",
     "skipLibCheck": true,
     "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true,
+    "noEmit": false,
     "jsx": "react-jsx",
     "strict": true,
     "noUnusedLocals": false,
     "noUnusedParameters": false,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    "outDir": "dist/assets"
   },
   "include": [
-    "src-web",
-    "plugins/**/*.ts"
+    "src-web/**/*.ts",
+    "src-web/**/*.tsx"
   ],
   "references": [
     {

@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { ReactFlowProvider } from 'reactflow'
-import MecchiCanvas from './components/canvas.tsx'
+import MecchiCanvas from './components/canvas'
 import { KBarProvider } from "kbar";
 import 'react-toastify/dist/ReactToastify.min.css';
 

@@ -13,6 +13,7 @@ import { shallow } from 'zustand/shallow';
 import MecchiPalette from './palette';
 import { BsToggles } from "react-icons/bs";
 import { useMecchiViewStore } from '../stores/view-store';
+import React from 'react';
 
 const defaultEdgeOptions: DefaultEdgeOptions = {
   animated: false,

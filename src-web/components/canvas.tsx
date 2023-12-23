@@ -1,5 +1,4 @@
 /** @jsxImportSource @emotion/react */
-import ReactFlow from 'reactflow';
 import 'reactflow/dist/style.css';
 import MecchiFlow from './flow';
 import { css } from '@emotion/react';
@@ -7,6 +6,7 @@ import { useMecchiViewStore } from '../stores/view-store';
 import { Flip, ToastContainer } from 'react-toastify';
 import { useState, useEffect } from 'react';
 import { getMecchiNodes } from '../stores/nodes';
+import React from 'react';
 
 export default function MecchiCanvas() {
   const [nodeTypesKV, setNodeTypesKV] = useState<{ [key: string]: any }>({});

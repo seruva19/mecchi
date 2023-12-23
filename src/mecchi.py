@@ -1,14 +1,14 @@
 from flask import Flask
-from plugins import PluginsLoader
+from loader import NodeLoader
 from utils import MecchiUtils
 from routes.default import define_routes
 
 mecchi_utils = MecchiUtils()
-plugins_loader = PluginsLoader()
+node_loader = NodeLoader()
 
 app = Flask(__name__, template_folder="../dist", static_folder="../dist/assets")
 
-nodes = plugins_loader.assemble(app, mecchi_utils)
+nodes = node_loader.assemble(app, mecchi_utils)
 define_routes(app, mecchi_utils, nodes)
 
 if __name__ == "__main__":

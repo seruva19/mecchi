@@ -9,7 +9,7 @@
     "install:python:linux": ". mecchi_venv/Scripts/activate.bat && pip install -r install/requirements.txt",
     "install:web": "npm install --legacy-peer-deps",
     "serve": "npm-run-all --parallel serve:web:**",
-    "serve:web:all": "vite",
+    "serve:web:all": "tsc && vite",
     "serve:web:server": "call mecchi_venv/Scripts/activate.bat && python src/mecchi.py",
     "serve:linux": "npm-run-all --p serve:web:all && . mecchi_venv/bin/activate && python src/mecchi.py",
     "update": "call mecchi_venv/Scripts/activate.bat && pip install -r install/requirements.txt && npm install --legacy-peer-deps",
