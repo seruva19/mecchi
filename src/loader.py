@@ -90,14 +90,14 @@ class NodeLoader:
         node_paths = [
             os.path.join(
                 node,
-                os.path.basename(node) + ".js",
+                os.path.basename(node) + os.getenv("NODE_FILE_EXTENSION", ".tsx"),
             )
             for node in nodes
         ]
         print(f"🥁 mecchi: found {len(nodes)} nodes: {str.join(',', nodes)}")
 
         web_node_paths = [
-            "../assets/components/nodes/" + path.replace("\\", "/")
+            os.getenv("NODE_PATHS", "../components/nodes/") + path.replace("\\", "/")
             for path in node_paths
         ]
 
