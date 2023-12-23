@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import { MecchiNodeStore, useMecchiNodeStore } from "../../../stores/node-store";
 import { Handle, Position } from "reactflow";
 import MecchiNode from "../../node-base";

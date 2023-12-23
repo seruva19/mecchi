@@ -1,6 +1,5 @@
 import 'reactflow/dist/style.css';
 import MecchiFlow from './flow';
-import { css } from '@emotion/react';
 import { Flip, ToastContainer } from 'react-toastify';
 import { useState, useEffect } from 'react';
 import { getMecchiNodes } from '../stores/nodes';

@@ -14,8 +14,8 @@ It is built on [Audiocraft](https://github.com/facebookresearch/audiocraft), [Au
 
 ## Short-term plans
 
+* Dynamic loading of nodes
 * Revision of the node UI
-* Rework of README 📒
 
 ## Modules
 

@@ -1,11 +1,10 @@
-/** @jsxImportSource @emotion/react */
 import { ReactNode } from "react";
 import { tw } from 'twind';
-import { css } from "@emotion/react";
 import { MecchiNodeStore, useMecchiNodeStore } from "../stores/node-store";
 import { shallow } from "zustand/shallow";
 import { CSSProperties } from "react";
 import { ScaleLoader } from "react-spinners";
+import { css } from "@emotion/react";
 
 const selector = (store: MecchiNodeStore) => ({
   busyNodes: store.busyNodes,

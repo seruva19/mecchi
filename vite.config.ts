@@ -2,11 +2,13 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react({ jsxImportSource: "@emotion/react" })],
   build: {
     minify: false
   },
-
+  optimizeDeps: {
+    include: ['react/jsx-runtime'],
+  },
   server: {
     port: 5555,
     proxy: {
