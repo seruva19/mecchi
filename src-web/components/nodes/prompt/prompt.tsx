@@ -4,7 +4,6 @@ import MecchiNode from "../../node-base";
 import 'react-h5-audio-player/lib/styles.css';
 import { tw } from "twind";
 import { MecchiKV } from "../../../stores/nodes";
-import React from "react";
 
 const MecchiPromptNodeInfo = {
   type: 'prompt',

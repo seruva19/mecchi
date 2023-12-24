@@ -4,7 +4,6 @@ import MecchiNode from "../../node-base";
 import { tw } from "twind";
 import { MecchiKV } from "../../../stores/nodes";
 import ky from 'ky';
-import React from "react";
 
 const MecchiMusicGenNodeInfo = {
   type: 'musicgen',

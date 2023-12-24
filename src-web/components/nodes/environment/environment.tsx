@@ -5,7 +5,6 @@ import { Handle, Position } from "reactflow";
 import MecchiNode from "../../node-base";
 import { ChangeEvent } from "react";
 import { MecchiKV } from "../../../stores/nodes";
-import React from "react";
 
 const MecchiEnvironmentNodeInfo = {
   type: 'environment',
