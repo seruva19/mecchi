@@ -54,4 +54,4 @@ npm run serve
 
 ## Documentation
 
-"Let the code speak, for it tells a complete story within its syntax." (c) gpt-3.5-turbo 😏
+One day 😏
