@@ -4,6 +4,7 @@ torchvision==0.15.2+cu118
 torchaudio==2.0.2+cu118
 diffusers==0.21.4
 transformers==4.31.0
+accelerate==0.21.0
 xformers==0.0.22
 huggingface-hub==0.17.3
 numpy==1.23.5

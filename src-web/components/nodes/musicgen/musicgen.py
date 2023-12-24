@@ -17,7 +17,7 @@ class AudiocraftPlugin:
         @app.route("/mecchi/musicgen", methods=["POST"])
         def musicgen_inference():
             params = request.get_json()
-            print(f"running musicgen with params {params}")
+            print(f"running musicgen inference with params {params}")
 
             device = params.get("device")
             model = params.get("model")

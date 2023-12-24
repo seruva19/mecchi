@@ -10,11 +10,10 @@ But for now, it's just a POC and not yet production-ready or close to being a ma
 
 ## Credits 
 
-It is built on [Audiocraft](https://github.com/facebookresearch/audiocraft), [AudioSR](https://github.com/haoheliu/versatile_audio_super_resolution), [Flask](https://github.com/pallets/flask), [React](https://github.com/facebook/react), [ReactFlow](https://github.com/wbkd/react-flow), [Tailwind](https://github.com/tailwindlabs/tailwindcss) and other great projects 🔥
+It is built on [Audiocraft](https://github.com/facebookresearch/audiocraft), [AudioLDM 2](https://github.com/haoheliu/AudioLDM2), [AudioSR](https://github.com/haoheliu/versatile_audio_super_resolution), [Flask](https://github.com/pallets/flask), [React](https://github.com/facebook/react), [ReactFlow](https://github.com/wbkd/react-flow), [Tailwind](https://github.com/tailwindlabs/tailwindcss) and other great projects 🔥
 
 ## Short-term plans
 
-* Dynamic loading of nodes
 * Revision of the node UI
 
 ## Modules
