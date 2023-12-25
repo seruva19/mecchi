@@ -1,3 +1,4 @@
+import os
 import uuid
 from flask import Flask, request
 from diffusers import AudioLDM2Pipeline
@@ -52,6 +53,9 @@ class AudioLdm2Plugin:
             ][  # type: ignore
                 0
             ]
+
+            if not os.path.exists("out_data"):
+                os.makedirs("out_data")
 
             filename = f"{uuid.uuid4()}.wav"
             scipy.io.wavfile.write(f"out_data/{filename}", rate=16000, data=audio)
