@@ -1,3 +1,4 @@
+import os
 from audiocraft.models.musicgen import MusicGen
 from audiocraft.data.audio import audio_write
 from flask import Flask, request
@@ -65,7 +66,7 @@ class AudiocraftPlugin:
             for idx, one_wav in enumerate(wav):
                 filename = uuid.uuid4()
 
-                path = f"out_data/{filename}"
+                path = f'{os.getenv("OUT_DATA", "out_data")}/{filename}'
                 audio_write(
                     stem_name=path,
                     wav=one_wav.cpu(),

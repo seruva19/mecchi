@@ -42,7 +42,7 @@ class AudioLdm2Plugin:
             files = []
             audio = pipe(
                 prompt=prompt,
-                num_inference_steps=steps,
+                num_inference_steps=int(steps),
                 audio_length_in_s=float(length),
                 guidance_scale=float(scale),
                 negative_prompt=negative_prompt,
