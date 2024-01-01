@@ -18,10 +18,8 @@ class NodeLoader:
         print("🥁 mecchi: reading information about nodes")
         folders = [f for f in os.listdir(root_folder) if not f.startswith(".")]
 
-        folders_with_plugins = self.find_folders_with_plugins(
-            folders, "py", root_folder
-        )
-        folders_with_nodes = self.find_folders_with_plugins(folders, "tsx", root_folder)
+        folders_with_plugins = self.find_folders_with_files(folders, "py", root_folder)
+
         print(
             f"🥁 mecchi: found {len(folders_with_plugins)} plugins: {str.join(',', folders_with_plugins)}"
         )
@@ -85,16 +83,12 @@ class NodeLoader:
                 else:
                     print(f"⛔ mecchi: module '{plugin_module_path}' not found")
 
-        nodes = [os.path.basename(folder_path) for folder_path in folders_with_nodes]
+        node_paths = self.find_files_with_nodes(folders, "tsx", root_folder)
+        nodes = [os.path.basename(file_path) for file_path in node_paths]
 
-        node_paths = [
-            os.path.join(
-                node,
-                os.path.basename(node) + os.getenv("NODE_FILE_EXTENSION", ".tsx"),
-            )
-            for node in nodes
-        ]
-        print(f"🥁 mecchi: found {len(nodes)} nodes: {str.join(',', nodes)}")
+        print(
+            f"🥁 mecchi: found {len(nodes)} nodes: {str.join(',', [os.path.splitext(node)[0] for node in nodes])}"
+        )
 
         web_node_paths = [
             os.getenv("NODE_PATHS", "../components/nodes/") + path.replace("\\", "/")
@@ -146,7 +140,7 @@ class NodeLoader:
         except Exception as e:
             return False
 
-    def find_folders_with_plugins(self, folders, extension, base_directory):
+    def find_folders_with_files(self, folders, extension, base_directory):
         return [
             folder
             for folder in folders
@@ -154,3 +148,16 @@ class NodeLoader:
             and f"{folder}.{extension}"
             in os.listdir(os.path.join(base_directory, folder))
         ]
+
+    def find_files_with_nodes(self, folders, extension, base_directory):
+        file_paths = []
+        for folder in folders:
+            folder_path = os.path.join(base_directory, folder)
+            if os.path.isdir(folder_path):
+                for file in os.listdir(folder_path):
+                    if file.endswith(f".{extension}"):
+                        file_path = os.path.join(
+                            folder, file
+                        )  # Combines the folder name and the file name
+                        file_paths.append(file_path)
+        return file_paths
