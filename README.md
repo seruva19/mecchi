@@ -16,7 +16,7 @@ It is built on [Audiocraft](https://github.com/facebookresearch/audiocraft), [Au
 
 * Revision of the node UI
 
-## Modules
+## Features
 
 * TTA (text-to-audio) - **implemented**
 * ATA (audio-to-audio) - pending
@@ -31,7 +31,7 @@ Yes.
 
 ## How it looks? 
 
-Nothing fancy yet 🤷‍♂️ But here is screenshot anyway:
+Nothing fancy yet 🐥 But here is screenshot anyway:
 
 ![img](/screenshots/mecchi.png)
 
@@ -50,6 +50,10 @@ npm run serve
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1_hg2a_hwtsEEreQN7EQEKX4GWj5zBvZt)
 <br>
+
+## Nodes
+
+TODO
 
 ## Documentation
 
