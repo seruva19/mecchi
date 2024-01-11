@@ -2,8 +2,9 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { ReactFlowProvider } from 'reactflow'
 import MecchiCanvas from './canvas/canvas'
-import { KBarAnimator, KBarPortal, KBarPositioner, KBarProvider, KBarSearch } from "kbar";
-import { actions } from './command-bar/actions';
+import { KBarAnimator, KBarPortal, KBarPositioner, KBarProvider, KBarResults, KBarSearch, useMatches } from "kbar";
+import { RenderResults } from './command-bar/results';
+import { actions } from './command-bar/kbar';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <>
@@ -13,6 +14,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
           <KBarPositioner>
             <KBarAnimator>
               <KBarSearch />
+              <RenderResults />
             </KBarAnimator>
           </KBarPositioner>
         </KBarPortal>
