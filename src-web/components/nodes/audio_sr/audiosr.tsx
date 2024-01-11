@@ -1,13 +1,14 @@
 import { MecchiNodeStore, useMecchiNodeStore } from "../../../stores/node-store";
 import { Handle, Position } from "reactflow";
-import MecchiNode from "../../node-base";
+import MecchiNode from "../../../canvas/node-base";
 import { tw } from "twind";
 import { MecchiKV } from "../../../stores/nodes";
 import ky from 'ky';
 
-const MecchiUpsamplerNodeInfo = {
-  type: 'upsampler',
-  view: MecchiUpsamplerNode,
+const MecchiAudioSRNodeInfo = {
+  type: 'audiosr',
+  group: 'convert',
+  view: MecchiAudioSRNode,
   data: {
     steps: 100,
     guidance: 5,
@@ -36,7 +37,7 @@ const MecchiUpsamplerNodeInfo = {
 }
 
 
-export default MecchiUpsamplerNodeInfo;
+export default MecchiAudioSRNodeInfo;
 
 const selector = (id: string) => (store: MecchiNodeStore) => ({
   setSteps: (e: any) => store.updateNode(id, { steps: +e.target.value }),
@@ -44,14 +45,14 @@ const selector = (id: string) => (store: MecchiNodeStore) => ({
   setSeed: (e: any) => store.updateNode(id, { seed: e.target.value }),
 });
 
-export function MecchiUpsamplerNode({ id, data }: { id: string, data: any }) {
+export function MecchiAudioSRNode({ id, data }: { id: string, data: any }) {
   const { setSteps, setGuidance, setSeed } = useMecchiNodeStore(selector(id));
 
-  return <MecchiNode title="Upsampler" id={id}>
-    <Handle id="upsampler-a" className={`${tw`w-2 h-2 `}`} type="target" style={{ top: 40, bottom: 'auto', background: 'blue' }} position={Position.Left}>
+  return <MecchiNode title="AudioSR" id={id}>
+    <Handle id="audiosr-a" className={`${tw`w-2 h-2 `}`} type="target" style={{ top: 40, bottom: 'auto', background: 'blue' }} position={Position.Left}>
       <span className={`${tw`absolute font-bold text-xs ml-2 pl-1 rounded`}`} style={{ marginTop: -7 }}>sample</span>
     </Handle>
-    <Handle id="upsampler-b" className={`${tw`w-2 h-2`}`} type="source" style={{ top: 30, bottom: 'auto', background: 'blue' }} position={Position.Right}>
+    <Handle id="audiosr-b" className={`${tw`w-2 h-2`}`} type="source" style={{ top: 30, bottom: 'auto', background: 'blue' }} position={Position.Right}>
       <span className={`${tw`font-bold text-xs float-right mr-3`}`} style={{ marginTop: -7 }}>sample</span>
     </Handle>
 

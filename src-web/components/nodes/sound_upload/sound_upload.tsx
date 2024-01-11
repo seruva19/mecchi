@@ -1,6 +1,6 @@
 import { MecchiNodeStore, useMecchiNodeStore } from "../../../stores/node-store";
 import { Handle, Position } from "reactflow";
-import MecchiNode from "../../node-base";
+import MecchiNode from "../../../canvas/node-base";
 import { tw } from "twind";
 import { MecchiKV } from "../../../stores/nodes";
 import Uploady, { useFileInput, useItemFinishListener } from "@rpldy/uploady";
@@ -10,6 +10,7 @@ import { useMecchiViewStore } from "../../../stores/view-store";
 
 const MecchiSoundUploadNodeInfo = {
   type: 'sound-upload',
+  group: ['io'],
   view: MecchiSoundUploadNode,
   data: {
     soundpath: undefined

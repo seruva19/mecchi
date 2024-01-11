@@ -1,16 +1,24 @@
 import 'reactflow/dist/style.css';
 import MecchiFlow from './flow';
-import { Flip, ToastContainer } from 'react-toastify';
 import { useState, useEffect } from 'react';
 import { getMecchiNodes } from '../stores/nodes';
+import { Toaster } from 'react-hot-toast';
 
 export default function MecchiCanvas() {
   const [nodeTypesKV, setNodeTypesKV] = useState<{ [key: string]: any }>({});
-  const [nodeTypes, setNodeTypes] = useState<string[]>([]);
+  const [nodeTypes, setNodeTypes] = useState<{ [key: string]: string[] }>({});
 
   const getNodes = async () => {
     const mecchiNodes = await getMecchiNodes();
-    const types: string[] = mecchiNodes.map(node => node.type);
+    const types: { [key: string]: string[] } = mecchiNodes.reduce((collection, node) => {
+      const key = node.group;
+      if (!collection[key]) {
+        collection[key] = [];
+      }
+
+      collection[key].push(node.type);
+      return collection;
+    }, {} as { [key: string]: string[] });
 
     const typesKV: { [key: string]: any } = {};
     mecchiNodes.forEach(node => {
@@ -34,15 +42,7 @@ export default function MecchiCanvas() {
         height: '100vh',
       }} onContextMenu={(e) => { }}>
         <MecchiFlow nodeTypesKV={nodeTypesKV} nodeTypes={nodeTypes} />
-        <ToastContainer position="bottom-center"
-          autoClose={5000}
-          newestOnTop={false}
-          closeOnClick
-          transition={Flip}
-          rtl={false}
-          pauseOnFocusLoss={true}
-          draggable
-          theme="light" />
+        <Toaster />
       </div>
     </>
   )

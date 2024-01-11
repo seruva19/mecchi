@@ -2,12 +2,13 @@ import { MecchiNodeStore, useMecchiNodeStore } from "../../../stores/node-store"
 import { shallow } from "zustand/shallow";
 import { tw } from 'twind';
 import { Handle, Position } from "reactflow";
-import MecchiNode from "../../node-base";
+import MecchiNode from "../../../canvas/node-base";
 import { ChangeEvent } from "react";
 import { MecchiKV } from "../../../stores/nodes";
 
 const MecchiEnvironmentNodeInfo = {
   type: 'environment',
+  group: 'control',
   view: MecchiEnvironmentNode,
   data: {
     device: 'cuda',

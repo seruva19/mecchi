@@ -4,6 +4,7 @@ export type MecchiKV = { [key: string]: any };
 
 export interface MecchiNode {
   type: string;
+  group: string;
   view: Function;
   data: MecchiKV;
   transform: (inputs: MecchiKV, state: MecchiKV) => Promise<MecchiKV>;

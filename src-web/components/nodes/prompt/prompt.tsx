@@ -1,12 +1,13 @@
 import { MecchiNodeStore, useMecchiNodeStore } from "../../../stores/node-store";
 import { Handle, Position } from "reactflow";
-import MecchiNode from "../../node-base";
+import MecchiNode from "../../../canvas/node-base";
 import 'react-h5-audio-player/lib/styles.css';
 import { tw } from "twind";
 import { MecchiKV } from "../../../stores/nodes";
 
 const MecchiPromptNodeInfo = {
   type: 'prompt',
+  group: 'io',
   view: MecchiPromptNode,
   data: {
     prompt: 'synthwave, 80s',
@@ -29,7 +30,10 @@ export function MecchiPromptNode({ id, data }: { id: string, data: any }) {
   const { setPrompt } = useMecchiNodeStore(selector(id));
 
   return <MecchiNode title="Prompt" id={id}>
-    <Handle id="prompt-a" className={`${tw`w-2 h-2`}`} type="source" style={{ top: 40, bottom: 'auto', background: 'blue' }} position={Position.Right}>
+    <Handle id="prompt-a" className={`${tw`w-2 h-2`}`} type="target" style={{ top: 40, bottom: 'auto', background: 'blue' }} position={Position.Left}>
+      <span className={`${tw`absolute font-bold text-xs ml-2 pl-1 rounded`}`} style={{ marginTop: -7 }}>prompt</span>
+    </Handle>
+    <Handle id="prompt-b" className={`${tw`w-2 h-2`}`} type="source" style={{ top: 30, bottom: 'auto', background: 'blue' }} position={Position.Right}>
       <span className={`${tw`font-bold text-xs float-right mr-3`}`} style={{ marginTop: -7 }}>prompt</span>
     </Handle>
 

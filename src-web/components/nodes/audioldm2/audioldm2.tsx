@@ -1,6 +1,6 @@
 import ky from "ky";
 import { MecchiKV } from "../../../stores/nodes";
-import MecchiNode from "../../node-base";
+import MecchiNode from "../../../canvas/node-base";
 import { Handle, Position } from "reactflow";
 import { tw } from "twind";
 import { useMecchiNodeStore } from "../../../stores/node-store";
@@ -8,6 +8,7 @@ import { css } from "@emotion/react";
 
 const MecchiAudioLdm2NodeInfo = {
   type: 'audioldm2',
+  group: 'generate',
   view: MecchiAudioLdm2Node,
   data: {
     steps: 200,

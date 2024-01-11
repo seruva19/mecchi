@@ -21,7 +21,7 @@ export interface MecchiNodeStore {
   nodes: Node[];
   edges: Edge[];
   updateNode: (id: string, data: any) => void;
-  createNode: (type: string) => void;
+  createNode: (type: string, position?: { x: number, y: number }) => void;
   onNodesChange: OnNodesChange;
   onEdgesChange: OnEdgesChange;
   onConnect: OnConnect;
@@ -44,14 +44,14 @@ export const useMecchiNodeStore = createWithEqualityFn<MecchiNodeStore>((set, ge
     });
   },
 
-  createNode: async (type: string) => {
+  createNode: async (type: string, position?: { x: number, y: number }) => {
     const mecchiNodes = await getMecchiNodes();
     const id = nanoid();
     const data = mecchiNodes.find(n => n.type === type)!.data;
-    const position = { x: 0, y: 0 };
+    const defaultPosition = position || { x: 0, y: 0 };
 
     set({
-      nodes: [...get().nodes, { id, type, data, position }]
+      nodes: [...get().nodes, { id, type, data, position: defaultPosition }]
     });
   },
 

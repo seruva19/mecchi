@@ -1,6 +1,6 @@
 import { MecchiNodeStore, useMecchiNodeStore } from "../../../stores/node-store";
 import { Handle, Position } from "reactflow";
-import MecchiNode from "../../node-base";
+import MecchiNode from "../../../canvas/node-base";
 import { css } from "@emotion/react";
 import AudioPlayer from 'react-h5-audio-player';
 import 'react-h5-audio-player/lib/styles.css';
@@ -9,6 +9,7 @@ import { MecchiKV } from "../../../stores/nodes";
 
 const MecchiPlaybackNodeInfo = {
   type: 'playback',
+  group: 'io',
   view: MecchiPlaybackNode,
   data: {
     sample: undefined

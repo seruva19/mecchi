@@ -7,7 +7,7 @@ export default defineConfig({
     minify: false
   },
   optimizeDeps: {
-    include: ['react/jsx-runtime'],
+    include: [],
   },
   server: {
     port: 5555,

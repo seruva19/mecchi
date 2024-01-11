@@ -1,12 +1,13 @@
 import { useMecchiNodeStore } from "../../../stores/node-store";
 import { Handle, Position } from "reactflow";
-import MecchiNode from "../../node-base";
+import MecchiNode from "../../../canvas/node-base";
 import { tw } from "twind";
 import { MecchiKV } from "../../../stores/nodes";
 import ky from 'ky';
 
 const MecchiMusicGenNodeInfo = {
   type: 'musicgen',
+  group: 'generate',
   view: MecchiMusicGenNode,
   data: {
     model: 'facebook/musicgen-melody',
@@ -70,6 +71,12 @@ export function MecchiMusicGenNode({ id, data }: { id: string, data: MecchiKV })
           <option value="facebook/musicgen-medium">facebook/musicgen-medium</option>
           <option value="facebook/musicgen-melody">facebook/musicgen-melody</option>
           <option value="facebook/musicgen-large">facebook/musicgen-large</option>
+          <option value="facebook/musicgen-melody-large">facebook/musicgen-melody-large</option>
+          <option value="facebook/musicgen-stereo-small">facebook/musicgen-stereo-small</option>
+          <option value="facebook/musicgen-stereo-medium">facebook/musicgen-stereo-medium</option>
+          <option value="facebook/musicgen-stereo-melody">facebook/musicgen-stereo-melody</option>
+          <option value="facebook/musicgen-stereo-large">facebook/musicgen-stereo-large</option>
+          <option value="facebook/musicgen-stereo-melody-large">facebook/musicgen-stereo-melody-large</option>
         </select>
       </div>
 

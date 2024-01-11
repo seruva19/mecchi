@@ -2,7 +2,7 @@
 
 ## Vision
 
-Mecchi is an attempt to build an AI-powered node-based web audio editor with the long-term goal of evolving into a full-featured modular DAW designed for creating generative music content 😀
+Mecchi is an attempt to build an AI-powered node-based web audio editor with the long-term goal of evolving into a full-featured modular open-source DAW designed for creating generative music content 😀
 
 ## Status
 
@@ -12,11 +12,17 @@ But for now, it's just a POC and not yet production-ready or close to being a ma
 
 It is built on [Audiocraft](https://github.com/facebookresearch/audiocraft), [AudioLDM 2](https://github.com/haoheliu/AudioLDM2), [AudioSR](https://github.com/haoheliu/versatile_audio_super_resolution), [Flask](https://github.com/pallets/flask), [React](https://github.com/facebook/react), [ReactFlow](https://github.com/wbkd/react-flow), [Tailwind](https://github.com/tailwindlabs/tailwindcss) and other great projects 🔥
 
+## List of nodes
+
+TODO
+
 ## Short-term plans
 
-* Revision of the node UI
+* Generalisation of the node UI
+* Parametric (config-based) nodes
+* Training
 
-## Features
+## Pipelines
 
 * TTA (text-to-audio) - **implemented**
 * ATA (audio-to-audio) - pending
@@ -24,10 +30,6 @@ It is built on [Audiocraft](https://github.com/facebookresearch/audiocraft), [Au
 * ADC (audio-data-completion, "sound inpainting") - pending
 * AST (audio-style-transfer) - pending
 * ADB (audio-data-blending) - pending
-
-## Roadmap
-
-Yes.
 
 ## How it looks? 
 
@@ -51,9 +53,6 @@ npm run serve
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1_hg2a_hwtsEEreQN7EQEKX4GWj5zBvZt)
 <br>
 
-## Nodes
-
-TODO
 
 ## Documentation
 
