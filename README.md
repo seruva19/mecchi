@@ -20,7 +20,6 @@ TODO
 
 * Generalisation of the node UI
 * Parametric (config-based) nodes
-* Training
 
 ## Pipelines
 
