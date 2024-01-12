@@ -15,7 +15,7 @@ class NodeLoader:
         os.environ["HF_HOME"] = "cache"
 
     def assemble(self, app: Flask, utils: MecchiUtils):
-        print("🥁 mecchi: reading information about nodes")
+        print("🥁 mecchi: retrieving components metadata")
         folders = [f for f in os.listdir(root_folder) if not f.startswith(".")]
 
         folders_with_plugins = self.find_folders_with_files(folders, "py", root_folder)
