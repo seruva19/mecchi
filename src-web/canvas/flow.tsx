@@ -27,7 +27,10 @@ const defaultEdgeOptions: DefaultEdgeOptions = {
 import CustomEdge from './edge';
 import { useKBar } from 'kbar';
 import { useCallback, useRef, useState } from 'react';
-import { Separator } from 'react-contexify';
+import { BiSolidHide } from "react-icons/bi";
+
+import MecchiSavedFlows from './saved-flows';
+import { Global, css } from '@emotion/react';
 const edgeTypes = {
   customEdge: CustomEdge,
 };
@@ -47,7 +50,7 @@ interface IProps {
 
 export default function MecchiFlow({ nodeTypesKV, nodeTypes }: IProps) {
   const { createNode, nodes, edges, onNodesChange, onEdgesChange, onConnect } = useMecchiNodeStore(selector, shallow);
-  const { togglePalette, saveWorkspace: save, loadWorkspace: load } = useMecchiViewStore();
+  const { paletteVisible, togglePalette, toggleSavedFlows } = useMecchiViewStore();
   const { query } = useKBar();
 
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
@@ -60,7 +63,6 @@ export default function MecchiFlow({ nodeTypesKV, nodeTypes }: IProps) {
   const onDrop = useCallback(
     (event: any) => {
       event.preventDefault();
-
       const nodeType = event.dataTransfer.getData('application/reactflow');
 
       if (typeof nodeType === 'undefined' || !nodeType) {
@@ -94,22 +96,27 @@ export default function MecchiFlow({ nodeTypesKV, nodeTypes }: IProps) {
       snapGrid={[20, 20]}
       defaultEdgeOptions={defaultEdgeOptions}
       onConnect={onConnect}>
-      <Controls position='top-right'>
-        <ControlButton onClick={togglePalette} title="toggle palette">
-          <div><BsToggles /></div>
+      <Controls position='top-right' style={{ boxShadow: 'none', border: '1px solid #eee' }}>
+        <Global
+          styles={css`
+          .react-flow__panel .react-flow__controls-button {
+              outline: none;
+            }
+        `}
+        />
+        <ControlButton onClick={togglePalette} title="toggle palette and map">
+          <div><BiSolidHide /></div>
         </ControlButton>
         <ControlButton onClick={query.toggle} title="command bar">
           <div><GoCommandPalette /></div>
         </ControlButton>
-        <ControlButton onClick={save} title="save">
+        <ControlButton onClick={toggleSavedFlows} title="saved workflows">
           <div><FaRegSave /></div>
         </ControlButton>
-        <ControlButton onClick={load} title="load">
-          <div><LuHardDriveUpload /></div>
-        </ControlButton>
       </Controls>
-      <MiniMap zoomable pannable position='bottom-left' />
+      {paletteVisible && <MiniMap zoomable pannable position='bottom-left' />}
       <MecchiPalette nodeTypes={nodeTypes} />
+      <MecchiSavedFlows />
     </ReactFlow>
   )
 }

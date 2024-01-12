@@ -98,8 +98,7 @@ export default function CustomEdge({
             </Menu>
           </>,
             document.body)}
-          <button onClick={displayMenu} style={{ outline: 'none', fontSize: 16 }}> ⚙️
-          </button>
+          <button onClick={displayMenu} style={{ outline: 'none', fontSize: 12 }}>⚙️</button>
         </div>
       </EdgeLabelRenderer>
     </>
