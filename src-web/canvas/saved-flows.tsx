@@ -1,22 +1,45 @@
 import { ControlButton, Panel } from 'reactflow'
 import { tw } from 'twind'
-import { useMecchiViewStore } from '../stores/view-store'
+import { useMecchiUIStore } from '../stores/ui-store'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Global, css } from '@emotion/react'
+import ky from 'ky'
 
 export default function MecchiSavedFlows() {
-  const { savedFlowsVisible } = useMecchiViewStore();
+  const { savedFlowsVisible } = useMecchiUIStore();
+  const [flows, setFlows] = useState([]);
+
+  useEffect(() => {
+    const readFlows = async () => {
+      const result: any = await ky.get('/mecchi/workflows', {
+        timeout: false
+      }).json();
+
+      if (result.mecchi == '👍') {
+        const flowNames = result.flows;
+        setFlows(flowNames);
+      }
+    }
+
+    readFlows();
+  }, [])
 
   return (
     <>
-      <Panel position="top-right" style={{
+      <Panel position="bottom-right" style={{
         display: savedFlowsVisible ? 'block' : 'none',
         border: '1px solid #eee',
-        marginRight: 50
+        marginRight: 50,
+        fontSize: 13,
+        padding: 5,
+        backgroundColor: 'white',
+        maxHeight: 300,
+        overflowY: 'scroll'
       }}>
-
-        <>hello1</>
+        {flows.map((flow, i) => {
+          return <div key={i} onClick={() => console.log(flow)}>{flow}</div>
+        })}
       </Panel>
     </>
   )
