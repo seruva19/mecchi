@@ -1,2 +1,2 @@
-audiocraft==1.1.0
+audiocraft==1.2.0
 numpy==1.23.5
