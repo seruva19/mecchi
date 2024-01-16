@@ -19,7 +19,9 @@ import { runMecchiPipeline } from '../pipelines/pipeline-builder';
 
 export interface MecchiNodeStore {
   nodes: Node[];
+  setNodes: (nodes: Node[]) => void;
   edges: Edge[];
+  setEdges: (edges: Edge[]) => void;
   updateNode: (id: string, data: any) => void;
   createNode: (type: string, position?: { x: number, y: number }) => void;
   onNodesChange: OnNodesChange;
@@ -31,7 +33,9 @@ export interface MecchiNodeStore {
 
 export const useMecchiNodeStore = createWithEqualityFn<MecchiNodeStore>((set, get) => ({
   nodes: [],
+  setNodes: (nodes: Node[]) => set({ nodes }),
   edges: [],
+  setEdges: (edges: Edge[]) => set({ edges }),
   busyNodes: [],
 
   updateNode: (id: string, data: any) => {
