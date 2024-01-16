@@ -7,3 +7,4 @@ mecchi_venv
 node_modules
 out_data
 /src-web/**/.metadata
+/workflows/*.json

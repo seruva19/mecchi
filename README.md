@@ -14,9 +14,14 @@ It is built on [Audiocraft](https://github.com/facebookresearch/audiocraft), [Au
 
 ## Short-term plans
 
-* Parametric (config-based) nodes
+* Workflows save/load
 * Generalisation of the node UI
-* Custom nodes support
+* Parametric nodes
+* Config-based nodes (.py) 
+* Audiogen
+* MAGNeT
+* Demucs
+* Whisper
 
 ## Pipelines
 
