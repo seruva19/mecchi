@@ -1,7 +1,7 @@
 import { createWithEqualityFn } from 'zustand/traditional'
 import toast, { Toaster } from 'react-hot-toast';
 
-interface MecchiViewStore {
+interface MecchiUIStore {
   paletteVisible: boolean;
   togglePalette: () => void;
   showPalette: (show: boolean) => void;
@@ -14,7 +14,7 @@ interface MecchiViewStore {
   error: (message: string) => void;
 }
 
-export const useMecchiViewStore = createWithEqualityFn<MecchiViewStore>((set, get) => ({
+export const useMecchiUIStore = createWithEqualityFn<MecchiUIStore>((set, get) => ({
   paletteVisible: true,
   togglePalette: () => set({ paletteVisible: !get().paletteVisible }),
   showPalette: show => set({ paletteVisible: show }),
