@@ -24,13 +24,15 @@ class NodeLoader:
             f"🎧 found {len(folders_with_plugins)} plugins: {str.join(',', folders_with_plugins)}"
         )
 
-        disabled_plugins = str.split(os.environ.get("DISABLED_PLUGINS", ""), ",")
-        if len(disabled_plugins) > 0:
-            list_disabled = str.join(",", disabled_plugins)
-            print(f"🎧 following plugins are disabled via cli: {list_disabled}")
+        disabled_plugins = os.environ.get("DISABLED_PLUGINS", None)
+        disabled_plugins_list = (
+            [] if disabled_plugins is None else str.split(disabled_plugins, ",")
+        )
+        if len(disabled_plugins_list) > 0:
+            print(f"🎧 following plugins are disabled via cli: {disabled_plugins}")
 
         for folder_name in folders_with_plugins:
-            if not folder_name in disabled_plugins:
+            if not folder_name in disabled_plugins_list:
                 folder_path = os.path.join(root_folder, folder_name)
 
                 if os.path.isdir(folder_path):
