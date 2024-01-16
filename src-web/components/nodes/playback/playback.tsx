@@ -6,6 +6,7 @@ import AudioPlayer from 'react-h5-audio-player';
 import 'react-h5-audio-player/lib/styles.css';
 import { tw } from "twind";
 import { MecchiKV } from "../../../stores/nodes";
+import { InputHandle, OutputHandle } from "../../../stores/view-node";
 
 const MecchiPlaybackNodeInfo = {
   type: 'playback',
@@ -40,14 +41,15 @@ export function MecchiPlaybackNode({ id, data }: { id: string, data: any }) {
   const { } = useMecchiNodeStore(selector(id));
 
   return <MecchiNode title="Playback" id={id}>
-    <Handle id="playback-a" className={`${tw`w-2 h-2 `}`} type="target" style={{ top: 40, bottom: 'auto', background: 'blue' }} position={Position.Left}>
-      <span className={`${tw`absolute font-bold text-xs ml-2 pl-1 rounded`}`} style={{ marginTop: -7 }}>sample</span>
-    </Handle>
-    <Handle id="playback-b" className={`${tw`w-2 h-2`}`} type="source" style={{ top: 30, bottom: 'auto', background: 'blue' }} position={Position.Right}>
-      <span className={`${tw`font-bold text-xs float-right mr-3`}`} style={{ marginTop: -7 }}>sample</span>
-    </Handle>
+    <div style={{ position: 'absolute', top: 8 }}>
+      <InputHandle index={0} id="playback" io={{ name: 'sample', type: "sound" }} />
+    </div>
 
-    <AudioPlayer css={css`
+    <div style={{ position: 'absolute', top: 0, right: 0 }}>
+      <OutputHandle index={0} id="playback" io={{ name: 'sample', type: "sound" }} />
+    </div>
+
+    <AudioPlayer className="nodrag" css={css`
       width: 500px;
       box-shadow: none;
       

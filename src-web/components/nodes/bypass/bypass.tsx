@@ -4,6 +4,7 @@ import MecchiNode from "../../../canvas/node-base";
 import { tw } from "twind";
 import { MecchiKV } from "../../../stores/nodes";
 import ky from 'ky';
+import { InputHandle, OutputHandle } from "../../../stores/view-node";
 
 const MecchiBypassNodeInfo = {
   type: 'bypass',
@@ -36,13 +37,13 @@ export function MecchiBypassNode({ id, data }: { id: string, data: any }) {
   const { setUnload } = useMecchiNodeStore(selector(id));
 
   return <MecchiNode title="Bypass" id={id}>
-    <Handle id="bypass-a" className={`${tw`w-2 h-2`}`} type="target" style={{ top: 40, bottom: 'auto', background: 'purple' }} position={Position.Left}>
-      <span className={`${tw`absolute font-bold text-xs ml-2 pl-1 rounded`}`} style={{ marginTop: -7 }}>in</span>
-    </Handle>
+    <div style={{ position: 'absolute', top: 8 }}>
+      <InputHandle index={0} id="bypass" io={{ name: "in", type: 'any' }} />
+    </div>
 
-    <Handle id="bypass-b" className={`${tw`w-2 h-2`}`} type="source" style={{ top: 30, bottom: 'auto', background: 'purple' }} position={Position.Right}>
-      <span className={`${tw`font-bold text-xs float-right mr-3`}`} style={{ marginTop: -7 }}>out</span>
-    </Handle>
+    <div style={{ position: 'absolute', top: 0, right: 0 }}>
+      <OutputHandle index={0} id="bypass" io={{ name: "out", type: 'any' }} />
+    </div>
 
     <div className={`${tw`flex flex-col p-2`}`} style={{ width: 200 }}>
       <div className={`${tw`flex`}`}>

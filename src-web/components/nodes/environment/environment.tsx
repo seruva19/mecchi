@@ -5,6 +5,8 @@ import { Handle, Position } from "reactflow";
 import MecchiNode from "../../../canvas/node-base";
 import { ChangeEvent } from "react";
 import { MecchiKV } from "../../../stores/nodes";
+import { css } from "@emotion/react";
+import { OutputHandle, PowerHandle } from "../../../stores/view-node";
 
 const MecchiEnvironmentNodeInfo = {
   type: 'environment',
@@ -38,18 +40,22 @@ export function MecchiEnvironmentNode({ id, data }: { id: string, data: MecchiKV
   const { nodes, edges, executePipeline } = useMecchiNodeStore(nodeSelector, shallow);
 
   return <MecchiNode title="Environment" id={id}>
-    <Handle id="environment-a" className={`${tw`w-2 h-2`}`} type="source" style={{ top: 40, bottom: 'auto', background: 'orange' }} position={Position.Right}>
-      <span className={`${tw`font-bold text-xs float-right mr-3`}`} style={{ marginTop: -7 }}>power</span>
-    </Handle>
+    <div style={{ position: 'absolute', top: 8, right: 0 }}>
+      <OutputHandle index={0} id="environment" io={{ name: 'power', type: 'ignition' }} />
+    </div>
 
-    <label className={tw('px-2 py-1 mb-2 gap-3 text-sm')}>Device
-      <input className={tw('ml-2 border-blue-500 border-1 rounded px-1 focus:outline-none')}
-        type="text" value={data.device} onChange={setDevice} />
-    </label>
+    <div className={`${tw`flex flex-col p-2`} nodrag`}>
+      <div className={`${tw`flex`}`}>
+        <label className={tw('px-2 py-1 mb-2 gap-2 text-sm')}>Device</label>
+        <input className={tw('text-sm h-6 flex-1 border-blue-200 border-1 rounded px-1 focus:outline-none')}
+          type="text" value={data.device} onChange={setDevice} />
+      </div>
 
-    <button className={`${tw`bg-blue-500 ml-1 text-white hover:bg-blue-600 text-sm py-1 px-1 rounded`}`} style={{ width: '95%' }}
-      onClick={() => executePipeline(id, nodes, edges)}>
-      ▶️ Run
-    </button>
+      <button className={`${tw`bg-blue-500 text-white hover:bg-blue-600 text-sm py-1 rounded`}`} style={{ width: '100%' }}
+        onClick={() => executePipeline(id, nodes, edges)}>
+        ▶️ Run
+      </button>
+    </div>
+
   </MecchiNode >
 }; 

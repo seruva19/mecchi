@@ -6,12 +6,14 @@ import { MecchiKV } from "../../../stores/nodes";
 import Uploady, { useFileInput, useItemFinishListener } from "@rpldy/uploady";
 import UploadButton from "@rpldy/upload-button";
 import { useRef } from "react";
-import { useMecchiViewStore } from "../../../stores/view-store";
+import { useMecchiUIStore } from "../../../stores/ui-store";
+import { OutputHandle, PowerHandle } from "../../../stores/view-node";
+import { Global, css } from "@emotion/react";
 
-const MecchiSoundUploadNodeInfo = {
-  type: 'sound-upload',
+const MecchiSoundInputNodeInfo = {
+  type: 'sound-input',
   group: ['io'],
-  view: MecchiSoundUploadNode,
+  view: MecchiSoundInputNode,
   data: {
     soundpath: undefined
   },
@@ -21,14 +23,14 @@ const MecchiSoundUploadNodeInfo = {
   }
 }
 
-export default MecchiSoundUploadNodeInfo;
+export default MecchiSoundInputNodeInfo;
 
 const selector = (id: string) => (store: MecchiNodeStore) => ({
   setSound: (file: string) => store.updateNode(id, { soundpath: file }),
 });
 
 const UploadInput = ({ id }: { id: string }) => {
-  const { success, error } = useMecchiViewStore();
+  const { success, error } = useMecchiUIStore();
   const { setSound } = useMecchiNodeStore(selector(id));
 
   const inputRef = useRef<any>();
@@ -50,17 +52,17 @@ const UploadInput = ({ id }: { id: string }) => {
   </form>;
 };
 
-export function MecchiSoundUploadNode({ id, data }: { id: string, data: any }) {
-  return <MecchiNode title="Sound upload" id={id}>
-    <Handle id="soundupload-a" className={`${tw`w-2 h-2`}`} type="target" style={{ top: 40, bottom: 'auto', background: 'orange' }} position={Position.Left}>
-      <span className={`${tw`absolute font-bold text-xs ml-2 pr-1 pl-1 rounded`}`} style={{ marginTop: -7 }}>power</span>
-    </Handle>
+export function MecchiSoundInputNode({ id, data }: { id: string, data: any }) {
+  return <MecchiNode title="Sound input" id={id}>
+    <PowerHandle id="soundinput" />
+    <OutputHandle index={0} id="soundinput" io={{ name: 'sample', type: "sound" }} />
 
-    <Handle id="soundupload-b" className={`${tw`w-2 h-2`}`} type="source" style={{ top: 30, bottom: 'auto', background: 'blue' }} position={Position.Right}>
-      <span className={`${tw`font-bold text-xs float-right mr-3`}`} style={{ marginTop: -7 }}>sample</span>
-    </Handle>
-
-    <div className={`${tw`flex flex-col p-2`}`} style={{ width: 200 }}>
+    <div className={`${tw`flex flex-col p-2`} nodrag upload-panel`} style={{ width: 200 }}>
+      <Global styles={css`
+      .upload-panel button {
+        background-color: #f1f5f9;
+      }
+    `} />
       <Uploady customInput destination={{ url: "/mecchi/upload", method: 'POST' }}>
         <UploadInput id={id} />
         <UploadButton />
