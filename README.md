@@ -34,6 +34,10 @@ It is built on [Audiocraft](https://github.com/facebookresearch/audiocraft), [Au
 - [ ] ADC (audio-data-completion, "audio outpainting")  
 - [ ] AST (audio-style-transfer)   
 - [ ] ADB (audio-data-blending)  
+- [ ] ADS (audio-data-separation)  
+- [ ] ATT (audio-to-text, "audio interrogation")  
+- [ ] ITA (image-to-audio)  
+- [ ] VTA (video-to-audio)  
 
 ## How it looks? 
 
