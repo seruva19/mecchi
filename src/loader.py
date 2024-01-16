@@ -15,13 +15,13 @@ class NodeLoader:
         os.environ["HF_HOME"] = "cache"
 
     def assemble(self, app: Flask, utils: MecchiUtils):
-        print("🥁 mecchi: retrieving components metadata")
+        print("🎧 retrieving components metadata")
         folders = [f for f in os.listdir(root_folder) if not f.startswith(".")]
 
         folders_with_plugins = self.find_folders_with_files(folders, "py", root_folder)
 
         print(
-            f"🥁 mecchi: found {len(folders_with_plugins)} plugins: {str.join(',', folders_with_plugins)}"
+            f"🎧 found {len(folders_with_plugins)} plugins: {str.join(',', folders_with_plugins)}"
         )
 
         for folder_name in folders_with_plugins:
@@ -39,7 +39,7 @@ class NodeLoader:
                 if not os.path.exists(metadata_path):
                     if os.path.exists(setup_path):
                         print(
-                            f"🥁 mecchi: initiating custom setup script for plugin: '{folder_name}'"
+                            f"🎧 initiating custom setup script for plugin: '{folder_name}'"
                         )
                         custom_setup_success = self.custom_setup(
                             folder_name, setup_path
@@ -48,15 +48,11 @@ class NodeLoader:
                         custom_setup_success = True
 
                     if os.path.exists(reqs_path):
-                        print(
-                            f"🥁 mecchi: installing requirements for plugin: '{folder_name}'"
-                        )
+                        print(f"🎧 installing requirements for plugin: '{folder_name}'")
                         requirements_install_success = self.install_reqs(reqs_path)
 
                     if custom_setup_success or requirements_install_success:
-                        print(
-                            f"🥁 mecchi: plugin '{folder_name}' successfully installed"
-                        )
+                        print(f"🎧 plugin '{folder_name}' successfully installed")
                         with open(metadata_path, "w") as file:
                             pass
 
@@ -75,20 +71,19 @@ class NodeLoader:
                                 cls = module.plugin()
                                 instance = cls()
                                 instance.load(app, utils)
-                                print(f"🥁 mecchi: plugin '{folder_name}' loaded")
+                                print(f"🎧 plugin '{folder_name}' loaded")
 
                     except Exception as e:
-                        print(f"⛔ mecchi: error '{e}'")
+                        print(f"⛔ error '{e}'")
                         raise
                 else:
-                    print(f"⛔ mecchi: module '{plugin_module_path}' not found")
+                    print(f"⛔ module '{plugin_module_path}' not found")
 
         node_paths = self.find_files_with_nodes(folders, "tsx", root_folder)
         nodes = [os.path.basename(file_path) for file_path in node_paths]
 
-        print(
-            f"🥁 mecchi: found {len(nodes)} nodes: {str.join(',', [os.path.splitext(node)[0] for node in nodes])}"
-        )
+        nodes_info = str.join(",", [os.path.splitext(node)[0] for node in nodes])
+        print(f"🎧 found {len(nodes)} nodes: {nodes_info}")
 
         web_node_paths = [
             os.getenv("NODE_PATHS", "../components/nodes/") + path.replace("\\", "/")

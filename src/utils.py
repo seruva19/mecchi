@@ -11,14 +11,14 @@ class MecchiUtils:
         self.models = {}
 
     def register_model(self, name, model):
-        print(f"🥁 mecchi: loading model '{name}'")
+        print(f"🎹 loading model '{name}'")
         self.models[name] = model
 
     def is_model_registered(self, name):
         return self.models.get(name, None) is not None
 
     def unload_model(self, name):
-        print(f"🥁 mecchi: unloading model '{name}'")
+        print(f"🎹 unloading model '{name}'")
         model = self.models.pop(name, None)
         if model is not None:
             model.to("cpu")
