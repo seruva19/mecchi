@@ -22,15 +22,18 @@ It is built on [Audiocraft](https://github.com/facebookresearch/audiocraft), [Au
 * MAGNeT
 * Demucs
 * Whisper
+* Auffusion
+* Musicgen training
 
 ## Pipelines
 
-* TTA (text-to-audio) - **implemented**
-* ATA (audio-to-audio) - pending
-* ADU (audio-data-upsampling, "sound upscaling") - **implemented**
-* ADC (audio-data-completion, "sound inpainting") - pending
-* AST (audio-style-transfer) - pending
-* ADB (audio-data-blending) - pending
+- [x] TTA (text-to-audio)  
+- [ ] ATA (audio-to-audio)    
+- [x] ADU (audio-data-upsampling, "audio upscaling")  
+- [ ] ADI (audio-data-interpolation, "audio inpainting")  
+- [ ] ADC (audio-data-completion, "audio outpainting")  
+- [ ] AST (audio-style-transfer)   
+- [ ] ADB (audio-data-blending)  
 
 ## How it looks? 
 
