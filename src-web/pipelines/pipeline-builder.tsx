@@ -61,10 +61,10 @@ const activate = async (tsn: TopoSortedNode, nodes: TopoSortedNode[], flow: any)
       });
 
       const inputs = Object.assign({}, ...tsn.depends.map(d => nodes.find(tsn => tsn.node.id == d.id)!.output));
-      console.info('inputs: ', inputs)
+      console.info('inputs: ', inputs);
 
       tsn.output = await prototype.transform(inputs, tsn.node.data);
-      console.info('output: ', tsn.output)
+      console.info('output: ', tsn.output);
 
       flow.set({
         nodes: flow.get().nodes.map((node: Node) =>

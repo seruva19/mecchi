@@ -8,9 +8,15 @@ import { Global, css } from "@emotion/react";
 import { Item, Menu, Separator, Submenu, useContextMenu } from "react-contexify";
 import { createPortal } from "react-dom";
 import { useReactFlow } from "reactflow";
+import { getRectOfNodes } from 'reactflow';
 
 const selector = (store: MecchiNodeStore) => ({
   busyNodes: store.busyNodes,
+  nodes: store.nodes,
+  setNodes: store.setNodes,
+  edges: store.edges,
+  setEdges: store.setEdges,
+  ignite: (position: { x: number, y: number }) => store.createNode('environment', position)
 });
 
 const override: CSSProperties = {
@@ -20,7 +26,8 @@ const override: CSSProperties = {
 };
 
 export default function MecchiNode({ title, id, children }: { title: string, id: string, children: ReactNode }) {
-  const { busyNodes } = useMecchiNodeStore(selector, shallow);
+  const { busyNodes, ignite, nodes, setNodes, edges, setEdges } = useMecchiNodeStore(selector, shallow);
+
   const MENU_ID = `menu-node${id}`;
   const { show, hideAll } = useContextMenu({
     id: MENU_ID
@@ -32,10 +39,16 @@ export default function MecchiNode({ title, id, children }: { title: string, id:
     });
   }
 
-  const { setNodes } = useReactFlow();
+  const removeNode = () => {
+    setNodes(nodes.filter((nodes) => nodes.id !== id));
+  };
 
-  const onNodeRemove = () => {
-    setNodes((nodes) => nodes.filter((nodes) => nodes.id !== id));
+  const igniteNode = () => {
+    const ignitedNode = nodes.find((nodes) => nodes.id == id)!;
+    const rect = getRectOfNodes([ignitedNode]);
+
+    console.log(nodes, edges)
+    ignite({ x: rect.x + rect.width, y: rect.y + rect.height });
   };
 
   return (
@@ -51,9 +64,11 @@ export default function MecchiNode({ title, id, children }: { title: string, id:
         <ScaleLoader loading={!!busyNodes.find(node => node.id == id)} color={'dodgerblue'} height={10} cssOverride={override} />
         {createPortal(<>
           <Menu id={MENU_ID}>
-            <Item onClick={onNodeRemove}>
+            <Item onClick={removeNode}>
               Remove
             </Item>
+            <Separator />
+            <Item onClick={igniteNode}>Ignite</Item>
           </Menu>
         </>, document.body)}
 
@@ -67,7 +82,7 @@ export default function MecchiNode({ title, id, children }: { title: string, id:
             &:hover { cursor: move;}
         `}>{title}</p>
 
-        <div className={`${tw`flex flex-col space-y-2 pb-2 pt-10`} nodrag`}>
+        <div className={`${tw`flex flex-col space-y-2 pb-2 pt-10`}`}>
           {children}
         </div>
       </div>

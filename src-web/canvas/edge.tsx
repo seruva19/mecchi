@@ -76,25 +76,13 @@ export default function CustomEdge({
             fontSize: 12,
             pointerEvents: 'all',
           }}
-          className="nodrag nopan"
+          className=""
         >
           {createPortal(<>
             <Menu id={MENU_ID}>
               <Item onClick={onEdgeRemove}>
                 Remove
               </Item>
-              {/* <Item onClick={handleItemClick}>
-                Item 2
-              </Item>
-              <Separator />
-              <Item disabled>Disabled</Item>
-              <Separator />
-              <Submenu label="Submenu">
-                <Item onClick={handleItemClick}>
-                  Sub Item 1
-                </Item>
-                <Item onClick={handleItemClick}>Sub Item 2</Item>
-              </Submenu> */}
             </Menu>
           </>,
             document.body)}

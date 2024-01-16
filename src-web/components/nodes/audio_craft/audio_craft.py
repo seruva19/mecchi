@@ -33,7 +33,7 @@ class AudiocraftPlugin:
             extendStride = params.get("extendStride")
 
             if (
-                not mecchi_utils.is_model_registered("musicgen:compression_model")
+                not mecchi_utils.is_model_registered("musicgen:cm")
                 or self.musicgen is None
                 or self.model_type != model
             ):
@@ -41,7 +41,7 @@ class AudiocraftPlugin:
                 self.musicgen = MusicGen.get_pretrained(self.model_type, device)
 
                 mecchi_utils.register_model(
-                    "musicgen:compression_model", self.musicgen.compression_model
+                    "musicgen:cm", self.musicgen.compression_model
                 )
                 mecchi_utils.register_model("musicgen:lm", self.musicgen.lm)
 
