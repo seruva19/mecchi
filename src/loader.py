@@ -24,60 +24,69 @@ class NodeLoader:
             f"🎧 found {len(folders_with_plugins)} plugins: {str.join(',', folders_with_plugins)}"
         )
 
+        disabled_plugins = str.split(os.environ.get("DISABLED_PLUGINS", ""), ",")
+        if len(disabled_plugins) > 0:
+            list_disabled = str.join(",", disabled_plugins)
+            print(f"🎧 following plugins are disabled via cli: {list_disabled}")
+
         for folder_name in folders_with_plugins:
-            folder_path = os.path.join(root_folder, folder_name)
+            if not folder_name in disabled_plugins:
+                folder_path = os.path.join(root_folder, folder_name)
 
-            if os.path.isdir(folder_path):
-                sys.path.append(folder_path)
+                if os.path.isdir(folder_path):
+                    sys.path.append(folder_path)
 
-                setup_path = os.path.join(folder_path, "plugin_setup.py")
-                reqs_path = os.path.join(folder_path, "requirements.txt")
-                metadata_path = os.path.join(folder_path, ".metadata")
+                    setup_path = os.path.join(folder_path, "plugin_setup.py")
+                    reqs_path = os.path.join(folder_path, "requirements.txt")
+                    metadata_path = os.path.join(folder_path, ".metadata")
 
-                custom_setup_success = False
-                requirements_install_success = False
-                if not os.path.exists(metadata_path):
-                    if os.path.exists(setup_path):
-                        print(
-                            f"🎧 initiating custom setup script for plugin: '{folder_name}'"
-                        )
-                        custom_setup_success = self.custom_setup(
-                            folder_name, setup_path
-                        )
+                    custom_setup_success = False
+                    requirements_install_success = False
+                    if not os.path.exists(metadata_path):
+                        if os.path.exists(setup_path):
+                            print(
+                                f"🎧 initiating custom setup script for plugin: '{folder_name}'"
+                            )
+                            custom_setup_success = self.custom_setup(
+                                folder_name, setup_path
+                            )
+                        else:
+                            custom_setup_success = True
+
+                        if os.path.exists(reqs_path):
+                            print(
+                                f"🎧 installing requirements for plugin: '{folder_name}' \
+                            "
+                            )
+                            requirements_install_success = self.install_reqs(reqs_path)
+
+                        if custom_setup_success or requirements_install_success:
+                            print(f"🎧 plugin '{folder_name}' successfully installed")
+                            with open(metadata_path, "w") as file:
+                                pass
+
+                    plugin_module_path = os.path.join(folder_path, f"{folder_name}.py")
+                    if os.path.exists(plugin_module_path):
+                        try:
+                            spec = importlib.util.spec_from_file_location(
+                                f"{folder_name}", plugin_module_path
+                            )
+
+                            if spec is not None:
+                                module = importlib.util.module_from_spec(spec)
+                                sys.modules[folder_name] = module
+                                if spec.loader is not None:
+                                    spec.loader.exec_module(module)
+                                    cls = module.plugin()
+                                    instance = cls()
+                                    instance.load(app, utils)
+                                    print(f"🎧 plugin '{folder_name}' loaded")
+
+                        except Exception as e:
+                            print(f"⛔ error '{e}'")
+                            raise
                     else:
-                        custom_setup_success = True
-
-                    if os.path.exists(reqs_path):
-                        print(f"🎧 installing requirements for plugin: '{folder_name}'")
-                        requirements_install_success = self.install_reqs(reqs_path)
-
-                    if custom_setup_success or requirements_install_success:
-                        print(f"🎧 plugin '{folder_name}' successfully installed")
-                        with open(metadata_path, "w") as file:
-                            pass
-
-                plugin_module_path = os.path.join(folder_path, f"{folder_name}.py")
-                if os.path.exists(plugin_module_path):
-                    try:
-                        spec = importlib.util.spec_from_file_location(
-                            f"{folder_name}", plugin_module_path
-                        )
-
-                        if spec is not None:
-                            module = importlib.util.module_from_spec(spec)
-                            sys.modules[folder_name] = module
-                            if spec.loader is not None:
-                                spec.loader.exec_module(module)
-                                cls = module.plugin()
-                                instance = cls()
-                                instance.load(app, utils)
-                                print(f"🎧 plugin '{folder_name}' loaded")
-
-                    except Exception as e:
-                        print(f"⛔ error '{e}'")
-                        raise
-                else:
-                    print(f"⛔ module '{plugin_module_path}' not found")
+                        print(f"⛔ module '{plugin_module_path}' not found")
 
         node_paths = self.find_files_with_nodes(folders, "tsx", root_folder)
         nodes = [os.path.basename(file_path) for file_path in node_paths]
