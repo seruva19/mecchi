@@ -21,14 +21,14 @@ export const PowerHandle = ({ id }: { id: string }) => {
 }
 
 export const InputHandle = ({ id, index, io }: { id: string, index: number, io: MecchiIO }) => {
-  return <Handle id={id} type="target" style={{ top: 35 + 20 * index, width: 5, height: 5 }} position={Position.Left} css={css`
+  return <Handle id={`${id}-input-${index}`} type="target" style={{ top: 35 + 20 * index, width: 5, height: 5 }} position={Position.Left} css={css`
     &.target::after { content: '${handles[io.type]}'; position: absolute; top: ${-6}px; left: -4px; font-size: 10px; }`}>
     <span style={{ position: 'absolute', fontSize: 12, marginLeft: 13, top: -8, fontFamily: 'monospace', width: 'max-content' }}>{io.name}</span>
   </Handle>
 }
 
 export const OutputHandle = ({ id, index, io }: { id: string, index: number, io: MecchiIO }) => {
-  return <Handle id={id} type="source" style={{ top: 35 + 20 * index, width: 5, height: 5 }} position={Position.Right} css={css`
+  return <Handle id={`${id}-output-${index}`} type="source" style={{ top: 35 + 20 * index, width: 5, height: 5 }} position={Position.Right} css={css`
     &.source::after { content: '${handles[io.type]}'; position: absolute; top: -6px; left: -7px; font-size: 10px; }`}>
     <span style={{ position: 'relative', fontSize: 12, marginRight: 13, top: -8, fontFamily: 'monospace', width: 'max-content', float: 'right' }}>{io.name}</span>
   </Handle>
