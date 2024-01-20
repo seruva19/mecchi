@@ -7,7 +7,6 @@ from pathlib import Path
 
 repo_url = "https://github.com/haoheliu/versatile_audio_super_resolution.git"
 commit_hash = "3e90b6c"
-local_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "audio_sr")
 
 
 def setup():
@@ -21,10 +20,11 @@ def setup():
     subprocess.run(["git", "checkout", commit_hash])
     os.chdir(current_path)
 
-    subdirectory_path = os.path.join(temp_audiosr, "audio_sr")
-    destination_dir = Path(local_path).parent
+    tmp_subdirectory_path = os.path.join(temp_audiosr, "audiosr")
+    destination_dir = os.path.join(
+        os.path.dirname(os.path.abspath(__file__)), "audiosr"
+    )
 
-    if os.path.exists(subdirectory_path) and os.path.isdir(subdirectory_path):
-        destination_subdirectory = os.path.join(destination_dir, "audio_sr")
-        shutil.copytree(subdirectory_path, destination_subdirectory)
+    if not os.path.exists(destination_dir):
+        shutil.copytree(tmp_subdirectory_path, destination_dir)
     shutil.rmtree(temp_dir)
