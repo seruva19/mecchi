@@ -6,7 +6,6 @@ from huggingface_hub import hf_hub_download
 import numpy as np
 import soundfile as sf
 import torch
-from cog import BasePredictor, Input, Path
 from typing import Any
 
 from audiosr import build_model, super_resolution
