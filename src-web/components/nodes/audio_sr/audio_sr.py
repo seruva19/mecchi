@@ -44,7 +44,7 @@ class AudioSrPlugin:
                 or self.model_name != "basic"
             ):
                 self.model_name = "basic"
-                self.audiosr = build_model(model_name=self.model_name, device=device)
+                self.audiosr = build_model(model_name=self.model_name, device=device)  # type: ignore
 
                 mecchi_utils.register_model("audiosr", self.audiosr)
 
