@@ -24,15 +24,15 @@ class NodeLoader:
             f"🎧 found {len(folders_with_plugins)} plugins: {str.join(',', folders_with_plugins)}"
         )
 
-        disabled_plugins = os.environ.get("SKIP_PLUGINS", None)
-        disabled_plugins_list = (
-            [] if disabled_plugins is None else str.split(disabled_plugins, ",")
+        skipped_plugins = os.environ.get("SKIP_PLUGINS", None)
+        skipped_plugins_list = (
+            [] if skipped_plugins is None else str.split(skipped_plugins, ",")
         )
-        if len(disabled_plugins_list) > 0:
-            print(f"🎧 following plugins are disabled via cli: {disabled_plugins}")
+        if len(skipped_plugins_list) > 0:
+            print(f"🎧 following plugins are disabled via cli: {skipped_plugins}")
 
         for folder_name in folders_with_plugins:
-            if not folder_name in disabled_plugins_list:
+            if not folder_name in skipped_plugins_list:
                 folder_path = os.path.join(root_folder, folder_name)
 
                 if os.path.isdir(folder_path):
@@ -95,6 +95,26 @@ class NodeLoader:
 
         nodes_info = str.join(",", [os.path.splitext(node)[0] for node in nodes])
         print(f"🎧 found {len(nodes)} nodes: {nodes_info}")
+
+        skipped_nodes = os.environ.get("SKIP_NODES", None)
+        skipped_nodes_list = (
+            [] if skipped_nodes is None else str.split(skipped_nodes, ",")
+        )
+        if len(skipped_nodes_list) > 0:
+            print(f"🎧 following nodes are disabled via cli: {skipped_nodes}")
+
+        node_paths = [
+            node_path
+            for node_path in node_paths
+            if not any(
+                node_path.endswith(skipped_node + ".tsx")
+                for skipped_node in skipped_nodes_list
+            )
+        ]
+
+        node_paths = [
+            node_path for node_path in node_paths if not node_path in skipped_nodes_list
+        ]
 
         web_node_paths = [
             os.getenv("NODE_PATHS", "../components/nodes/") + path.replace("\\", "/")
