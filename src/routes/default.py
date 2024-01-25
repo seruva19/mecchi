@@ -4,7 +4,7 @@ from flask import Flask, render_template, request, send_from_directory
 from werkzeug.utils import secure_filename
 from utils import MecchiUtils
 
-workflows_dir = "workflows"
+workflows_dir = "flows"
 
 
 def define_routes(app: Flask, mecchi_utils: MecchiUtils, nodes):
@@ -57,7 +57,7 @@ def define_routes(app: Flask, mecchi_utils: MecchiUtils, nodes):
         input = request.get_json()
 
         workflow_name = input["name"]
-        workflow_path = os.path.join("workflows", f"{workflow_name}.json")
+        workflow_path = os.path.join(workflows_dir, f"{workflow_name}.json")
 
         if not os.path.exists(workflow_path):
             return {"mecchi": "🙄"}
