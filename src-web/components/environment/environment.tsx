@@ -42,7 +42,7 @@ export function MecchiEnvironmentNode({ id, data }: { id: string, data: MecchiKV
 
   return <MecchiNode title="Environment" id={id}>
     <div style={{ position: 'absolute', top: 8, right: 0 }}>
-      <OutputHandle index={0} id="environment" io={{ name: 'power', type: 'ignition' }} />
+      <OutputHandle index={0} id={id} io={{ name: 'power', type: 'ignition' }} />
     </div>
 
     <div className={`${tw`flex flex-col p-2`} nodrag`}>

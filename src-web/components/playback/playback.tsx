@@ -42,11 +42,11 @@ export function MecchiPlaybackNode({ id, data }: { id: string, data: any }) {
 
   return <MecchiNode title="Playback" id={id}>
     <div style={{ position: 'absolute', top: 8 }}>
-      <InputHandle index={0} id="playback" io={{ name: 'sample', type: "sound" }} />
+      <InputHandle index={0} id={id} io={{ name: 'sample', type: "sound" }} />
     </div>
 
     <div style={{ position: 'absolute', top: 0, right: 0 }}>
-      <OutputHandle index={0} id="playback" io={{ name: 'sample', type: "sound" }} />
+      <OutputHandle index={0} id={id} io={{ name: 'sample', type: "sound" }} />
     </div>
 
     <AudioPlayer className="nodrag" css={css`

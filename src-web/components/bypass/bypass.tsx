@@ -38,11 +38,11 @@ export function MecchiBypassNode({ id, data }: { id: string, data: any }) {
 
   return <MecchiNode title="Bypass" id={id}>
     <div style={{ position: 'absolute', top: 8 }}>
-      <InputHandle index={0} id="bypass" io={{ name: "in", type: 'any' }} />
+      <InputHandle index={0} id={id} io={{ name: "in", type: 'any' }} />
     </div>
 
     <div style={{ position: 'absolute', top: 0, right: 0 }}>
-      <OutputHandle index={0} id="bypass" io={{ name: "out", type: 'any' }} />
+      <OutputHandle index={0} id={id} io={{ name: "out", type: 'any' }} />
     </div>
 
     <div className={`${tw`flex flex-col p-2`}`} style={{ width: 200 }}>

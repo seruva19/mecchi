@@ -54,8 +54,8 @@ const UploadInput = ({ id }: { id: string }) => {
 
 export function MecchiSoundInputNode({ id, data }: { id: string, data: any }) {
   return <MecchiNode title="Sound input" id={id}>
-    <PowerHandle id="soundinput" />
-    <OutputHandle index={0} id="soundinput" io={{ name: 'sample', type: "sound" }} />
+    <PowerHandle id={id} />
+    <OutputHandle index={0} id={id} io={{ name: 'sample', type: "sound" }} />
 
     <div className={`${tw`flex flex-col p-2`} nodrag upload-panel`} style={{ width: 200 }}>
       <Global styles={css`
