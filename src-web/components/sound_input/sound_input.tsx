@@ -1,14 +1,14 @@
-import { MecchiNodeStore, useMecchiNodeStore } from "../../../stores/node-store";
-import { Handle, Position } from "reactflow";
-import MecchiNode from "../../../canvas/node-base";
-import { tw } from "twind";
-import { MecchiKV } from "../../../stores/nodes";
-import Uploady, { useFileInput, useItemFinishListener } from "@rpldy/uploady";
-import UploadButton from "@rpldy/upload-button";
-import { useRef } from "react";
-import { useMecchiUIStore } from "../../../stores/ui-store";
-import { OutputHandle, PowerHandle } from "../../../stores/view-node";
+
 import { Global, css } from "@emotion/react";
+import UploadButton from "@rpldy/upload-button";
+import Uploady, { useFileInput, useItemFinishListener } from "@rpldy/uploady";
+import { useRef } from "react";
+import { tw } from "twind";
+import { MecchiNodeStore, useMecchiNodeStore } from "../../stores/node-store";
+import { MecchiKV } from "../../stores/nodes";
+import { useMecchiUIStore } from "../../stores/ui-store";
+import { PowerHandle, OutputHandle } from "../../stores/view-node";
+import MecchiNode from "../../workflow/node-base";
 
 const MecchiSoundInputNodeInfo = {
   type: 'sound-input',

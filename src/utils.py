@@ -9,6 +9,7 @@ import gc
 class MecchiUtils:
     def __init__(self):
         self.models = {}
+        self.blocks = {}
 
     def register_model(self, name, model):
         print(f"🎹 loading model '{name}'")
@@ -35,3 +36,7 @@ class MecchiUtils:
                 torch.cuda.empty_cache()
                 torch.cuda.ipc_collect()
         gc.collect()
+
+    def register_block(self, name, block):
+        print(f"🎹 registering block '{name}'")
+        self.blocks[name] = block

@@ -1,12 +1,12 @@
-import { MecchiNodeStore, useMecchiNodeStore } from "../../../stores/node-store";
+import { MecchiNodeStore, useMecchiNodeStore } from "../../stores/node-store";
 import { Handle, Position } from "reactflow";
-import MecchiNode from "../../../canvas/node-base";
+import MecchiNode from "../../workflow/node-base";
 import { css } from "@emotion/react";
 import AudioPlayer from 'react-h5-audio-player';
 import 'react-h5-audio-player/lib/styles.css';
 import { tw } from "twind";
-import { MecchiKV } from "../../../stores/nodes";
-import { InputHandle, OutputHandle } from "../../../stores/view-node";
+import { MecchiKV } from "../../stores/nodes";
+import { InputHandle, OutputHandle } from "../../stores/view-node";
 
 const MecchiPlaybackNodeInfo = {
   type: 'playback',

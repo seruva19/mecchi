@@ -9,7 +9,7 @@ import {
   OnEdgesChange,
   OnConnect,
   applyNodeChanges,
-  applyEdgeChanges,
+  applyEdgeChanges
 } from 'reactflow';
 
 import { nanoid } from 'nanoid';
@@ -28,7 +28,9 @@ export interface MecchiNodeStore {
   onEdgesChange: OnEdgesChange;
   onConnect: OnConnect;
   runPipeline: (id: string, nodes: Node[], edges: Edge[]) => Promise<void>;
-  busyNodes: Node[];
+  busyNodes: Node[],
+  handles: string[],
+  setHandles: (handles: string[]) => void;
 }
 
 export const useMecchiNodeStore = createWithEqualityFn<MecchiNodeStore>((set, get) => ({
@@ -37,6 +39,13 @@ export const useMecchiNodeStore = createWithEqualityFn<MecchiNodeStore>((set, ge
   edges: [],
   setEdges: (edges: Edge[]) => set({ edges }),
   busyNodes: [],
+
+  handles: [],
+  setHandles: (handles: string[]) => {
+    set({
+      handles
+    })
+  },
 
   updateNode: (id: string, data: any) => {
     set({
@@ -74,6 +83,7 @@ export const useMecchiNodeStore = createWithEqualityFn<MecchiNodeStore>((set, ge
   onConnect: (connection: Connection) => {
     set({
       edges: addEdge(connection, get().edges),
+      handles: [...get().handles, ...[connection.sourceHandle!, connection.targetHandle!]]
     });
   },
 

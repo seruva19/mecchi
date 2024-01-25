@@ -1,11 +1,13 @@
 import { Handle, Position } from "reactflow";
 import { tw } from "twind";
-import { css } from "@emotion/react";
-import { useMecchiNodeStore } from "./node-store";
-import MecchiNode from "../canvas/node-base";
+import { Global, css } from "@emotion/react";
+import { MecchiNodeStore, useMecchiNodeStore } from "./node-store";
+import MecchiNode from "../workflow/node-base";
 import { MecchiIO, MecchiKV, MecchiNodeInfo } from "./nodes";
 
-const handles: Record<string, string> = {
+
+const handle: Record<string, string> = {
+  'inactive': '⚪',
   'ignition': '🟠',
   'text': '🔵',
   'sound': '🟢',
@@ -14,36 +16,51 @@ const handles: Record<string, string> = {
   'undefined': '🔴',
 };
 
+const selector = (id: string) => (store: MecchiNodeStore) => ({
+  setParams: (key: string, value: any) => store.updateNode(id, { [key]: value }),
+  handles: store.handles
+});
+
 export const PowerHandle = ({ id }: { id: string }) => {
+  const { handles } = useMecchiNodeStore(selector(id));
+  const connected = handles.indexOf(`${id}-power`) !== -1;
+
   return <Handle id={`${id}-power`} type="target" style={{ bottom: -5, width: 5, height: 5 }} position={Position.Bottom} css={css`
-    &.target::after { content: '${handles["ignition"]}'; position: absolute; top: -8px; left: -5px; font-size: 10px; }`}>
+    &.target::after { content: '${connected ? handle["ignition"] : handle["inactive"]}'; position: absolute; top: -8px; left: -5px; font-size: 10px;`}>
   </Handle>
 }
 
 export const InputHandle = ({ id, index, io }: { id: string, index: number, io: MecchiIO }) => {
+  const { handles } = useMecchiNodeStore(selector(id));
+  const connected = handles.indexOf(`${id}-input-${index}`) !== -1;
+
   return <Handle id={`${id}-input-${index}`} type="target" style={{ top: 35 + 20 * index, width: 5, height: 5 }} position={Position.Left} css={css`
-    &.target::after { content: '${handles[io.type]}'; position: absolute; top: ${-6}px; left: -4px; font-size: 10px; }`}>
+    &.target::after { content: '${connected ? handle[io.type] : handle["inactive"]}'; position: absolute; top: ${-6}px; left: -4px; font-size: 10px;`}>
     <span style={{ position: 'absolute', fontSize: 12, marginLeft: 13, top: -8, fontFamily: 'monospace', width: 'max-content' }}>{io.name}</span>
   </Handle>
 }
 
 export const OutputHandle = ({ id, index, io }: { id: string, index: number, io: MecchiIO }) => {
+  const { handles } = useMecchiNodeStore(selector(id));
+  const connected = handles.indexOf(`${id}-output-${index}`) !== -1;
+
   return <Handle id={`${id}-output-${index}`} type="source" style={{ top: 35 + 20 * index, width: 5, height: 5 }} position={Position.Right} css={css`
-    &.source::after { content: '${handles[io.type]}'; position: absolute; top: -6px; left: -7px; font-size: 10px; }`}>
+    &.source::after { content: '${connected ? handle[io.type] : handle["inactive"]}'; position: absolute; top: -6px; left: -7px; font-size: 10px;`}>
     <span style={{ position: 'relative', fontSize: 12, marginRight: 13, top: -8, fontFamily: 'monospace', width: 'max-content', float: 'right' }}>{io.name}</span>
   </Handle>
 }
 
 export function createMecchiNodeView(node: MecchiNodeInfo) {
-  const selector = (id: string) => (store: any) => ({
-    setParams: (key: string, value: any) => store.updateNode(id, { [key]: value }),
-  });
-
   return function MecchiDynamicNode({ id, data }: { id: string, data: MecchiKV }) {
-    const { setParams } = useMecchiNodeStore(selector(id));
+    const { setParams, handles } = useMecchiNodeStore(selector(id));
     const offset = 20 * Math.max(node.inputs.length, node.outputs.length) - 30;
 
     return <MecchiNode title={node.title} id={id}>
+      <Global
+        styles={css`
+  
+        `}
+      />
       <PowerHandle id={id} />
 
       {node.inputs.map((input, index) => {

@@ -1,9 +1,9 @@
 import ky from "ky";
-import { MecchiKV } from "../../../stores/nodes";
-import MecchiNode from "../../../canvas/node-base";
+import { MecchiKV } from "../../stores/nodes";
+import MecchiNode from "../../workflow/node-base";
 import { Handle, Position } from "reactflow";
 import { tw } from "twind";
-import { useMecchiNodeStore } from "../../../stores/node-store";
+import { useMecchiNodeStore } from "../../stores/node-store";
 import { css } from "@emotion/react";
 
 const MecchiAudioLdm2NodeInfo = {

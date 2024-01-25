@@ -7,7 +7,9 @@ import ReactFlow, {
   DefaultEdgeOptions,
   Panel,
   useReactFlow,
+  Connection,
 } from 'reactflow';
+import { CiSettings } from "react-icons/ci";
 
 import 'reactflow/dist/style.css';
 import { MecchiNodeStore, useMecchiNodeStore } from '../stores/node-store';
@@ -57,7 +59,7 @@ interface IProps {
 
 export default function MecchiFlow({ nodeTypesKV, nodeTypes }: IProps) {
   const { createNode, nodes, edges, onNodesChange, onEdgesChange, onConnect, setNodes, setEdges } = useMecchiNodeStore(selector, shallow);
-  const { paletteVisible, togglePalette, toggleSavedFlows } = useMecchiUIStore();
+  const { paletteVisible, togglePalette, toggleSavedFlows, showSettings } = useMecchiUIStore();
   const { query } = useKBar();
   const { success, error } = useMecchiUIStore();
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
@@ -132,6 +134,14 @@ export default function MecchiFlow({ nodeTypesKV, nodeTypes }: IProps) {
     restoreFlow();
   }, [setNodes, setViewport]);
 
+  const isValidConnection = useCallback((connection: Connection) => {
+    // console.log(connection);
+    const source = connection.source;
+    const target = connection.target;
+
+    return true;
+  }, []);
+
   return (
     <ReactFlow
       onInit={setReactFlowInstance as any}
@@ -145,6 +155,7 @@ export default function MecchiFlow({ nodeTypesKV, nodeTypes }: IProps) {
       onDragOver={onDragOver}
       onNodesChange={onNodesChange}
       nodeTypes={nodeTypesKV}
+      isValidConnection={isValidConnection}
       onEdgesChange={onEdgesChange}
       snapToGrid={true}
       snapGrid={[20, 20]}
@@ -185,6 +196,9 @@ export default function MecchiFlow({ nodeTypesKV, nodeTypes }: IProps) {
         </ControlButton>
         <ControlButton onClick={query.toggle} title="command bar">
           <div><GoCommandPalette /></div>
+        </ControlButton>
+        <ControlButton onClick={() => showSettings(true)} title="settings">
+          <div><CiSettings /></div>
         </ControlButton>
       </Controls>
 

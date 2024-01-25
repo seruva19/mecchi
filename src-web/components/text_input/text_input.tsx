@@ -1,5 +1,5 @@
 import 'react-h5-audio-player/lib/styles.css';
-import { MecchiKV } from "../../../stores/nodes";
+import { MecchiKV } from "../../stores/nodes";
 
 const MecchiTextInputNodeInfo = {
   type: 'text-input',

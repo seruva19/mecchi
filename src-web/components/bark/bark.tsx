@@ -1,5 +1,5 @@
 import ky from "ky";
-import { MecchiKV } from "../../../stores/nodes";
+import { MecchiKV } from "../../stores/nodes";
 
 const MecchiBarkNodeInfo = {
   type: 'bark',

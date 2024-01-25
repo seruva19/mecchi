@@ -7,7 +7,7 @@ import importlib.util
 
 from utils import MecchiUtils
 
-root_folder = "src-web/components/nodes"
+root_folder = "src-web/components"
 
 
 class NodeLoader:
@@ -117,7 +117,7 @@ class NodeLoader:
         ]
 
         web_node_paths = [
-            os.getenv("NODE_PATHS", "../components/nodes/") + path.replace("\\", "/")
+            os.getenv("NODE_PATHS", "../components/") + path.replace("\\", "/")
             for path in node_paths
         ]
 

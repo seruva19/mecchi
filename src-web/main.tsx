@@ -1,10 +1,10 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { ReactFlowProvider } from 'reactflow'
-import MecchiCanvas from './canvas/canvas'
+import MecchiCanvas from './workflow/canvas'
 import { KBarAnimator, KBarPortal, KBarPositioner, KBarProvider, KBarResults, KBarSearch, useMatches } from "kbar";
-import { RenderResults } from './command-bar/results';
-import { actions } from './command-bar/kbar';
+import { RenderResults } from './workflow/command-bar/results';
+import { actions } from './workflow/command-bar/kbar';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <>

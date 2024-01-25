@@ -10,6 +10,10 @@ interface MecchiUIStore {
   toggleSavedFlows: () => void;
   showSavedFlows: (show: boolean) => void;
 
+  settingsVisible: boolean;
+  toggleSettings: () => void;
+  showSettings: (show: boolean) => void;
+
   success: (message: string) => void;
   error: (message: string) => void;
 }
@@ -22,6 +26,10 @@ export const useMecchiUIStore = createWithEqualityFn<MecchiUIStore>((set, get) =
   savedFlowsVisible: false,
   toggleSavedFlows: () => set({ savedFlowsVisible: !get().savedFlowsVisible }),
   showSavedFlows: show => set({ savedFlowsVisible: show }),
+
+  settingsVisible: false,
+  toggleSettings: () => set({ settingsVisible: !get().settingsVisible }),
+  showSettings: show => set({ settingsVisible: show }),
 
   success: (message: string) => toast.success(message, {
     duration: 4000,

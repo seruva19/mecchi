@@ -1,4 +1,4 @@
-import { MecchiKV } from "../../../stores/nodes";
+import { MecchiKV } from "../../stores/nodes";
 import ky from 'ky';
 
 const MecchiMusicGenNodeInfo = {

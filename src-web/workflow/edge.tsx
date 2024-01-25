@@ -17,6 +17,7 @@ import {
 } from "react-contexify";
 import "react-contexify/dist/ReactContexify.css";
 import { nanoid } from 'nanoid';
+import { useMecchiNodeStore } from '../stores/node-store';
 
 export default function CustomEdge({
   id,
@@ -44,8 +45,8 @@ export default function CustomEdge({
     });
   }
 
-  const { setEdges } = useReactFlow();
-  const [edgePath, labelX, labelY] = getBezierPath({
+  const { setEdges, edges, setHandles, handles } = useMecchiNodeStore();
+  const [edgePath, labelX, labelY, offsetX, offsetY] = getBezierPath({
     sourceX,
     sourceY,
     sourcePosition,
@@ -55,7 +56,12 @@ export default function CustomEdge({
   });
 
   const onEdgeRemove = () => {
-    setEdges((edges) => edges.filter((edge) => edge.id !== id));
+    const leftEdges = edges.filter((edge) => edge.id !== id);
+    const disconnectedEdge = edges.find((edge) => edge.id === id)!;
+    const leftHandles = handles.filter(handle => disconnectedEdge.sourceHandle !== handle && disconnectedEdge.targetHandle !== handle);
+
+    setEdges(leftEdges);
+    setHandles(leftHandles);
   };
 
   return (
@@ -65,6 +71,7 @@ export default function CustomEdge({
         .contexify {
           font-size: 12px;
           line-height: 12px;
+        }
         `}
       />
       <BaseEdge path={edgePath} markerEnd={markerEnd} style={style} />

@@ -1,12 +1,12 @@
-import { MecchiNodeStore, useMecchiNodeStore } from "../../../stores/node-store";
+import { MecchiNodeStore, useMecchiNodeStore } from "../../stores/node-store";
 import { shallow } from "zustand/shallow";
 import { tw } from 'twind';
 import { Handle, Position } from "reactflow";
-import MecchiNode from "../../../canvas/node-base";
+import MecchiNode from "../../workflow/node-base";
 import { ChangeEvent } from "react";
-import { MecchiKV } from "../../../stores/nodes";
+import { MecchiKV } from "../../stores/nodes";
 import { css } from "@emotion/react";
-import { OutputHandle, PowerHandle } from "../../../stores/view-node";
+import { OutputHandle, PowerHandle } from "../../stores/view-node";
 
 const MecchiEnvironmentNodeInfo = {
   type: 'environment',
@@ -28,6 +28,7 @@ export default MecchiEnvironmentNodeInfo;
 const nodeSelector = (store: MecchiNodeStore) => ({
   nodes: store.nodes,
   edges: store.edges,
+  handles: store.handles,
   executePipeline: store.runPipeline
 });
 
@@ -56,6 +57,5 @@ export function MecchiEnvironmentNode({ id, data }: { id: string, data: MecchiKV
         ▶️ Run
       </button>
     </div>
-
   </MecchiNode >
 }; 

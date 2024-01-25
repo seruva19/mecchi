@@ -1,8 +1,8 @@
-import { MecchiNodeStore, useMecchiNodeStore } from "../../../stores/node-store";
+import { MecchiNodeStore, useMecchiNodeStore } from "../../stores/node-store";
 import { Handle, Position } from "reactflow";
-import MecchiNode from "../../../canvas/node-base";
+import MecchiNode from "../../workflow/node-base";
 import { tw } from "twind";
-import { MecchiKV } from "../../../stores/nodes";
+import { MecchiKV } from "../../stores/nodes";
 import ky from 'ky';
 
 const MecchiAudioSRNodeInfo = {
