@@ -1,6 +1,6 @@
 import { ControlButton, Panel } from 'reactflow'
 import { tw } from 'twind'
-import { useMecchiUIStore } from '../stores/ui-store'
+import { useMecchiUIStore } from '../../stores/ui-store'
 
 import { useEffect, useState } from 'react'
 import { Global, css } from '@emotion/react'
