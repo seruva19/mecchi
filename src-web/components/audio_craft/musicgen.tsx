@@ -25,7 +25,7 @@ const MecchiMusicGenNodeInfo = {
       "facebook/musicgen-melody",
       "facebook/musicgen-large",
       "facebook/musicgen-melody-large",
-      "facebook/musicgen-stereo-smal",
+      "facebook/musicgen-stereo-small",
       "facebook/musicgen-stereo-medium",
       "facebook/musicgen-stereo-melody",
       "facebook/musicgen-stereo-large"
