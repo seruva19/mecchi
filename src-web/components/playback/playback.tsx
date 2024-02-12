@@ -16,7 +16,7 @@ const MecchiPlaybackNodeInfo = {
     sample: undefined
   },
 
-  transform: function (inputs: MecchiKV, state: MecchiKV): Promise<MecchiKV> {
+  transform: function (inputs: MecchiKV, data: MecchiKV): Promise<MecchiKV> {
     return new Promise(resolve => {
       const { samples } = inputs;
 

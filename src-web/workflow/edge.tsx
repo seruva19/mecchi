@@ -18,6 +18,7 @@ import {
 import "react-contexify/dist/ReactContexify.css";
 import { nanoid } from 'nanoid';
 import { useMecchiNodeStore } from '../stores/node-store';
+import { useState } from 'react';
 
 export default function CustomEdge({
   id,
@@ -31,6 +32,8 @@ export default function CustomEdge({
   markerEnd,
 }: EdgeProps) {
   const MENU_ID = `menu-edge${nanoid(2)}`;
+
+  const [shown, setShown] = useState(false);
   const { show, hideAll } = useContextMenu({
     id: MENU_ID
   });
@@ -40,9 +43,15 @@ export default function CustomEdge({
   }
 
   function displayMenu(e: any) {
-    show({
-      event: e
-    });
+    if (shown) {
+      show({
+        event: e
+      });
+    } else {
+      hideAll();
+    }
+
+    setShown(!shown);
   }
 
   const { setEdges, edges, setHandles, handles } = useMecchiNodeStore();
@@ -56,12 +65,12 @@ export default function CustomEdge({
   });
 
   const onEdgeRemove = () => {
-    const leftEdges = edges.filter((edge) => edge.id !== id);
+    const newEdges = edges.filter((edge) => edge.id !== id);
     const disconnectedEdge = edges.find((edge) => edge.id === id)!;
-    const leftHandles = handles.filter(handle => disconnectedEdge.sourceHandle !== handle && disconnectedEdge.targetHandle !== handle);
+    const newHandles = handles.filter(handle => disconnectedEdge.sourceHandle !== handle && disconnectedEdge.targetHandle !== handle);
 
-    setEdges(leftEdges);
-    setHandles(leftHandles);
+    setEdges(newEdges);
+    setHandles(newHandles);
   };
 
   return (
@@ -72,6 +81,13 @@ export default function CustomEdge({
           font-size: 12px;
           line-height: 12px;
         }
+
+        .flow-edge {
+          /* opacity: 0; */
+        }
+        .flow-edge:hover {
+          opacity: 1;
+        }
         `}
       />
       <BaseEdge path={edgePath} markerEnd={markerEnd} style={style} />
@@ -79,14 +95,16 @@ export default function CustomEdge({
         <div
           style={{
             position: 'absolute',
+            zIndex: 1001,
             transform: `translate(-50%, -50%) translate(${labelX}px,${labelY}px)`,
+            // transform: `translate(-50%, 0%) translate(${sourceX - 4}px,${sourceY - 10}px)`,
             fontSize: 12,
             pointerEvents: 'all',
           }}
-          className=""
+          className="flow-edge"
         >
           {createPortal(<>
-            <Menu id={MENU_ID}>
+            <Menu id={MENU_ID} style={{ marginTop: 10 }}>
               <Item onClick={onEdgeRemove}>
                 Remove
               </Item>

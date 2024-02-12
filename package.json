@@ -15,7 +15,7 @@
     "serve:debug": "call mecchi_venv/Scripts/activate.bat && npx vite build && npx tsc && cross-env NODE_PATHS='../assets/components/nodes/' NODE_FILE_EXTENSION='.js' python src/mecchi.py",
     "update": "call mecchi_venv/Scripts/activate.bat && pip install -r install/requirements.txt && pip install -r install/torch.txt && npm install --legacy-peer-deps",
     "update:linux": ". mecchi_venv/bin/activate && pip install -r install/requirements.txt && pip install -r install/torch.txt && npm install --legacy-peer-deps",
-    "reset": "del-cli src-web/components/nodes/*/.metadata",
+    "reset": "del-cli src-web/components/*/.metadata",
     "build": "npm-run-all --parallel build:**",
     "build:web": "tsc && vite build",
     "build:server": "",
@@ -26,6 +26,7 @@
     "torch-cuda:linux": ". mecchi_venv/bin/activate && pip uninstall -y torch && pip install torch --index-url https://download.pytorch.org/whl/cu118 --force-reinstall --no-deps"
   },
   "dependencies": {
+    "@dagrejs/dagre": "^1.0.4",
     "@emotion/react": "11.11.1",
     "@rpldy/upload-button": "1.6.0",
     "@rpldy/uploady": "1.6.0",
@@ -44,13 +45,14 @@
     "zustand": "4.4.1"
   },
   "devDependencies": {
+    "@types/dagre": "^0.7.52",
     "@types/react": "18.2.20",
     "@types/react-dom": "18.2.7",
     "@typescript-eslint/eslint-plugin": "6.4.1",
     "@typescript-eslint/parser": "6.4.1",
     "@vitejs/plugin-react": "4.0.4",
     "cross-env": "7.0.3",
-    "del-cli": "^5.1.0",
+    "del-cli": "5.1.0",
     "eslint": "8.47.0",
     "eslint-plugin-react-hooks": "4.6.0",
     "eslint-plugin-react-refresh": "0.4.3",

@@ -1,14 +1,17 @@
 import { Edge, Node } from 'reactflow'
-import { MecchiKV, getMecchiNodes } from '../stores/nodes'
+import { MecchiEvent, MecchiKV, getMecchiNodes } from '../stores/nodes'
 
 // TODO: current implementation is sequential-only, so even operations that could be run simultaneously
 // are executed one after another. This is not optimal, and needs to be rewritten. Also DAG traversal algorithm
 // most likely can be improved, I wrote it on my own, and perhaps it is not flawless.
-export const runMecchiPipeline = async (envNodeId: string, nodes: Node[], edges: Edge[], flow: any) => {
-  const sortedNodes = topologicalSort(nodes.find(n => n.id == envNodeId)!, nodes, edges);
+export const runMecchiPipeline = async (ignitionId: string, nodes: Node[], edges: Edge[], flow: any) => {
+  const sortedNodes = topologicalSort(nodes.find(n => n.id == ignitionId)!, nodes, edges);
+  const pipelineEvent = {
+    halt: false
+  };
 
   for await (const sortedNode of sortedNodes) {
-    await activate(sortedNode, sortedNodes, flow);
+    await activate(sortedNode, sortedNodes, flow, pipelineEvent);
   }
 }
 
@@ -49,45 +52,49 @@ const topologicalSort = (startNode: Node, nodes: Node[], edges: Edge[]): TopoSor
   return results;
 }
 
-const activate = async (tsn: TopoSortedNode, nodes: TopoSortedNode[], flow: any): Promise<void> => {
-  const transform = async (tsn: TopoSortedNode): Promise<void> => {
-    if (!tsn.processed) {
-      const mecchiNodes = await getMecchiNodes();
-      console.info(`activating node '${tsn.node.type}' with id '${tsn.node.id}'`)
-      const prototype = mecchiNodes.find(mn => mn.type == tsn.node.type)!;
+const run = async (tsn: TopoSortedNode, nodes: TopoSortedNode[], flow: any, event: MecchiEvent): Promise<void> => {
+  if (!tsn.processed) {
+    const mecchiNodes = await getMecchiNodes();
+    console.info(`activating node '${tsn.node.type}' with id '${tsn.node.id}'`)
+    const prototype = mecchiNodes.find(mn => mn.type == tsn.node.type)!;
 
-      flow.set({
-        busyNodes: [tsn.node]
-      });
+    flow.set({
+      busyNodes: [tsn.node]
+    });
 
-      const inputs = Object.assign({}, ...tsn.depends.map(d => nodes.find(tsn => tsn.node.id == d.id)!.output));
-      console.info('inputs: ', inputs);
+    const inputs = Object.assign({}, ...tsn.depends.map(d => nodes.find(tsn => tsn.node.id == d.id)!.output));
+    console.info('inputs: ', inputs);
 
-      tsn.output = await prototype.transform(inputs, tsn.node.data);
-      console.info('output: ', tsn.output);
+    tsn.output = await prototype.transform(inputs, tsn.node.data, event);
+    console.info('output: ', tsn.output);
 
-      flow.set({
-        nodes: flow.get().nodes.map((node: Node) =>
-          node.id === tsn.node.id
-            ? { ...node, data: { ...node.data, ...tsn.output } }
-            : node
-        )
-      });
+    flow.set({
+      nodes: flow.get().nodes.map((node: Node) =>
+        node.id === tsn.node.id
+          ? { ...node, data: { ...node.data, ...tsn.output } }
+          : node
+      )
+    });
 
-      tsn.processed = true;
+    tsn.processed = true;
 
-      flow.set({
-        busyNodes: []
-      });
-    }
+    flow.set({
+      busyNodes: []
+    });
   }
+}
 
+const activate = async (tsn: TopoSortedNode, nodes: TopoSortedNode[], flow: any, event: MecchiEvent): Promise<void> => {
   const dependencies = tsn.depends.map(p => nodes.find(tsn => tsn.node.id == p.id)!).filter(_ => _);
   if (dependencies.length != 0) {
     for await (const dependency of dependencies) {
-      await activate(dependency, nodes, flow);
+      if (!event.halt) {
+        await activate(dependency, nodes, flow, event);
+      }
     }
   }
 
-  await transform(tsn);
+  if (!event.halt) {
+    await run(tsn, nodes, flow, event);
+  }
 }

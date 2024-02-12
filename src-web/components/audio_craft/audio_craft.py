@@ -3,7 +3,7 @@ from audiocraft.models.musicgen import MusicGen
 from audiocraft.data.audio import audio_write
 from flask import Flask, request
 import uuid
-
+from ac_env import AudiocraftEnvironment
 
 def plugin():
     return AudiocraftPlugin
@@ -11,9 +11,8 @@ def plugin():
 
 class AudiocraftPlugin:
     def __init__(self):
-        self.model_type = "facebook/musicgen-melody"
-        self.musicgen = None
-
+        self.audiocraft = AudiocraftEnvironment()
+        
     def load(self, app: Flask, mecchi_utils):
         @app.route("/mecchi/musicgen", methods=["POST"])
         def musicgen_inference():
@@ -32,20 +31,9 @@ class AudiocraftPlugin:
             twoStepCfg = params.get("twoStepCfg")
             extendStride = params.get("extendStride")
 
-            if (
-                not mecchi_utils.is_model_registered("musicgen:cm")
-                or self.musicgen is None
-                or self.model_type != model
-            ):
-                self.model_type = model
-                self.musicgen = MusicGen.get_pretrained(self.model_type, device)
+            self.audiocraft.load(model, device, mecchi_utils)    
 
-                mecchi_utils.register_model(
-                    "musicgen:cm", self.musicgen.compression_model
-                )
-                mecchi_utils.register_model("musicgen:lm", self.musicgen.lm)
-
-            self.musicgen.set_generation_params(
+            self.audiocraft.musicgen.set_generation_params(
                 use_sampling=useSampling,
                 top_k=int(topK),
                 top_p=float(topP),
@@ -57,8 +45,8 @@ class AudiocraftPlugin:
             )
 
             descriptions = [prompt]
-            wav = self.musicgen.generate(
-                descriptions, progress=True, return_tokens=False
+            wav, tokens = self.audiocraft.musicgen.generate(
+                descriptions, progress=True, return_tokens=True
             )
             format = "wav"
 
@@ -70,7 +58,7 @@ class AudiocraftPlugin:
                 audio_write(
                     stem_name=path,
                     wav=one_wav.cpu(),
-                    sample_rate=self.musicgen.sample_rate,
+                    sample_rate=self.audiocraft.musicgen.sample_rate,
                     format=format,
                     mp3_rate=320,
                     normalize=True,

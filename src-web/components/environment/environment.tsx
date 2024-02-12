@@ -16,8 +16,8 @@ const MecchiEnvironmentNodeInfo = {
     device: 'cuda',
   },
 
-  transform: function (inputs: MecchiKV, state: MecchiKV): Promise<MecchiKV> {
-    const { device } = state;
+  transform: function (inputs: MecchiKV, data: MecchiKV): Promise<MecchiKV> {
+    const { device } = data;
 
     return Promise.resolve({ device });
   }

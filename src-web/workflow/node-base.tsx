@@ -60,7 +60,7 @@ export default function MecchiNode({ title, id, children }: { title: string, id:
           line-height: 12px;
         `}
       />
-      <div className={tw('rounded-md bg-white shadow-xl')}>
+      <div className={tw('rounded-md bg-white shadow-xl')} style={{ minWidth: 200 }}>
         <ScaleLoader loading={!!busyNodes.find(node => node.id == id)} color={'dodgerblue'} height={10} cssOverride={override} />
         {createPortal(<>
           <Menu id={MENU_ID}>

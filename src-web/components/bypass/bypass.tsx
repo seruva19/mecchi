@@ -2,7 +2,7 @@ import { MecchiNodeStore, useMecchiNodeStore } from "../../stores/node-store";
 import { Handle, Position } from "reactflow";
 import MecchiNode from "../../workflow/node-base";
 import { tw } from "twind";
-import { MecchiKV } from "../../stores/nodes";
+import { MecchiEvent, MecchiKV } from "../../stores/nodes";
 import ky from 'ky';
 import { InputHandle, OutputHandle } from "../../stores/view-node";
 
@@ -11,17 +11,21 @@ const MecchiBypassNodeInfo = {
   group: 'control',
   view: MecchiBypassNode,
   data: {
-    unloadAll: false
+    unloadAll: false,
+    stopPropagation: false,
   },
 
-  transform: function (inputs: MecchiKV, state: MecchiKV): Promise<MecchiKV> {
+  transform: function (inputs: MecchiKV, data: MecchiKV, event: MecchiEvent): Promise<MecchiKV> {
+    console.log(data)
     return new Promise(async resolve => {
-      if (state.unloadAll) {
+      if (data.unloadAll) {
         await ky.get('/mecchi/unloadAll', {
           timeout: false
         }).json();
       }
 
+      event.halt = data.stopPropagation;
+      console.log(event);
       resolve(inputs);
     });
   }
@@ -30,11 +34,11 @@ const MecchiBypassNodeInfo = {
 export default MecchiBypassNodeInfo;
 
 const selector = (id: string) => (store: MecchiNodeStore) => ({
-  setUnload: (e: any) => store.updateNode(id, { unloadAll: e.target.checked }),
+  setParams: (key: string, value: any) => store.updateNode(id, { [key]: value }),
 });
 
-export function MecchiBypassNode({ id, data }: { id: string, data: any }) {
-  const { setUnload } = useMecchiNodeStore(selector(id));
+export function MecchiBypassNode({ id, data }: { id: string, data: typeof MecchiBypassNodeInfo.data }) {
+  const { setParams } = useMecchiNodeStore(selector(id));
 
   return <MecchiNode title="Bypass" id={id}>
     <div style={{ position: 'absolute', top: 8 }}>
@@ -48,7 +52,12 @@ export function MecchiBypassNode({ id, data }: { id: string, data: any }) {
     <div className={`${tw`flex flex-col p-2`}`} style={{ width: 200 }}>
       <div className={`${tw`flex`}`}>
         <label className={tw('px-2 py-1 mb-2 gap-2 text-sm')}>Unload all models</label>
-        <input type="checkbox" checked={data.unloadAll} onChange={setUnload}
+        <input type="checkbox" checked={data.unloadAll} onChange={(e) => setParams('unloadAll', e.target.checked)}
+          className={tw('text-sm h-6 border-blue-200 border-1 rounded px-1 focus:outline-none')} />
+      </div>
+      <div className={`${tw`flex`}`}>
+        <label className={tw('px-2 py-1 mb-2 gap-2 text-sm')}>Halt</label>
+        <input type="checkbox" checked={data.stopPropagation} onChange={(e) => setParams('stopPropagation', e.target.checked)}
           className={tw('text-sm h-6 border-blue-200 border-1 rounded px-1 focus:outline-none')} />
       </div>
     </div>

@@ -29,15 +29,17 @@ const defaultEdgeOptions: DefaultEdgeOptions = {
   deletable: true,
   type: 'customEdge',
 };
+import { IoSettings } from "react-icons/io5";
 
 import CustomEdge from './edge';
 import { useKBar } from 'kbar';
 import { useCallback, useRef, useState } from 'react';
 import { BiSolidHide } from "react-icons/bi";
-
-import MecchiSavedFlows from './saved-flows';
+import { GrBladesHorizontal, GrBladesVertical } from "react-icons/gr";
+import MecchiSavedFlows from './support/saved-flows';
 import { Global, css } from '@emotion/react';
 import ky from 'ky';
+import { getLayoutedElements } from './flow-tools/layout';
 const edgeTypes = {
   customEdge: CustomEdge,
 };
@@ -63,7 +65,7 @@ export default function MecchiFlow({ nodeTypesKV, nodeTypes }: IProps) {
   const { query } = useKBar();
   const { success, error } = useMecchiUIStore();
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
-  const { setViewport } = useReactFlow();
+  const { setViewport, getEdges, getNodes } = useReactFlow();
 
   const onReset = useCallback(() => {
     setNodes([]);
@@ -99,7 +101,7 @@ export default function MecchiFlow({ nodeTypesKV, nodeTypes }: IProps) {
   const onSave = useCallback(async () => {
     if (reactFlowInstance) {
       const flow = (reactFlowInstance as any).toObject();
-      const result: any = await ky.post('/mecchi/workflow/save', {
+      await ky.post('/mecchi/workflow/save', {
         json: { name: fastSaveKey, flow: JSON.stringify(flow) },
         timeout: false
       }).json();
@@ -134,8 +136,23 @@ export default function MecchiFlow({ nodeTypesKV, nodeTypes }: IProps) {
     restoreFlow();
   }, [setNodes, setViewport]);
 
+  const onLayout = useCallback(
+    (direction: 'vertical' | 'horizontal') => {
+      const { nodes: layoutedNodes, edges: layoutedEdges } = getLayoutedElements(
+        nodes,
+        edges,
+        direction
+      );
+
+      setNodes([...layoutedNodes]);
+      setEdges([...layoutedEdges]);
+    },
+    [nodes, edges]
+  );
+
   const isValidConnection = useCallback((connection: Connection) => {
     // console.log(connection);
+    // console.log(getNodes());
     const source = connection.source;
     const target = connection.target;
 
@@ -152,6 +169,8 @@ export default function MecchiFlow({ nodeTypesKV, nodeTypes }: IProps) {
       edges={edges}
       edgeTypes={edgeTypes}
       onDrop={onDrop}
+      zoomOnDoubleClick={false}
+      onEdgeClick={undefined}
       onDragOver={onDragOver}
       onNodesChange={onNodesChange}
       nodeTypes={nodeTypesKV}
@@ -187,18 +206,26 @@ export default function MecchiFlow({ nodeTypesKV, nodeTypes }: IProps) {
           .react-flow__panel.react-flow__attribution {
             text-align: center;
             width: 100%;
-            background-color: transparent
+            background-color: transparent;
           }
         `}
         />
         <ControlButton onClick={togglePalette} title="toggle palette and map">
           <div><BiSolidHide /></div>
         </ControlButton>
+
+        <ControlButton onClick={() => onLayout('horizontal')} title="align horizontally">
+          <div><GrBladesHorizontal /></div>
+        </ControlButton>
+        <ControlButton onClick={() => onLayout('vertical')} title="align vertically">
+          <div><GrBladesVertical /></div>
+        </ControlButton>
+
         <ControlButton onClick={query.toggle} title="command bar">
           <div><GoCommandPalette /></div>
         </ControlButton>
         <ControlButton onClick={() => showSettings(true)} title="settings">
-          <div><CiSettings /></div>
+          <div><IoSettings /></div>
         </ControlButton>
       </Controls>
 

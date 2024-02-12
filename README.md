@@ -22,6 +22,7 @@ It is built on [Audiocraft](https://github.com/facebookresearch/audiocraft), [Au
 * MAGNeT
 * Demucs
 * Whisper
+* EnCLAP
 * Auffusion
 * Musicgen training
 

@@ -42,12 +42,12 @@ const MecchiAudioSRNodeInfo = {
     sample: undefined
   },
 
-  transform: function (inputs: MecchiKV, state: MecchiKV): Promise<MecchiKV> {
+  transform: function (inputs: MecchiKV, data: MecchiKV): Promise<MecchiKV> {
     return new Promise(async resolve => {
       const { samples: [sample] } = inputs;
 
       const payload = {
-        ...state, ...{
+        ...data, ...{
           sample
         }
       };

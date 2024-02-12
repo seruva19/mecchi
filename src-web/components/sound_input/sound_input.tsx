@@ -18,8 +18,10 @@ const MecchiSoundInputNodeInfo = {
     soundpath: undefined
   },
 
-  transform: function (inputs: MecchiKV, state: MecchiKV): Promise<MecchiKV> {
-    return Promise.resolve({ samples: [state.soundpath] });
+  transform: function (inputs: MecchiKV, data: MecchiKV): Promise<MecchiKV> {
+    return Promise.resolve({
+      samples: [data.soundpath]
+    });
   }
 }
 

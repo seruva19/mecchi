@@ -2,8 +2,9 @@ import ky from 'ky';
 import { createMecchiNodeView } from './view-node';
 
 export type MecchiKV = { [key: string]: any };
-export type MecchiIO = { name: string, type: 'ignition' | 'text' | 'sound' | 'tensor' | 'any' | 'undefined' };
+export type MecchiIO = { name: string, type: 'ignition' | 'text' | 'sound' | 'tensor' | 'any' | 'undefined', required?: boolean };
 export type MecchiUnit = { name: string, title: string, type: string, values?: any[], range?: { min: number, max: number, step: number } };
+export type MecchiEvent = { halt: boolean };
 
 export interface MecchiNodeInfo {
   type: string;
@@ -14,7 +15,7 @@ export interface MecchiNodeInfo {
   outputs: Array<MecchiIO>;
   units: Array<MecchiUnit>;
   data: MecchiKV;
-  transform: (inputs: MecchiKV, state: MecchiKV) => Promise<MecchiKV>;
+  transform: (inputs: MecchiKV, state: MecchiKV, event: MecchiEvent) => Promise<MecchiKV>;
 }
 
 let _mecchiNodes: MecchiNodeInfo[] | undefined = undefined;

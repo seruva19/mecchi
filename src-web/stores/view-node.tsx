@@ -5,13 +5,13 @@ import { MecchiNodeStore, useMecchiNodeStore } from "./node-store";
 import MecchiNode from "../workflow/node-base";
 import { MecchiIO, MecchiKV, MecchiNodeInfo } from "./nodes";
 
-
 const handle: Record<string, string> = {
   'inactive': '⚪',
   'ignition': '🟠',
   'text': '🔵',
   'sound': '🟢',
-  'tensor': '🟡',
+
+  'module': '🟡',
   'any': '🟣',
   'undefined': '🔴',
 };
@@ -81,7 +81,7 @@ export function createMecchiNodeView(node: MecchiNodeInfo) {
             </div>
           } else if (unit.type == 'multiline') {
             return <div key={`unit-${index}`} className={`${tw`flex`}`}>
-              <textarea id="message" defaultValue={data.prompt} rows={6} style={{ minWidth: 400, resize: 'none' }} className={`${tw`block m-2 p-2 text-sm text-gray-900 focus:outline-none bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500`}`}
+              <textarea id="message" defaultValue={data.prompt} rows={5} style={{ minWidth: 400, resize: 'none', fontSize: 14 }} className={`${tw`block mx-2 my-0 p-2 text-sm text-gray-900 focus:outline-none bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500`}`}
                 placeholder={unit.title} onChange={e => setParams(unit.name, e.target.value)}>
               </textarea>
             </div>

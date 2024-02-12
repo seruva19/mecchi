@@ -46,10 +46,10 @@ const MecchiAudioLdm2NodeInfo = {
     scale: 3.5,
   },
 
-  transform: function (inputs: MecchiKV, state: MecchiKV): Promise<MecchiKV> {
+  transform: function (inputs: MecchiKV, data: MecchiKV): Promise<MecchiKV> {
     return new Promise(async resolve => {
       const payload = {
-        ...state, ...{
+        ...data, ...{
           device: inputs.device,
           prompt: inputs.prompt,
           negative_prompt: inputs.negativePrompt
