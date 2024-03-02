@@ -24,6 +24,7 @@ It is built on [Audiocraft](https://github.com/facebookresearch/audiocraft), [Au
 * EnCLAP
 * Auffusion
 * Musicgen training
+* StableAudio training
 
 ## Pipelines
 
@@ -38,6 +39,7 @@ It is built on [Audiocraft](https://github.com/facebookresearch/audiocraft), [Au
 - [ ] ATT (audio-to-text, "audio interrogation")  
 - [ ] ITA (image-to-audio)  
 - [ ] VTA (video-to-audio)  
+- [ ] ATV (audio-to-video)  
 
 ## How it looks? 
 

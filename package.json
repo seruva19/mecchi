@@ -25,6 +25,15 @@
     "torch-cuda": "call mecchi_venv/Scripts/activate.bat && pip uninstall -y torch && pip install torch --index-url https://download.pytorch.org/whl/cu118 --force-reinstall --no-deps",
     "torch-cuda:linux": ". mecchi_venv/bin/activate && pip uninstall -y torch && pip install torch --index-url https://download.pytorch.org/whl/cu118 --force-reinstall --no-deps"
   },
+  "loader": {
+    "install": "npm run init",
+    "install:linux": "npm run init:linux",
+    "launch": "npm run serve",
+    "launch:linux": "npm run serve:linux",
+    "reset": "npm run reset",
+    "update": "npm run update",
+    "update:linux": "npm run update:linux"
+  },
   "dependencies": {
     "@dagrejs/dagre": "^1.0.4",
     "@emotion/react": "11.11.1",
