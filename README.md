@@ -6,7 +6,7 @@ Mecchi is an attempt to build an AI-powered node-based web audio editor with the
 
 ## Status
 
-But for now, it's just a POC and not yet production-ready or close to being a mature product 🙄
+But for now, it's <b>WIP POC</b> and not yet production-ready or close to being a mature product 🙄
 
 ## Credits 
 
