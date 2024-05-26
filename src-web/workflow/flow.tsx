@@ -40,6 +40,8 @@ import MecchiSavedFlows from './support/saved-flows';
 import { Global, css } from '@emotion/react';
 import ky from 'ky';
 import { getLayoutedElements } from './flow-tools/layout';
+import { handleDragOver, handleDrop, handleOnReset, handleRestore, handleSave } from './flow-tools/interaction';
+
 const edgeTypes = {
   customEdge: CustomEdge,
 };
@@ -63,84 +65,31 @@ interface IProps {
 
 export default function MecchiFlow({ nodeTypesKV, nodeTypes }: IProps) {
   const { createNode, nodes, edges, onNodesChange, onEdgesChange, onConnect, setNodes, setEdges, handles, setHandles } = useMecchiNodeStore(selector, shallow);
-  const { paletteVisible, togglePalette, toggleSavedFlows, showSettings } = useMecchiUIStore();
+  const { paletteVisible, togglePalette, toggleSavedFlows, savedFlowsVisible, showSettings } = useMecchiUIStore();
   const { query } = useKBar();
   const { success, error } = useMecchiUIStore();
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
   const { setViewport, getEdges, getNodes } = useReactFlow();
 
   const onReset = useCallback(() => {
-    setNodes([]);
-
-    success('flow cleared');
+    handleOnReset(setNodes, success);
   }, []);
 
   const onDragOver = useCallback((event: any) => {
-    event.preventDefault();
-    event.dataTransfer.dropEffect = 'move';
+    handleDragOver(event);
   }, []);
 
-  const onDrop = useCallback(
-    (event: any) => {
-      event.preventDefault();
-      const nodeType = event.dataTransfer.getData('application/reactflow');
-
-      if (typeof nodeType === 'undefined' || !nodeType) {
-        return;
-      }
-
-      const position = (reactFlowInstance as any).project({
-        x: event.clientX,
-        y: event.clientY
-      });
-
-      createNode(nodeType, position);
-    }, [reactFlowInstance],
-  );
-
-  const fastSaveKey = 'fast_save';
+  const onDrop = useCallback((event: any) => {
+    handleDrop(event, reactFlowInstance, createNode);
+  }, [reactFlowInstance]);
 
   const onSave = async () => {
-    if (reactFlowInstance) {
-      const flow = (reactFlowInstance as any).toObject();
-      await ky.post('/mecchi/workflow/save', {
-        json: { name: fastSaveKey, flow: JSON.stringify({ ...flow, ...{ handles } }) },
-        timeout: false
-      }).json();
-
-      success('flow saved');
-    }
+    handleSave(reactFlowInstance, handles, success);
   };
 
-  const onRestore = useCallback(() => {
-    const restoreFlow = async () => {
-      const result: any = await ky.post('/mecchi/workflow/load', {
-        json: { name: fastSaveKey },
-        timeout: false
-      }).json();
-
-      if (result.mecchi == '👍') {
-        const flow = JSON.parse(result.flow);
-
-        if (flow) {
-          const { x = 0, y = 0, zoom = 1 } = flow.viewport;
-          setNodes(flow.nodes || []);
-          setEdges(flow.edges || []);
-
-          console.log(flow.handles)
-          flow.handles && setHandles(flow.handles);
-
-          setViewport({ x, y, zoom });
-        }
-
-        success('flow loaded');
-      } else {
-        error('failed to load flow');
-      }
-    };
-
-    restoreFlow();
-  }, [setNodes, setViewport]);
+  const onRestore = async () => {
+    handleRestore(setNodes, setEdges, setHandles, setViewport, success, error);
+  };
 
   const onLayout = useCallback(
     (direction: 'vertical' | 'horizontal') => {
@@ -195,11 +144,11 @@ export default function MecchiFlow({ nodeTypesKV, nodeTypes }: IProps) {
           <ControlButton onClick={onSave} title="quick save" data-tooltip-id="flow-tooltip" data-tooltip-content="quick save" style={{ float: 'left' }}>
             <div><FaRegSave /></div>
           </ControlButton>
-          <ControlButton onClick={onRestore} title="quick load" data-tooltip-id="flow-tooltip" data-tooltip-content="quick load">
+          <ControlButton onClick={onRestore} title="quick load" data-tooltip-id="flow-tooltip" data-tooltip-content="quick load" style={{ marginLeft: 180 }}>
             <div><BsUpload /></div>
           </ControlButton>
         </Panel>
-        <Panel position="top-center" style={{ translate: '1000%' }}>
+        <Panel position="top-center" style={{}}>
           <ControlButton onClick={onReset} title="reset" style={{ float: 'left' }} data-tooltip-id="flow-tooltip" data-tooltip-content="reset">
             <div><BiReset /></div>
           </ControlButton>
@@ -238,7 +187,10 @@ export default function MecchiFlow({ nodeTypesKV, nodeTypes }: IProps) {
         </Controls>
 
         <Panel position="top-right" style={{ boxShadow: 'none', border: '1px solid #eee', borderBottom: '1px solid transparent' }}>
-          <ControlButton onClick={toggleSavedFlows} title="saved workflows">
+          <ControlButton onClick={toggleSavedFlows} style={{
+            color: savedFlowsVisible ? 'white' : 'initial',
+            backgroundColor: savedFlowsVisible ? 'rgba(59,130,246)' : 'initial'
+          }} title="saved workflows">
             <div><FaWindowRestore /></div>
           </ControlButton>
         </Panel>
