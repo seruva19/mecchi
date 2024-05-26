@@ -19,12 +19,14 @@ It is built on [Audiocraft](https://github.com/facebookresearch/audiocraft), [Au
 * Parametric nodes
 * Config-based nodes (.py) 
 * Audiogen
+* Enhanced MusicGen nodes
 * MAGNeT
 * Demucs
 * EnCLAP
 * Auffusion
 * Musicgen training
-* StableAudio training
+* StableAudio 2
+* Navigation between node groups
 
 ## Pipelines
 
@@ -37,6 +39,7 @@ It is built on [Audiocraft](https://github.com/facebookresearch/audiocraft), [Au
 - [ ] ADB (audio-data-blending)  
 - [ ] ADS (audio-data-separation)  
 - [ ] ATT (audio-to-text, "audio interrogation")  
+- [ ] MTA (midi-to-audio, "audio controlnet")  
 - [ ] ITA (image-to-audio)  
 - [ ] VTA (video-to-audio)  
 - [ ] ATV (audio-to-video)  
