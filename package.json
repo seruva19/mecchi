@@ -35,7 +35,7 @@
     "update:linux": "npm run update:linux"
   },
   "dependencies": {
-    "@dagrejs/dagre": "^1.0.4",
+    "@dagrejs/dagre": "1.0.4",
     "@emotion/react": "11.11.1",
     "@rpldy/upload-button": "1.6.0",
     "@rpldy/uploady": "1.6.0",
@@ -44,17 +44,19 @@
     "nanoid": "5.0.1",
     "react": "18.2.0",
     "react-contexify": "6.0.0",
+    "react-custom-scrollbars-2": "4.5.0",
     "react-dom": "18.2.0",
     "react-h5-audio-player": "3.9.0",
     "react-hot-toast": "2.4.1",
     "react-icons": "4.11.0",
     "react-spinners": "0.13.8",
+    "react-tooltip": "5.26.4",
     "reactflow": "11.8.3",
     "twind": "0.16.19",
     "zustand": "4.4.1"
   },
   "devDependencies": {
-    "@types/dagre": "^0.7.52",
+    "@types/dagre": "0.7.52",
     "@types/react": "18.2.20",
     "@types/react-dom": "18.2.7",
     "@typescript-eslint/eslint-plugin": "6.4.1",
