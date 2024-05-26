@@ -8,6 +8,7 @@ import { MdOutlineAllInclusive } from "react-icons/md";
 import { SlEnergy } from "react-icons/sl";
 import { useState } from 'react'
 import { Global, css } from '@emotion/react'
+import { Scrollbars } from 'react-custom-scrollbars-2';
 
 export default function MecchiPalette({ nodeTypes }: { [k: string]: any }) {
   const { paletteVisible } = useMecchiUIStore();
@@ -75,13 +76,18 @@ export default function MecchiPalette({ nodeTypes }: { [k: string]: any }) {
           'display': avNodes.types.length != 0 ? 'block' : 'none',
           position: 'absolute',
           top: groups.length * 30,
-        }}><div style={{
-          maxHeight: 'calc(100% - 340px)',
-          position: 'fixed',
-          overflowY: 'auto',
         }}>
-            {avNodes.types.map(t => node(avNodes.group, t))}
-          </div>
+          <Scrollbars style={{ width: 123, height: window.innerHeight - 340 }}
+            autoHideTimeout={1000}
+            autoHideDuration={200}>
+            <div style={{
+              // maxHeight: 'calc(100% - 340px)',
+              // position: 'fixed',
+              // overflowY: 'auto',
+            }}>
+              {avNodes.types.map(t => node(avNodes.group, t))}
+            </div>
+          </Scrollbars>
         </div>
 
       </Panel>

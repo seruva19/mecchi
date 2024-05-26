@@ -47,7 +47,6 @@ export default function MecchiNode({ title, id, children }: { title: string, id:
     const ignitedNode = nodes.find((nodes) => nodes.id == id)!;
     const rect = getRectOfNodes([ignitedNode]);
 
-    console.log(nodes, edges)
     ignite({ x: rect.x + rect.width, y: rect.y + rect.height });
   };
 

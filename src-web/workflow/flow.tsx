@@ -30,7 +30,7 @@ const defaultEdgeOptions: DefaultEdgeOptions = {
   type: 'customEdge',
 };
 import { IoSettings } from "react-icons/io5";
-
+import { Tooltip } from 'react-tooltip';
 import CustomEdge from './edge';
 import { useKBar } from 'kbar';
 import { useCallback, useRef, useState } from 'react';
@@ -53,6 +53,8 @@ const selector = (store: MecchiNodeStore) => ({
   createNode: store.createNode,
   setNodes: store.setNodes,
   setEdges: store.setEdges,
+  handles: store.handles,
+  setHandles: store.setHandles,
 });
 
 interface IProps {
@@ -60,7 +62,7 @@ interface IProps {
 }
 
 export default function MecchiFlow({ nodeTypesKV, nodeTypes }: IProps) {
-  const { createNode, nodes, edges, onNodesChange, onEdgesChange, onConnect, setNodes, setEdges } = useMecchiNodeStore(selector, shallow);
+  const { createNode, nodes, edges, onNodesChange, onEdgesChange, onConnect, setNodes, setEdges, handles, setHandles } = useMecchiNodeStore(selector, shallow);
   const { paletteVisible, togglePalette, toggleSavedFlows, showSettings } = useMecchiUIStore();
   const { query } = useKBar();
   const { success, error } = useMecchiUIStore();
@@ -98,17 +100,17 @@ export default function MecchiFlow({ nodeTypesKV, nodeTypes }: IProps) {
 
   const fastSaveKey = 'fast_save';
 
-  const onSave = useCallback(async () => {
+  const onSave = async () => {
     if (reactFlowInstance) {
       const flow = (reactFlowInstance as any).toObject();
       await ky.post('/mecchi/workflow/save', {
-        json: { name: fastSaveKey, flow: JSON.stringify(flow) },
+        json: { name: fastSaveKey, flow: JSON.stringify({ ...flow, ...{ handles } }) },
         timeout: false
       }).json();
 
       success('flow saved');
     }
-  }, [reactFlowInstance]);
+  };
 
   const onRestore = useCallback(() => {
     const restoreFlow = async () => {
@@ -124,6 +126,10 @@ export default function MecchiFlow({ nodeTypesKV, nodeTypes }: IProps) {
           const { x = 0, y = 0, zoom = 1 } = flow.viewport;
           setNodes(flow.nodes || []);
           setEdges(flow.edges || []);
+
+          console.log(flow.handles)
+          flow.handles && setHandles(flow.handles);
+
           setViewport({ x, y, zoom });
         }
 
@@ -160,46 +166,48 @@ export default function MecchiFlow({ nodeTypesKV, nodeTypes }: IProps) {
   }, []);
 
   return (
-    <ReactFlow
-      onInit={setReactFlowInstance as any}
-      onEdgeContextMenu={undefined}
-      defaultViewport={{ x: 0, y: 0, zoom: 1 }}
-      fitViewOptions={{ maxZoom: 1 }}
-      nodes={nodes}
-      edges={edges}
-      edgeTypes={edgeTypes}
-      onDrop={onDrop}
-      zoomOnDoubleClick={false}
-      onEdgeClick={undefined}
-      onDragOver={onDragOver}
-      onNodesChange={onNodesChange}
-      nodeTypes={nodeTypesKV}
-      isValidConnection={isValidConnection}
-      onEdgesChange={onEdgesChange}
-      snapToGrid={true}
-      snapGrid={[20, 20]}
-      defaultEdgeOptions={defaultEdgeOptions}
-      onConnect={onConnect}>
-      <Panel position="top-center" style={{ translate: '-1000%' }}>
-        <></>
-      </Panel>
-      <Panel position="top-center">
-        <ControlButton onClick={onSave} title="quick save" style={{ float: 'left' }}>
-          <div><FaRegSave /></div>
-        </ControlButton>
-        <ControlButton onClick={onRestore} title="quick load">
-          <div><BsUpload /></div>
-        </ControlButton>
-      </Panel>
-      <Panel position="top-center" style={{ translate: '1000%' }}>
-        <ControlButton onClick={onReset} title="reset" style={{ float: 'left' }}>
-          <div><BiReset /></div>
-        </ControlButton>
-      </Panel>
+    <>
+      <Tooltip id="flow-tooltip" />
+      <ReactFlow
+        onInit={setReactFlowInstance as any}
+        onEdgeContextMenu={undefined}
+        defaultViewport={{ x: 0, y: 0, zoom: 1 }}
+        fitViewOptions={{ maxZoom: 1 }}
+        nodes={nodes}
+        edges={edges}
+        edgeTypes={edgeTypes}
+        onDrop={onDrop}
+        zoomOnDoubleClick={false}
+        onEdgeClick={undefined}
+        onDragOver={onDragOver}
+        onNodesChange={onNodesChange}
+        nodeTypes={nodeTypesKV}
+        isValidConnection={isValidConnection}
+        onEdgesChange={onEdgesChange}
+        snapToGrid={true}
+        snapGrid={[20, 20]}
+        defaultEdgeOptions={defaultEdgeOptions}
+        onConnect={onConnect}>
+        <Panel position="top-center" style={{ translate: '-1000%' }}>
+          <></>
+        </Panel>
+        <Panel position="top-center">
+          <ControlButton onClick={onSave} title="quick save" data-tooltip-id="flow-tooltip" data-tooltip-content="quick save" style={{ float: 'left' }}>
+            <div><FaRegSave /></div>
+          </ControlButton>
+          <ControlButton onClick={onRestore} title="quick load" data-tooltip-id="flow-tooltip" data-tooltip-content="quick load">
+            <div><BsUpload /></div>
+          </ControlButton>
+        </Panel>
+        <Panel position="top-center" style={{ translate: '1000%' }}>
+          <ControlButton onClick={onReset} title="reset" style={{ float: 'left' }} data-tooltip-id="flow-tooltip" data-tooltip-content="reset">
+            <div><BiReset /></div>
+          </ControlButton>
+        </Panel>
 
-      <Controls position='top-right' style={{ boxShadow: 'none', border: '1px solid #eee' }}>
-        <Global
-          styles={css`
+        <Controls position='top-right' style={{ boxShadow: 'none', border: '1px solid #eee' }}>
+          <Global
+            styles={css`
           .react-flow__panel .react-flow__controls-button {
             outline: none;
           }
@@ -209,35 +217,35 @@ export default function MecchiFlow({ nodeTypesKV, nodeTypes }: IProps) {
             background-color: transparent;
           }
         `}
-        />
-        <ControlButton onClick={togglePalette} title="toggle palette and map">
-          <div><BiSolidHide /></div>
-        </ControlButton>
+          />
+          <ControlButton onClick={togglePalette} title="toggle palette and map" data-tooltip-id="flow-tooltip" data-tooltip-content="toggle palette and map">
+            <div><BiSolidHide /></div>
+          </ControlButton>
 
-        <ControlButton onClick={() => onLayout('horizontal')} title="align horizontally">
-          <div><GrBladesHorizontal /></div>
-        </ControlButton>
-        <ControlButton onClick={() => onLayout('vertical')} title="align vertically">
-          <div><GrBladesVertical /></div>
-        </ControlButton>
+          <ControlButton onClick={() => onLayout('horizontal')} title="align horizontally">
+            <div><GrBladesHorizontal /></div>
+          </ControlButton>
+          <ControlButton onClick={() => onLayout('vertical')} title="align vertically">
+            <div><GrBladesVertical /></div>
+          </ControlButton>
 
-        <ControlButton onClick={query.toggle} title="command bar">
-          <div><GoCommandPalette /></div>
-        </ControlButton>
-        <ControlButton onClick={() => showSettings(true)} title="settings">
-          <div><IoSettings /></div>
-        </ControlButton>
-      </Controls>
+          <ControlButton onClick={query.toggle} title="command bar">
+            <div><GoCommandPalette /></div>
+          </ControlButton>
+          <ControlButton onClick={() => showSettings(true)} title="settings">
+            <div><IoSettings /></div>
+          </ControlButton>
+        </Controls>
 
-      <Panel position="bottom-right" style={{ boxShadow: 'none', border: '1px solid #eee' }}>
-        <ControlButton onClick={toggleSavedFlows} title="saved workflows">
-          <div><FaWindowRestore /></div>
-        </ControlButton>
-      </Panel>
+        <Panel position="top-right" style={{ boxShadow: 'none', border: '1px solid #eee', borderBottom: '1px solid transparent' }}>
+          <ControlButton onClick={toggleSavedFlows} title="saved workflows">
+            <div><FaWindowRestore /></div>
+          </ControlButton>
+        </Panel>
 
-      {paletteVisible && <MiniMap zoomable pannable position='bottom-left' />}
-      <MecchiPalette nodeTypes={nodeTypes} />
-      {paletteVisible && <MecchiSavedFlows />}
-    </ReactFlow>
+        {paletteVisible && <MiniMap zoomable pannable position='bottom-left' />}
+        <MecchiPalette nodeTypes={nodeTypes} />
+        {paletteVisible && <MecchiSavedFlows />}
+      </ReactFlow></>
   )
 }
