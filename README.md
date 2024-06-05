@@ -10,7 +10,7 @@ But for now, it's <b>WIP POC</b> and not yet production-ready or close to being 
 
 ## Credits 
 
-It is built on [Audiocraft](https://github.com/facebookresearch/audiocraft), [AudioLDM 2](https://github.com/haoheliu/AudioLDM2), [AudioSR](https://github.com/haoheliu/versatile_audio_super_resolution), [Bark](https://github.com/suno-ai/bark), [Flask](https://github.com/pallets/flask), [React](https://github.com/facebook/react), [ReactFlow](https://github.com/wbkd/react-flow), [Tailwind](https://github.com/tailwindlabs/tailwindcss) and other great projects 🔥
+It is built on [Stable Audio Open](https://huggingface.co/stabilityai/stable-audio-open-1.0), [Audiocraft](https://github.com/facebookresearch/audiocraft), [AudioLDM 2](https://github.com/haoheliu/AudioLDM2), [AudioSR](https://github.com/haoheliu/versatile_audio_super_resolution), [Bark](https://github.com/suno-ai/bark), [Flask](https://github.com/pallets/flask), [React](https://github.com/facebook/react), [ReactFlow](https://github.com/wbkd/react-flow), [Tailwind](https://github.com/tailwindlabs/tailwindcss) and other great projects 🔥
 
 ## Short-term plans
 
@@ -20,12 +20,13 @@ It is built on [Audiocraft](https://github.com/facebookresearch/audiocraft), [Au
 * Config-based nodes (.py) 
 * Audiogen
 * Enhanced MusicGen nodes
+* Interrogation with CLAP
 * MAGNeT
 * Demucs
 * EnCLAP
 * Auffusion
 * Musicgen training
-* StableAudio 2
+* StableAudio training
 * Navigation between node groups
 
 ## Pipelines
