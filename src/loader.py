@@ -49,7 +49,7 @@ class NodeLoader:
                             print(
                                 f"🎧 initiating custom setup script for plugin: '{folder_name}'"
                             )
-                            custom_setup_success = self.custom_setup(
+                            custom_setup_success, err_setup = self.custom_setup(
                                 folder_name, setup_path
                             )
                         else:
@@ -60,12 +60,20 @@ class NodeLoader:
                                 f"🎧 installing requirements for plugin: '{folder_name}' \
                             "
                             )
-                            requirements_install_success = self.install_reqs(reqs_path)
+                            requirements_install_success, err_install = (
+                                self.install_reqs(reqs_path)
+                            )
+                        else:
+                            requirements_install_success = True
 
-                        if custom_setup_success or requirements_install_success:
+                        if custom_setup_success and requirements_install_success:
                             print(f"🎧 plugin '{folder_name}' successfully installed")
                             with open(metadata_path, "w") as file:
                                 pass
+                        else:
+                            print(
+                                f"⛔ problems detected while installing module '{plugin_module_path}': {err_setup if err_install is None else err_install}"
+                            )
 
                     plugin_module_path = os.path.join(folder_path, f"{folder_name}.py")
                     if os.path.exists(plugin_module_path):
@@ -132,10 +140,13 @@ class NodeLoader:
                 if spec.loader is not None:
                     spec.loader.exec_module(module)
                     module.setup()
-                    return True
+                    return True, None
 
+            return False, ModuleNotFoundError(
+                f"cannot import module from '{folder_name}'"
+            )
         except Exception as e:
-            return False
+            return False, e
 
     def install_reqs(self, requirements_file_path):
         activate_venv = os.environ.get("ACTIVATE_VENV", "False") == "True"
@@ -162,9 +173,9 @@ class NodeLoader:
                     )
 
             subprocess.run(activate_script, shell=True)
-            return True
+            return True, None
         except Exception as e:
-            return False
+            return False, e
 
     def find_folders_with_files(self, folders, extension, base_directory):
         return [

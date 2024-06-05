@@ -16,7 +16,6 @@ const MecchiBypassNodeInfo = {
   },
 
   transform: function (inputs: MecchiKV, data: MecchiKV, event: MecchiEvent): Promise<MecchiKV> {
-    console.log(data)
     return new Promise(async resolve => {
       if (data.unloadAll) {
         await ky.get('/mecchi/unloadAll', {
@@ -25,7 +24,6 @@ const MecchiBypassNodeInfo = {
       }
 
       event.halt = data.stopPropagation;
-      console.log(event);
       resolve(inputs);
     });
   }

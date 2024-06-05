@@ -13,14 +13,12 @@ const MecchiPlaybackNodeInfo = {
   group: 'io',
   view: MecchiPlaybackNode,
   data: {
-    sample: undefined
+    samples: []
   },
 
   transform: function (inputs: MecchiKV, data: MecchiKV): Promise<MecchiKV> {
     return new Promise(resolve => {
-      const { samples } = inputs;
-
-      resolve({ sample: samples[0] });
+      resolve(inputs);
     });
   }
 }
@@ -55,7 +53,7 @@ export function MecchiPlaybackNode({ id, data }: { id: string, data: any }) {
       
     `}
       layout="stacked-reverse"
-      src={`out_data/${data.sample}`}
+      src={`out_data/${data.samples?.[0]}`}
       autoPlay={false}
       autoPlayAfterSrcChange={true}
       onPlay={e => { }}

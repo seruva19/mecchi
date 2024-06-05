@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 import { tw } from 'twind';
 import { MecchiNodeStore, useMecchiNodeStore } from "../stores/node-store";
 import { shallow } from "zustand/shallow";
@@ -27,6 +27,7 @@ const override: CSSProperties = {
 
 export default function MecchiNode({ title, id, children }: { title: string, id: string, children: ReactNode }) {
   const { busyNodes, ignite, nodes, setNodes, edges, setEdges } = useMecchiNodeStore(selector, shallow);
+  const [isSelected, setIsSelected] = useState(false);
 
   const MENU_ID = `menu-node${id}`;
   const { show, hideAll } = useContextMenu({
@@ -57,9 +58,20 @@ export default function MecchiNode({ title, id, children }: { title: string, id:
         .contexify {
           font-size: 12px;
           line-height: 12px;
-        `}
+        }
+        
+        .selected-node::before {
+          content: '+selected';
+          position: absolute;
+          margin-top: -15px;
+          font-size: 10px;
+        }
+
+        .selected-node .node-title {
+          background-color: aliceblue;
+        }`}
       />
-      <div className={tw('rounded-md bg-white shadow-xl')} style={{ minWidth: 200 }}>
+      <div className={`${tw('rounded-md bg-white shadow-xl')} ${isSelected ? 'selected-node' : ''}`} style={{ minWidth: 200 }}>
         <ScaleLoader loading={!!busyNodes.find(node => node.id == id)} color={'dodgerblue'} height={10} cssOverride={override} />
         {createPortal(<>
           <Menu id={MENU_ID}>
@@ -77,7 +89,7 @@ export default function MecchiNode({ title, id, children }: { title: string, id:
             right: 5px;
             top: 2px;
         `}>⚙️</button>
-        <p className={tw('rounded-t-md px-2 py-1 bg-gray-100 text-sm')} css={css`
+        <p onClick={() => setIsSelected(!isSelected)} className={`${tw('rounded-t-md px-2 py-1 bg-gray-100 text-sm')} node-title`} css={css`
             &:hover { cursor: move;}
         `}>{title}</p>
 

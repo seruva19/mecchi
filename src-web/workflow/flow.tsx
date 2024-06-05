@@ -186,7 +186,7 @@ export default function MecchiFlow({ nodeTypesKV, nodeTypes }: IProps) {
           </ControlButton>
         </Controls>
 
-        <Panel position="top-right" style={{ boxShadow: 'none', border: '1px solid #eee', borderBottom: '1px solid transparent' }}>
+        <Panel position="top-right" style={{ boxShadow: 'none', border: '1px solid #eee', borderBottom: '1px solid transparent', position: 'absolute', right: 40 }}>
           <ControlButton onClick={toggleSavedFlows} style={{
             color: savedFlowsVisible ? 'white' : 'initial',
             backgroundColor: savedFlowsVisible ? 'rgba(59,130,246)' : 'initial'

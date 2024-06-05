@@ -27,4 +27,8 @@ def setup():
 
     if not os.path.exists(destination_dir):
         shutil.copytree(tmp_subdirectory_path, destination_dir)
-    shutil.rmtree(temp_dir)
+
+    try:
+        shutil.rmtree(temp_dir)
+    except:
+        pass

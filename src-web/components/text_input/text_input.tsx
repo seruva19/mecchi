@@ -29,7 +29,9 @@ const MecchiTextInputNodeInfo = {
     const { prompt } = inputs.prompt ? { prompt: inputs.prompt } : state;
 
     return Promise.resolve({
-      prompt
+      ...inputs, ... {
+        prompt
+      }
     });
   }
 }

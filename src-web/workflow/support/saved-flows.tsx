@@ -1,4 +1,4 @@
-import { ControlButton, Panel } from 'reactflow'
+import { Background, ControlButton, Panel } from 'reactflow'
 import { CSSProperties, tw } from 'twind'
 import { useMecchiUIStore } from '../../stores/ui-store'
 
@@ -30,10 +30,12 @@ export default function MecchiSavedFlows() {
 
   const titleStyle = {
     marginBottom: 10,
-    // fontWeight: 'bold',
+    fontWeight: 'normal',
+    width: '100%',
     display: 'block',
     position: 'sticky',
     top: 0,
+    zIndex: 1,
     background: 'white'
   } as any;
 
@@ -42,7 +44,7 @@ export default function MecchiSavedFlows() {
       <Panel position="top-right" style={{
         display: savedFlowsVisible ? 'block' : 'none',
         border: '1px solid #eee',
-        marginRight: 50,
+        marginRight: 95,
         fontSize: 13,
         backgroundColor: 'white',
         maxHeight: window.innerHeight / 2,
@@ -51,21 +53,42 @@ export default function MecchiSavedFlows() {
         <Scrollbars style={{ width: 300, height: window.innerHeight / 2 }}
           autoHideTimeout={1000}
           autoHideDuration={200}>
-          <div style={{ display: 'flex', padding: '0 15px' }}>
-            <div>
-              <span style={titleStyle}>📋 flows</span>
-              {flows.map((flow, i) => {
-                return <div style={{
-                  cursor: 'pointer',
-                  padding: '0 5px',
-
-                  backgroundColor: flow === selectedFlow ? 'rgba(59,130,246)' : 'white',
-                  color: flow === selectedFlow ? 'white' : 'black',
-                }} key={i} onClick={() => setSelectedFlow(flow)}>{flow}</div>
-              })}
+          <div style={titleStyle}>📋 flows
+            <div style={{
+              visibility: !!selectedFlow ? 'visible' : 'hidden',
+              height: 20,
+              position: 'absolute'
+            }}>
+              <button>open</button>
+              <button>remove</button>
             </div>
-          </div></Scrollbars>
-      </Panel>
+          </div>
+          <div style={{
+            marginTop: 30,
+            padding: '0 15px 0 5px'
+          }}>
+            {flows.map((flow, i) => {
+              return <div style={{
+                cursor: 'pointer',
+                padding: '0 5px',
+                borderRadius: 0,
+                backgroundColor: flow === selectedFlow ? 'rgba(59,130,246)' : 'white',
+                color: flow === selectedFlow ? 'white' : 'black',
+              }} key={i} onClick={() => setSelectedFlow(flow)}>{flow}</div>
+            })}
+          </div>
+        </Scrollbars >
+
+        <div style={{
+          display: 'block',
+          position: 'sticky',
+          bottom: 0,
+        }}>
+          <input type='text'></input>
+          <button>save current</button>
+
+        </div>
+      </Panel >
     </>
   )
 }
