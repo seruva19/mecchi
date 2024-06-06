@@ -14,31 +14,32 @@ It is built on [Stable Audio Open](https://huggingface.co/stabilityai/stable-aud
 
 ## Short-term plans
 
-* Workflows save/load
+* <b>Workflows save/load</b>
 * Generalisation of the node UI
 * Parametric nodes
 * Config-based nodes (.py) 
 * Audiogen
 * Enhanced MusicGen nodes
-* Interrogation with CLAP
+* <b>Interrogation with CLAP</b>
 * MAGNeT
 * Demucs
 * EnCLAP
 * Auffusion
 * Musicgen training
-* StableAudio training
+* <b>Decomposing SAO pipeline</b>
+* <b>SAO fine-tuning</b>
 * Navigation between node groups
 
 ## Pipelines
 
 - [x] TTA (text-to-audio)  
-- [ ] ATA (audio-to-audio)    
+- [ ] <b>ATA (audio-to-audio)</b>  
 - [x] ADU (audio-data-upsampling, "audio upscaling")  
-- [ ] ADI (audio-data-interpolation, "audio inpainting")  
+- [ ] <b>ADI (audio-data-interpolation, "audio inpainting")</b>  
 - [ ] ADC (audio-data-completion, "audio outpainting")  
 - [ ] AST (audio-style-transfer)   
 - [ ] ADB (audio-data-blending)  
-- [ ] ADS (audio-data-separation)  
+- [ ] <b>ADS (audio-data-separation)</b>  
 - [ ] ATT (audio-to-text, "audio interrogation")  
 - [ ] MTA (midi-to-audio, "audio controlnet")  
 - [ ] ITA (image-to-audio)  
@@ -62,12 +63,17 @@ To launch application, run:
 ```
 npm run serve
 ```
+
+And, if you're lucky, the app will be available at `http://localhost:5555/`
+
 ## Try online 
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1_hg2a_hwtsEEreQN7EQEKX4GWj5zBvZt)
 <br>
 
+(I am not maintaining it, to be honest. If you have issues, please let me know).
 
 ## Documentation
 
-One day 😏
+One day 😏  
+OK, just need more time. Noone uses this, so it's OK to not have docs 🙂

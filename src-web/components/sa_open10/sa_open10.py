@@ -9,6 +9,8 @@ from stable_audio_tools import get_pretrained_model
 from stable_audio_tools.inference.generation import generate_diffusion_cond
 
 from hf_tools import get_preloaded_model
+from sound_tools import trim_output_silence
+
 from flask import Flask, request
 import uuid
 
@@ -67,6 +69,8 @@ class StableAudioOpenPlugin:
             sigma_max = params.get("sigmaMax")  # 500
             sampler_type = params.get("sampler")  # "dpmpp-3m-sde"
 
+            trim_silence = params.get("trimSilence")
+
             conditioning = [
                 {
                     "prompt": prompt,
@@ -119,6 +123,9 @@ class StableAudioOpenPlugin:
                 .to(torch.int16)
                 .cpu()
             )
+
+            if trim_silence:
+                wav_output = trim_output_silence(wav_output)
 
             format = "wav"
             filename = f"{uuid.uuid4()}.{format}"
