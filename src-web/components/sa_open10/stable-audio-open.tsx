@@ -64,12 +64,8 @@ const MecchiStableAudioOpen10NodeInfo = {
     ]
   }, {
     name: "trimSilence",
-    title: "Trim",
+    title: "Trim silence",
     type: "bool"
-  }, {
-    name: "token",
-    title: "Token",
-    type: "line"
   }],
   data: {
     secondsStart: 0,
@@ -80,7 +76,6 @@ const MecchiStableAudioOpen10NodeInfo = {
     sigmaMax: 500,
     sampler: "dpmpp-3m-sde",
     trimSilence: true,
-    token: "",
     samples: []
   },
 
