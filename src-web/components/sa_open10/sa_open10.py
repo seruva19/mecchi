@@ -56,14 +56,16 @@ class StableAudioOpenPlugin:
             sample_size = self.model_config["sample_size"]  # type: ignore
 
             prompt = params.get("prompt")
+            negative_prompt = params.get("negativePrompt")
+
             seconds_start = params.get("secondsStart")
             seconds_total = params.get("secondsTotal")
             steps = params.get("steps")  # 100
             cfg_scale = params.get("cfgScale")  # 7
 
-            sigma_min = 0.3
-            sigma_max = 500
-            sampler_type = "dpmpp-3m-sde"
+            sigma_min = params.get("sigmaMin")  # 0.3
+            sigma_max = params.get("sigmaMax")  # 500
+            sampler_type = params.get("sampler")  # "dpmpp-3m-sde"
 
             conditioning = [
                 {
@@ -73,18 +75,39 @@ class StableAudioOpenPlugin:
                 }
             ]
 
+            negative_conditioning = (
+                [
+                    {
+                        "prompt": negative_prompt,
+                        "seconds_start": seconds_start,
+                        "seconds_total": seconds_total,
+                    }
+                ]
+                if negative_prompt is not None
+                else None
+            )
+
             output = generate_diffusion_cond(
                 self.model,
                 steps=int(steps),
                 cfg_scale=cfg_scale,
                 conditioning=conditioning,  # type: ignore
+                conditioning_tensors=None,
+                negative_conditioning=negative_conditioning,  # type: ignore
+                negative_conditioning_tensors=None,
+                batch_size=1,
+                sample_rate=sample_rate,
                 sample_size=sample_size,
-                # sigma_min=sigma_min,
-                # sigma_max=sigma_max,
-                sampler_type=sampler_type,
                 device=device,
-                # return_latents=True,
+                return_latents=False,
+                init_audio=None,
+                init_noise_level=1.0,
+                mask_args=None,  # type: ignore
                 seed=np.random.randint(0, 2**32 - 1, dtype=np.uint32),
+                # seed=-1,
+                sigma_min=sigma_min,
+                sigma_max=sigma_max,
+                sampler_type=sampler_type,
             )
 
             output = rearrange(output, "b d n -> d (b n)")

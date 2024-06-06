@@ -9,6 +9,9 @@ const MecchiStableAudioOpen10NodeInfo = {
   inputs: [{
     name: 'prompt',
     type: 'text',
+  }, {
+    name: 'negative prompt',
+    type: 'text',
   }],
   outputs: [{
     name: 'sample',
@@ -36,6 +39,30 @@ const MecchiStableAudioOpen10NodeInfo = {
     type: "number",
     range: { min: 10, max: 300, step: 1 }
   }, {
+    name: "sigmaMin",
+    title: "Sigma (min)",
+    type: "number",
+    range: { min: 0, max: 1, step: 0.1 }
+  }, {
+    name: "sigmaMax",
+    title: "Sigma (max)",
+    type: "number",
+    range: { min: 100, max: 1000, step: 10 }
+  }, {
+    name: "sampler",
+    title: "Sampler",
+    type: "list",
+    values: [
+      "k-heun",
+      "k-lms",
+      "k-dpmpp-2s-ancestral",
+      "k-dpm-2",
+      "k-dpm-fast",
+      "k-dpm-adaptive",
+      "dpmpp-2m-sde",
+      "dpmpp-3m-sde"
+    ]
+  }, {
     name: "token",
     title: "Token",
     type: "line"
@@ -45,6 +72,9 @@ const MecchiStableAudioOpen10NodeInfo = {
     secondsTotal: 30,
     cfgScale: 6,
     steps: 250,
+    sigmaMin: 0.3,
+    sigmaMax: 500,
+    sampler: "dpmpp-3m-sde",
     token: "",
     samples: []
   },
@@ -54,7 +84,8 @@ const MecchiStableAudioOpen10NodeInfo = {
       const payload = {
         ...state, ...{
           device: inputs.device,
-          prompt: inputs.prompt
+          prompt: inputs.prompt,
+          negative_prompt: inputs.negativePrompt
         }
       };
 
