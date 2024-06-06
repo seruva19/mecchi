@@ -4,14 +4,22 @@ import { MecchiEvent, MecchiKV, getMecchiNodes } from '../stores/nodes'
 // TODO: current implementation is sequential-only, so even operations that could be run simultaneously
 // are executed one after another. This is not optimal, and needs to be rewritten. Also DAG traversal algorithm
 // most likely can be improved, I wrote it on my own, and perhaps it is not flawless.
-export const runMecchiPipeline = async (ignitionId: string, nodes: Node[], edges: Edge[], flow: any) => {
-  const sortedNodes = topologicalSort(nodes.find(n => n.id == ignitionId)!, nodes, edges);
-  const pipelineEvent = {
-    halt: false
-  };
+export const runMecchiPipeline = async (ignitionId: string, nodes: Node[], edges: Edge[], flow: any): Promise<Error | undefined> => {
+  try {
+    const sortedNodes = topologicalSort(nodes.find(n => n.id == ignitionId)!, nodes, edges);
+    const pipelineEvent = {
+      halt: false
+    };
 
-  for await (const sortedNode of sortedNodes) {
-    await activate(sortedNode, sortedNodes, flow, pipelineEvent);
+    for await (const sortedNode of sortedNodes) {
+      await activate(sortedNode, sortedNodes, flow, pipelineEvent);
+    }
+
+    return undefined;
+  }
+
+  catch (e: any) {
+    return e;
   }
 }
 

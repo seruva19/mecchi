@@ -3,10 +3,11 @@ import { shallow } from "zustand/shallow";
 import { tw } from 'twind';
 import { Handle, Position } from "reactflow";
 import MecchiNode from "../../workflow/node-base";
-import { ChangeEvent } from "react";
+import { ChangeEvent, useCallback, useState } from "react";
 import { MecchiKV } from "../../stores/nodes";
 import { css } from "@emotion/react";
 import { OutputHandle, PowerHandle } from "../../stores/view-node";
+import { useMecchiUIStore } from "../../stores/ui-store";
 
 const MecchiEnvironmentNodeInfo = {
   type: 'environment',
@@ -38,7 +39,9 @@ const selector = (id: string) => (store: MecchiNodeStore) => ({
 
 export function MecchiEnvironmentNode({ id, data }: { id: string, data: MecchiKV }) {
   const { setDevice } = useMecchiNodeStore(selector(id));
+  const { success, error } = useMecchiUIStore();
   const { nodes, edges, executePipeline } = useMecchiNodeStore(nodeSelector, shallow);
+
 
   return <MecchiNode title="Environment" id={id}>
     <div style={{ position: 'absolute', top: 8, right: 0 }}>
@@ -53,7 +56,13 @@ export function MecchiEnvironmentNode({ id, data }: { id: string, data: MecchiKV
       </div>
 
       <button className={`${tw`bg-blue-500 text-white hover:bg-blue-600 text-sm py-1 rounded`}`} style={{ width: '100%' }}
-        onClick={() => executePipeline(id, nodes, edges)}>
+        onClick={async () => {
+          const pipelineError = await executePipeline(id, nodes, edges);
+          if (pipelineError) {
+            !pipelineError.stack && error(pipelineError.toString());
+            pipelineError.stack && error(pipelineError.stack);
+          }
+        }}>
         ▶️ Run
       </button>
     </div>

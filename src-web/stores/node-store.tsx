@@ -27,7 +27,7 @@ export interface MecchiNodeStore {
   onNodesChange: OnNodesChange;
   onEdgesChange: OnEdgesChange;
   onConnect: OnConnect;
-  runPipeline: (id: string, nodes: Node[], edges: Edge[]) => Promise<void>;
+  runPipeline: (id: string, nodes: Node[], edges: Edge[]) => Promise<Error | undefined>;
   busyNodes: Node[],
   handles: string[],
   setHandles: (handles: string[]) => void;
@@ -97,6 +97,6 @@ export const useMecchiNodeStore = createWithEqualityFn<MecchiNodeStore>((set, ge
   },
 
   runPipeline: async (id: string, nodes: Node[], edges: Edge[]) => {
-    await runMecchiPipeline(id, nodes, edges, { get, set });
+    return await runMecchiPipeline(id, nodes, edges, { get, set });
   }
 }), Object.is)
