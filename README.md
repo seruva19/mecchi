@@ -29,6 +29,7 @@ It is built on [Stable Audio Open](https://huggingface.co/stabilityai/stable-aud
 * <b>Decomposing SAO pipeline</b>
 * <b>SAO fine-tuning</b>
 * Navigation between node groups
+* Dark theme
 
 ## Pipelines
 

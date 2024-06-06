@@ -3,6 +3,7 @@
 !.vscode/extensions.json
 cache
 dist
+keys
 mecchi_venv
 node_modules
 out_data

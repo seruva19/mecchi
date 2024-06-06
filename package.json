@@ -46,6 +46,7 @@
     "react-contexify": "6.0.0",
     "react-custom-scrollbars-2": "4.5.0",
     "react-dom": "18.2.0",
+    "react-error-boundary": "4.0.13",
     "react-h5-audio-player": "3.9.0",
     "react-hot-toast": "2.4.1",
     "react-icons": "4.11.0",
