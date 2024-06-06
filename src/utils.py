@@ -11,6 +11,12 @@ class MecchiUtils:
         self.models = {}
         self.blocks = {}
 
+    def info(self, message):
+        print(f"🎹 {message}")
+
+    def error(self, error):
+        print(f"⛔ {error}")
+
     def register_model(self, name, model):
         print(f"🎹 loading model '{name}'")
         self.models[name] = model

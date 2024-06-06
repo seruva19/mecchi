@@ -41,6 +41,7 @@ import { Global, css } from '@emotion/react';
 import ky from 'ky';
 import { getLayoutedElements } from './flow-tools/layout';
 import { handleDragOver, handleDrop, handleOnReset, handleRestore, handleSave } from './flow-tools/interaction';
+import { tooltipStyles } from '../styles';
 
 const edgeTypes = {
   customEdge: CustomEdge,
@@ -116,7 +117,7 @@ export default function MecchiFlow({ nodeTypesKV, nodeTypes }: IProps) {
 
   return (
     <>
-      <Tooltip id="flow-tooltip" />
+      <Tooltip id="flow-tooltip" style={tooltipStyles as any} />
       <ReactFlow
         onInit={setReactFlowInstance as any}
         onEdgeContextMenu={undefined}
@@ -127,7 +128,7 @@ export default function MecchiFlow({ nodeTypesKV, nodeTypes }: IProps) {
         edgeTypes={edgeTypes}
         onDrop={onDrop}
         zoomOnDoubleClick={false}
-        onEdgeClick={undefined}
+        onEdgeClick={(evt, edge) => console.log(edge)}
         onDragOver={onDragOver}
         onNodesChange={onNodesChange}
         nodeTypes={nodeTypesKV}
@@ -141,15 +142,15 @@ export default function MecchiFlow({ nodeTypesKV, nodeTypes }: IProps) {
           <></>
         </Panel>
         <Panel position="top-center">
-          <ControlButton onClick={onSave} title="quick save" data-tooltip-id="flow-tooltip" data-tooltip-content="quick save" style={{ float: 'left' }}>
+          <ControlButton onClick={onSave} data-tooltip-id="flow-tooltip" data-tooltip-content="quick save" style={{ float: 'left' }}>
             <div><FaRegSave /></div>
           </ControlButton>
-          <ControlButton onClick={onRestore} title="quick load" data-tooltip-id="flow-tooltip" data-tooltip-content="quick load" style={{ marginLeft: 180 }}>
+          <ControlButton onClick={onRestore} data-tooltip-id="flow-tooltip" data-tooltip-content="quick load" style={{ marginLeft: 180 }}>
             <div><BsUpload /></div>
           </ControlButton>
         </Panel>
         <Panel position="top-center" style={{}}>
-          <ControlButton onClick={onReset} title="reset" style={{ float: 'left' }} data-tooltip-id="flow-tooltip" data-tooltip-content="reset">
+          <ControlButton onClick={onReset} style={{ float: 'left' }} data-tooltip-id="flow-tooltip" data-tooltip-content="reset">
             <div><BiReset /></div>
           </ControlButton>
         </Panel>
@@ -167,21 +168,20 @@ export default function MecchiFlow({ nodeTypesKV, nodeTypes }: IProps) {
           }
         `}
           />
-          <ControlButton onClick={togglePalette} title="toggle palette and map" data-tooltip-id="flow-tooltip" data-tooltip-content="toggle palette and map">
+          <ControlButton onClick={togglePalette} data-tooltip-id="flow-tooltip" data-tooltip-content="toggle palette and map">
             <div><BiSolidHide /></div>
           </ControlButton>
 
-          <ControlButton onClick={() => onLayout('horizontal')} title="align horizontally">
+          <ControlButton onClick={() => onLayout('horizontal')} data-tooltip-id="flow-tooltip" data-tooltip-content="align horizontally">
             <div><GrBladesHorizontal /></div>
           </ControlButton>
-          <ControlButton onClick={() => onLayout('vertical')} title="align vertically">
+          <ControlButton onClick={() => onLayout('vertical')} data-tooltip-id="flow-tooltip" data-tooltip-content="align vertically">
             <div><GrBladesVertical /></div>
           </ControlButton>
-
-          <ControlButton onClick={query.toggle} title="command bar">
+          <ControlButton onClick={query.toggle} data-tooltip-id="flow-tooltip" data-tooltip-content="command bar" data-tooltip-place='top'>
             <div><GoCommandPalette /></div>
           </ControlButton>
-          <ControlButton onClick={() => showSettings(true)} title="settings">
+          <ControlButton onClick={() => showSettings(true)} data-tooltip-id="flow-tooltip" data-tooltip-content="settings">
             <div><IoSettings /></div>
           </ControlButton>
         </Controls>
@@ -190,7 +190,7 @@ export default function MecchiFlow({ nodeTypesKV, nodeTypes }: IProps) {
           <ControlButton onClick={toggleSavedFlows} style={{
             color: savedFlowsVisible ? 'white' : 'initial',
             backgroundColor: savedFlowsVisible ? 'rgba(59,130,246)' : 'initial'
-          }} title="saved workflows">
+          }} data-tooltip-id="flow-tooltip" data-tooltip-content="saved workflows" data-tooltip-place='left'>
             <div><FaWindowRestore /></div>
           </ControlButton>
         </Panel>

@@ -55,7 +55,6 @@ export const handleRestore = async (setNodes: any, setEdges: any, setHandles: an
       setNodes(flow.nodes || []);
       setEdges(flow.edges || []);
 
-      console.log(flow.handles)
       flow.handles && setHandles(flow.handles);
 
       setViewport({ x, y, zoom });

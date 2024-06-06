@@ -62,12 +62,12 @@ export function MecchiSoundInputNode({ id, data }: { id: string, data: any }) {
     <div className={`${tw`flex flex-col p-2`} nodrag upload-panel`} style={{ width: 200 }}>
       <Global styles={css`
       .upload-panel button {
-        background-color: #f1f5f9;
+
       }
     `} />
       <Uploady customInput destination={{ url: "/mecchi/upload", method: 'POST' }}>
         <UploadInput id={id} />
-        <UploadButton />
+        <UploadButton className="mecchi-btn" />
       </Uploady>
     </div>
   </MecchiNode>
