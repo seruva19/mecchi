@@ -66,6 +66,10 @@ const MecchiStableAudioOpen10NodeInfo = {
     name: "trimSilence",
     title: "Trim silence",
     type: "bool"
+  }, {
+    name: "useHalfPrecision",
+    title: "Half precision",
+    type: "bool"
   }],
   data: {
     secondsStart: 0,
@@ -76,6 +80,7 @@ const MecchiStableAudioOpen10NodeInfo = {
     sigmaMax: 500,
     sampler: "dpmpp-3m-sde",
     trimSilence: true,
+    useHalfPrecision: true,
     samples: []
   },
 

@@ -29,6 +29,7 @@ class StableAudioOpenPlugin:
         def sa_open10_inference():
             params = request.get_json()
             device = params.get("device")
+            use_float16 = params.get("useHalfPrecision")
 
             print(f"running stable-audio-open (1.0) inference with params {params}")
 
@@ -57,6 +58,9 @@ class StableAudioOpenPlugin:
                     self.model = model.to(device)
                     self.model_config = model_config
 
+                    if use_float16:
+                        self.model = self.model.to(torch.float16)
+
                     mecchi_utils.register_model("stable-audio-open-1.0", self.model)
 
             if error is None:
@@ -77,13 +81,14 @@ class StableAudioOpenPlugin:
 
                 trim_silence = params.get("trimSilence")
 
+                batch_size = 1
                 conditioning = [
                     {
                         "prompt": prompt,
                         "seconds_start": seconds_start,
                         "seconds_total": seconds_total,
                     }
-                ]
+                ] * batch_size
 
                 negative_conditioning = (
                     [
@@ -93,6 +98,7 @@ class StableAudioOpenPlugin:
                             "seconds_total": seconds_total,
                         }
                     ]
+                    * batch_size
                     if negative_prompt is not None
                     else None
                 )
@@ -121,14 +127,17 @@ class StableAudioOpenPlugin:
                 )
 
                 output = rearrange(output, "b d n -> d (b n)")
-                wav_output = (
-                    output.to(torch.float32)
-                    .div(torch.max(torch.abs(output)))
-                    .clamp(-1, 1)
-                    .mul(32767)
-                    .to(torch.int16)
-                    .cpu()
-                )
+                if use_float16:
+                    wav_output = (
+                        output.to(torch.float32)
+                        .div(torch.max(torch.abs(output)))
+                        .clamp(-1, 1)
+                        .mul(32767)
+                        .to(torch.int16)
+                        .cpu()
+                    )
+                else:
+                    wav_output = output.to(torch.int16).cpu()
 
                 if trim_silence:
                     wav_output = trim_output_silence(wav_output)

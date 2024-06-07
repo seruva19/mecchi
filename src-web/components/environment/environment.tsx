@@ -42,7 +42,6 @@ export function MecchiEnvironmentNode({ id, data }: { id: string, data: MecchiKV
   const { success, error } = useMecchiUIStore();
   const { nodes, edges, executePipeline } = useMecchiNodeStore(nodeSelector, shallow);
 
-
   return <MecchiNode title="Environment" id={id}>
     <div style={{ position: 'absolute', top: 8, right: 0 }}>
       <OutputHandle index={0} id={id} io={{ name: 'power', type: 'ignition' }} />
