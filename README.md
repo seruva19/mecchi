@@ -26,6 +26,7 @@ It is built on [Stable Audio Open](https://huggingface.co/stabilityai/stable-aud
 * EnCLAP
 * Auffusion
 * Musicgen training
+* Lumina-T2Music
 * <b>Decomposing SAO pipeline</b>
 * <b>SAO fine-tuning</b>
 * Navigation between node groups
