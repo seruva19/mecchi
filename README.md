@@ -20,7 +20,6 @@ It is built on [Stable Audio Open](https://huggingface.co/stabilityai/stable-aud
 * Config-based nodes (.py) 
 * Audiogen
 * Enhanced MusicGen nodes
-* <b>Interrogation with CLAP</b>
 * MAGNeT
 * Demucs
 * EnCLAP
@@ -42,7 +41,7 @@ It is built on [Stable Audio Open](https://huggingface.co/stabilityai/stable-aud
 - [ ] AST (audio-style-transfer)   
 - [ ] ADB (audio-data-blending)  
 - [ ] <b>ADS (audio-data-separation)</b>  
-- [ ] ATT (audio-to-text, "audio interrogation")  
+- [x] ATT (audio-to-text, "audio interrogation")  
 - [ ] MTA (midi-to-audio, "audio controlnet")  
 - [ ] ITA (image-to-audio)  
 - [ ] VTA (video-to-audio)  
