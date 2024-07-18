@@ -24,6 +24,9 @@ def define_routes(app: Flask, mecchi_utils: MecchiUtils, nodes):
     @app.route("/mecchi/upload", methods=["POST"])
     def upload():
         out_dir = os.getenv("OUT_DATA", default="out_data")
+        if not os.path.exists(out_dir):
+            os.makedirs(out_dir)
+
         file = request.files["file"]
         if file:
             filename = file.filename
