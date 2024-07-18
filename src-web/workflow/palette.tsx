@@ -56,7 +56,13 @@ export default function MecchiPalette({ nodeTypes }: { [k: string]: any }) {
     border: '1px solid #eee',
     borderTopColor: 'transparent',
     fontFamily: 'monospace'
-  }} key={nodeType} onDragStart={(event) => onDragStart(event, nodeType)} draggable>{nodeType}</ControlButton>)
+  }} key={nodeType} onDragStart={(event) => onDragStart(event, nodeType)} draggable><span style={{
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'pre'
+  }} >
+      {nodeType}
+    </span></ControlButton>)
 
   return (
     <>
