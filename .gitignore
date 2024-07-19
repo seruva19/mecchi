@@ -8,4 +8,5 @@ mecchi_venv
 node_modules
 out_data
 /src-web/**/.metadata
-/flows/*.json
+/templates/*.json
+!/templates/standard/*.json

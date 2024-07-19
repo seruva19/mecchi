@@ -14,7 +14,6 @@ It is built on [Stable Audio Open](https://huggingface.co/stabilityai/stable-aud
 
 ## Short-term plans
 
-* <b>Workflows save/load</b>
 * Generalisation of the node UI
 * Parametric nodes
 * Config-based nodes (.py) 
@@ -26,21 +25,21 @@ It is built on [Stable Audio Open](https://huggingface.co/stabilityai/stable-aud
 * Auffusion
 * Musicgen training
 * Lumina-T2Music
-* <b>Decomposing SAO pipeline</b>
-* <b>SAO fine-tuning</b>
+* Decomposing SAO pipeline
+* SAO fine-tuning
 * Navigation between node groups
 * Dark theme
 
 ## Pipelines
 
 - [x] TTA (text-to-audio)  
-- [ ] <b>ATA (audio-to-audio)</b>  
+- [ ] ATA (audio-to-audio)  
 - [x] ADU (audio-data-upsampling, "audio upscaling")  
-- [ ] <b>ADI (audio-data-interpolation, "audio inpainting")</b>  
+- [ ] ADI (audio-data-interpolation, "audio inpainting")  
 - [ ] ADC (audio-data-completion, "audio outpainting")  
 - [ ] AST (audio-style-transfer)   
 - [ ] ADB (audio-data-blending)  
-- [ ] <b>ADS (audio-data-separation)</b>  
+- [ ] ADS (audio-data-separation)   
 - [x] ATT (audio-to-text, "audio interrogation")  
 - [ ] MTA (midi-to-audio, "audio controlnet")  
 - [ ] ITA (image-to-audio)  

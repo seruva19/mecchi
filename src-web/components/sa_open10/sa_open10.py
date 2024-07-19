@@ -55,7 +55,7 @@ class StableAudioOpenPlugin:
                         mecchi_utils.error(error)
 
                 if error is None:
-                    self.model = model.to(device)
+                    self.model = model.to(device)  # type: ignore
                     self.model_config = model_config
 
                     if use_float16:
@@ -149,4 +149,4 @@ class StableAudioOpenPlugin:
                 torchaudio.save(uri=path, src=wav_output, format=format, sample_rate=sample_rate)  # type: ignore
 
                 files = [filename]
-                return {"samples": files}
+            return {"samples": files}

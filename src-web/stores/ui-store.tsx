@@ -23,7 +23,7 @@ export const useMecchiUIStore = createWithEqualityFn<MecchiUIStore>((set, get) =
   togglePalette: () => set({ paletteVisible: !get().paletteVisible }),
   showPalette: show => set({ paletteVisible: show }),
 
-  savedFlowsVisible: false,
+  savedFlowsVisible: true,
   toggleSavedFlows: () => set({ savedFlowsVisible: !get().savedFlowsVisible }),
   showSavedFlows: show => set({ savedFlowsVisible: show }),
 
