@@ -14,6 +14,7 @@ def plugin():
 class ClapInterrogatorPlugin:
     def __init__(self):
         self.processor: ClapProcessor | None = None
+        self.checkpoint: str | None = None
         self.model: ClapModel | None = None
         self.tags_source = []
 
@@ -50,12 +51,16 @@ class ClapInterrogatorPlugin:
             num_tags = params.get("tagsCount")
             sample = params.get("sample")
 
-            if self.model is None:
+            if self.model is None or self.checkpoint != checkpoint:
+                if self.model is not None:
+                    mecchi_utils.unload_model("clap")
+
                 self.processor = ClapProcessor.from_pretrained(checkpoint)
                 self.model = ClapModel.from_pretrained(checkpoint)  # type: ignore
 
                 device = torch.device(device)
                 self.model.to(device)  # type: ignore
+                mecchi_utils.register_model("clap", self.model)
 
             current_dir = os.path.dirname(os.path.abspath(__file__))
             self.tags_source = self.create_tags_list_from_file(
