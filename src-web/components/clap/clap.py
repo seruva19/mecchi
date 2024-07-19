@@ -52,6 +52,7 @@ class ClapInterrogatorPlugin:
             sample = params.get("sample")
 
             if self.model is None or self.checkpoint != checkpoint:
+                self.checkpoint = checkpoint
                 if self.model is not None:
                     mecchi_utils.unload_model("clap")
 
