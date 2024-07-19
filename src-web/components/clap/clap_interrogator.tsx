@@ -15,7 +15,7 @@ const MecchiClapInterrogatorNodeInfo = {
     type: 'text',
   }],
 
-  units: [{
+  params: [{
     name: "checkpoint",
     title: "Checkpoint",
     type: "list",
@@ -40,7 +40,7 @@ const MecchiClapInterrogatorNodeInfo = {
   transform: function (inputs: MecchiKV, state: MecchiKV): Promise<MecchiKV> {
     return new Promise(async resolve => {
       const payload = {
-        ...state, ...{
+        ...inputs, ...state, ...{
           sample: inputs.samples[0],
           device: inputs.device,
         }

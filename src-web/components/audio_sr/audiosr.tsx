@@ -1,5 +1,4 @@
 import { MecchiNodeStore, useMecchiNodeStore } from "../../stores/node-store";
-import { Handle, Position } from "reactflow";
 import MecchiNode from "../../workflow/node-base";
 import { tw } from "twind";
 import { MecchiKV } from "../../stores/nodes";
@@ -19,7 +18,7 @@ const MecchiAudioSRNodeInfo = {
     type: 'sound',
   }],
 
-  units: [{
+  params: [{
     name: "steps",
     title: "Steps",
     type: "number",

@@ -20,7 +20,7 @@ const MecchiWhisperNodeInfo = {
     threshold: 2.4,
   },
 
-  units: [{
+  params: [{
     name: "threshold",
     title: "Threshold",
     type: "number",

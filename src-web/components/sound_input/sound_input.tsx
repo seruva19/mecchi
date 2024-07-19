@@ -69,7 +69,7 @@ export function MecchiSoundInputNode({ id, data }: { id: string, data: any }) {
     `} />
       <Uploady customInput destination={{ url: "/mecchi/upload", method: 'POST' }}>
         <UploadInput id={id} />
-        <UploadButton className="mecchi-btn" />
+        <UploadButton className="mecchi-btn primary" />
       </Uploady>
     </div>
   </MecchiNode>

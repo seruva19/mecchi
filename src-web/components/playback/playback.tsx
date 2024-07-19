@@ -1,5 +1,4 @@
 import { MecchiNodeStore, useMecchiNodeStore } from "../../stores/node-store";
-import { Handle, Position } from "reactflow";
 import MecchiNode from "../../workflow/node-base";
 import { css } from "@emotion/react";
 import AudioPlayer from 'react-h5-audio-player';
@@ -13,6 +12,7 @@ const MecchiPlaybackNodeInfo = {
   group: 'io',
   view: MecchiPlaybackNode,
   data: {
+    autoplay: true,
     samples: []
   },
 
@@ -25,8 +25,8 @@ const MecchiPlaybackNodeInfo = {
 
 export default MecchiPlaybackNodeInfo;
 
-const selector = (id: string) => (store: MecchiNodeStore) => ({
-
+const selector = (id: string) => (store: any) => ({
+  setParams: (key: string, value: any) => store.updateNode(id, { [key]: value }),
 });
 
 const customStyles = css`
@@ -36,7 +36,7 @@ const customStyles = css`
 `;
 
 export function MecchiPlaybackNode({ id, data }: { id: string, data: any }) {
-  const { } = useMecchiNodeStore(selector(id));
+  const { setParams } = useMecchiNodeStore(selector(id));
 
   return <MecchiNode title="Playback" id={id}>
     <div style={{ position: 'absolute', top: 8 }}>
@@ -55,9 +55,19 @@ export function MecchiPlaybackNode({ id, data }: { id: string, data: any }) {
       layout="stacked-reverse"
       src={`out_data/${data.samples?.[0]}`}
       autoPlay={false}
-      autoPlayAfterSrcChange={true}
+      autoPlayAfterSrcChange={data['autoplay']}
       onPlay={e => { }}
     />
+    <div className="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm leading-6 hover:bg-gray-50" style={{
+      background: 'whitesmoke',
+      margin: '0 10px',
+      padding: 10
+    }}>
+      <div className={`${tw`flex`}`}>
+        <label htmlFor={`${id}-checkbox-input-autoplay`} className={tw('px-2 py-1 mb-2 gap-2 text-sm')}>Autoplay</label>
+        <input id={`${id}-checkbox-input-autoplay`} type="checkbox" checked={data['autoplay']} onChange={e => setParams('autoplay', e.target.checked)}
+          className={tw('text-sm h-6 border-blue-200 border-1 rounded px-1 focus:outline-none')} />
 
+      </div></div>
   </MecchiNode>
 }; 

@@ -1,7 +1,6 @@
 import { MecchiNodeStore, useMecchiNodeStore } from "../../stores/node-store";
 import { shallow } from "zustand/shallow";
 import { tw } from 'twind';
-import { Handle, Position } from "reactflow";
 import MecchiNode from "../../workflow/node-base";
 import { ChangeEvent, useCallback, useState } from "react";
 import { MecchiKV } from "../../stores/nodes";

@@ -1,5 +1,5 @@
 import { MecchiNodeStore, useMecchiNodeStore } from "../../stores/node-store";
-import { Handle, Position } from "reactflow";
+import { Handle, Position } from "@xyflow/react";
 import MecchiNode from "../../workflow/node-base";
 import { tw } from "twind";
 import { MecchiEvent, MecchiKV } from "../../stores/nodes";

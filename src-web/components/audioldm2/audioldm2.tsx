@@ -1,7 +1,7 @@
 import ky from "ky";
 import { MecchiKV } from "../../stores/nodes";
 import MecchiNode from "../../workflow/node-base";
-import { Handle, Position } from "reactflow";
+import { Handle, Position } from "@xyflow/react";
 import { tw } from "twind";
 import { useMecchiNodeStore } from "../../stores/node-store";
 import { css } from "@emotion/react";
@@ -23,7 +23,7 @@ const MecchiAudioLdm2NodeInfo = {
     type: 'sound',
   }],
 
-  units: [{
+  params: [{
     name: "steps",
     title: "Steps",
     type: "number",

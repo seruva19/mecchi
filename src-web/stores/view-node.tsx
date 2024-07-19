@@ -25,7 +25,7 @@ export const PowerHandle = ({ id }: { id: string }) => {
   const { handles } = useMecchiNodeStore(selector(id));
   const connected = handles.indexOf(`${id}-power`) !== -1;
 
-  return <Handle id={`${id}-power`} type="target" style={{ bottom: -5, width: 5, height: 5 }} position={Position.Bottom} css={css`
+  return <Handle id={`${id}-power`} type="target" style={{ bottom: -2, width: 5, height: 5 }} position={Position.Bottom} css={css`
     &.target::after { content: '${connected ? handle["ignition"] : handle["inactive"]}'; position: absolute; top: -8px; left: -5px; font-size: 10px;`}>
   </Handle>
 }
@@ -72,39 +72,39 @@ export function createMecchiNodeView(node: MecchiNodeInfo) {
       })}
 
       <div className={`${tw`flex flex-col p-2`} nodrag`} style={{ marginTop: offset }}>
-        {node.units.map((unit, index) => {
-          if (unit.type == 'line') {
-            return <div key={`unit-${index}`} className={`${tw`flex`}`}>
-              <label className={tw('px-2 py-1 mb-2 gap-2 text-sm')}>{unit.title}</label>
+        {node.params.map((param, index) => {
+          if (param.type == 'line') {
+            return <div key={`param-${index}`} className={`${tw`flex`}`}>
+              <label className={tw('px-2 py-1 mb-2 gap-2 text-sm')}>{param.title}</label>
               <input className={tw('text-sm h-6 flex-1 border-blue-200 border-1 rounded px-1 focus:outline-none')}
-                type="text" value={data[unit.name]} onChange={e => setParams(unit.name, e.target.value)} />
+                type="text" value={data[param.name]} onChange={e => setParams(param.name, e.target.value)} />
             </div>
-          } else if (unit.type == 'multiline') {
-            return <div key={`unit-${index}`} className={`${tw`flex`}`}>
+          } else if (param.type == 'multiline') {
+            return <div key={`param-${index}`} className={`${tw`flex`}`}>
               <textarea id="message" defaultValue={data.prompt} rows={5} style={{ minWidth: 400, resize: 'none', fontSize: 14 }} className={`${tw`block mx-2 my-0 p-2 text-sm text-gray-900 focus:outline-none bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500`}`}
-                placeholder={unit.title} onChange={e => setParams(unit.name, e.target.value)}>
+                placeholder={param.title} onChange={e => setParams(param.name, e.target.value)}>
               </textarea>
             </div>
-          } else if (unit.type == 'number') {
-            return <div key={`unit-${index}`} className={`${tw`flex`}`}>
-              <label className={tw('px-2 py-1 mb-2 gap-2 text-sm')}>{unit.title}</label>
+          } else if (param.type == 'number') {
+            return <div key={`param-${index}`} className={`${tw`flex`}`}>
+              <label className={tw('px-2 py-1 mb-2 gap-2 text-sm')}>{param.title}</label>
               <input className={tw('text-sm h-6 flex-1 border-blue-200 border-1 rounded px-1 focus:outline-none')}
-                type="number" min={unit.range?.min} max={unit.range?.max} step={unit.range?.step} value={data[unit.name]} onChange={e => setParams(unit.name, e.target.value)} />
+                type="number" min={param.range?.min} max={param.range?.max} step={param.range?.step} value={data[param.name]} onChange={e => setParams(param.name, e.target.value)} />
             </div>
-          } else if (unit.type == 'list') {
-            return <div key={`unit-${index}`} className={`${tw`flex`}`}>
-              <label className={tw('px-2 py-1 mb-2 gap-2 text-sm')}>{unit.title}</label>
-              <select value={data[unit.name]} onChange={e => setParams(unit.name, e.target.value)}
+          } else if (param.type == 'list') {
+            return <div key={`param-${index}`} className={`${tw`flex`}`}>
+              <label className={tw('px-2 py-1 mb-2 gap-2 text-sm')}>{param.title}</label>
+              <select value={data[param.name]} onChange={e => setParams(param.name, e.target.value)}
                 className={tw('text-sm h-6 flex-1 border-blue-200 border-1 rounded px-1 focus:outline-none')}>
-                {unit.values!.map((value, valueIndex) => {
+                {param.values!.map((value, valueIndex) => {
                   return <option value={value} key={`value-${valueIndex}`}>{value}</option>
                 })}
               </select>
             </div>
-          } else if (unit.type == 'bool') {
-            return <div key={`unit-${index}`} className={`${tw`flex`}`}>
-              <label className={tw('px-2 py-1 mb-2 gap-2 text-sm')}>{unit.title}</label>
-              <input type="checkbox" checked={data[unit.name]} onChange={e => setParams(unit.name, e.target.checked)}
+          } else if (param.type == 'bool') {
+            return <div key={`param-${index}`} className={`${tw`flex`}`}>
+              <label htmlFor={`${id}-checkbox-input-${index}`} className={tw('px-2 py-1 mb-2 gap-2 text-sm')}>{param.title}</label>
+              <input id={`${id}-checkbox-input-${index}`} type="checkbox" checked={data[param.name]} onChange={e => setParams(param.name, e.target.checked)}
                 className={tw('text-sm h-6 border-blue-200 border-1 rounded px-1 focus:outline-none')} />
             </div>
           }

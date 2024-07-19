@@ -15,7 +15,7 @@ const MecchiTextInputNodeInfo = {
     type: 'text',
   }],
 
-  units: [{
+  params: [{
     name: "prompt",
     title: "Prompt text",
     type: "multiline",

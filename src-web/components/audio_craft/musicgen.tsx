@@ -15,7 +15,7 @@ const MecchiMusicGenNodeInfo = {
     type: 'sound',
   }],
 
-  units: [{
+  params: [{
     name: "model",
     title: "Model",
     type: "list",

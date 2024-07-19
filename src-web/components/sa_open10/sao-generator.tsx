@@ -2,7 +2,7 @@ import { MecchiKV } from "../../stores/nodes";
 import ky from 'ky';
 
 const MecchiStableAudioOpen10NodeInfo = {
-  type: 'stable-audio',
+  type: 'stable-audio-open',
   title: 'Stable Audio Open 1.0',
   group: 'generate',
 
@@ -18,7 +18,7 @@ const MecchiStableAudioOpen10NodeInfo = {
     type: 'sound',
   }],
 
-  units: [{
+  params: [{
     name: "secondsStart",
     title: "Start",
     type: "number",
