@@ -7,11 +7,10 @@ import { ScaleLoader } from "react-spinners";
 import { Global, css } from "@emotion/react";
 import { Item, Menu, Separator, Submenu, useContextMenu } from "react-contexify";
 import { createPortal } from "react-dom";
-import { useReactFlow } from "reactflow";
-import { getRectOfNodes } from 'reactflow';
 import { useArrayChange } from "./hooks";
 import { Tooltip } from "react-tooltip";
 import { tooltipStyles } from "../styles";
+import { getNodesBounds } from "@xyflow/react";
 
 const selector = (store: MecchiNodeStore) => ({
   busyNodes: store.busyNodes,
@@ -59,7 +58,7 @@ export default function MecchiNode({ title, id, children }: { title: string, id:
 
   const igniteNode = () => {
     const ignitedNode = nodes.find((nodes) => nodes.id == id)!;
-    const rect = getRectOfNodes([ignitedNode]);
+    const rect = getNodesBounds([ignitedNode]);
 
     ignite({ x: rect.x + rect.width, y: rect.y + rect.height });
   };
@@ -88,7 +87,7 @@ export default function MecchiNode({ title, id, children }: { title: string, id:
       <div className={`${tw('rounded-md bg-white shadow-xl')} ${isSelected ? 'selected-node' : ''} ${isMuted ? 'muted-node' : ''}`} style={{
         minWidth: 200,
         opacity: isMuted ? '0.3' : 'initial '
-      }} onDoubleClick={displayMenu}>
+      }}>
         <ScaleLoader loading={isLoading} color={'dodgerblue'} height={10} cssOverride={override} />
         {createPortal(<>
           <Menu id={MENU_ID} animation='flip' >
@@ -127,7 +126,7 @@ export default function MecchiNode({ title, id, children }: { title: string, id:
             top: 2px;
           `}><span>{isMuted ? '🔇' : '🔉'}</span></button>
         </div>
-        <p className={`${tw('rounded-t-md px-2 py-1 bg-gray-100 text-sm')} node-title`} css={css`
+        <p className={`${tw('rounded-t-md px-2 py-1 bg-gray-100 text-sm')} node-title`} onDoubleClick={displayMenu} css={css`
             &:hover { cursor: move;}
         `}>{title}</p>
 

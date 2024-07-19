@@ -1,4 +1,4 @@
-import ReactFlow, {
+import {
   MiniMap,
   Controls,
   Background,
@@ -8,10 +8,13 @@ import ReactFlow, {
   Panel,
   useReactFlow,
   Connection,
-} from 'reactflow';
+  ReactFlow,
+  ColorMode,
+  Edge,
+} from '@xyflow/react';
 import { CiSettings } from "react-icons/ci";
 
-import 'reactflow/dist/style.css';
+import '@xyflow/react/dist/style.css';
 import { MecchiNodeStore, useMecchiNodeStore } from '../stores/node-store';
 import { shallow } from 'zustand/shallow';
 import MecchiPalette from './palette';
@@ -40,8 +43,9 @@ import MecchiSavedFlows from './support/saved-flows';
 import { Global, css } from '@emotion/react';
 import ky from 'ky';
 import { getLayoutedElements } from './flow-tools/layout';
-import { handleDragOver, handleDrop, handleOnReset, handleRestore, handleSave } from './flow-tools/interaction';
+import { dragOverFlow, dropFlow, resetFlow, loadFlow, saveFlow, FAST_SAVE_KEY } from './flow-tools/interaction';
 import { tooltipStyles } from '../styles';
+import { MdModeNight, MdOutlineModeNight } from 'react-icons/md';
 
 const edgeTypes = {
   customEdge: CustomEdge,
@@ -69,27 +73,32 @@ export default function MecchiFlow({ nodeTypesKV, nodeTypes }: IProps) {
   const { paletteVisible, togglePalette, toggleSavedFlows, savedFlowsVisible, showSettings } = useMecchiUIStore();
   const { query } = useKBar();
   const { success, error } = useMecchiUIStore();
-  const [reactFlowInstance, setReactFlowInstance] = useState(null);
+
+  const reactFlowWrapper = useRef(null);
+  const [rfInstance, setRfInstance] = useState(null);
+
+  const { screenToFlowPosition } = useReactFlow();
   const { setViewport, getEdges, getNodes } = useReactFlow();
+  const [colorMode, setColorMode] = useState<ColorMode>('light');
 
   const onReset = useCallback(() => {
-    handleOnReset(setNodes, success);
+    resetFlow(setNodes, success);
   }, []);
 
   const onDragOver = useCallback((event: any) => {
-    handleDragOver(event);
+    dragOverFlow(event);
   }, []);
 
   const onDrop = useCallback((event: any) => {
-    handleDrop(event, reactFlowInstance, createNode);
-  }, [reactFlowInstance]);
+    dropFlow(event, screenToFlowPosition, createNode);
+  }, [screenToFlowPosition]);
 
   const onSave = async () => {
-    handleSave(reactFlowInstance, handles, success);
+    saveFlow(FAST_SAVE_KEY, rfInstance, handles, success);
   };
 
   const onRestore = async () => {
-    handleRestore(setNodes, setEdges, setHandles, setViewport, success, error);
+    loadFlow(FAST_SAVE_KEY, setNodes, setEdges, setHandles, setViewport, () => success('template quick loaded'), () => error('failed to quick load template'));
   };
 
   const onLayout = useCallback(
@@ -106,20 +115,17 @@ export default function MecchiFlow({ nodeTypesKV, nodeTypes }: IProps) {
     [nodes, edges]
   );
 
-  const isValidConnection = useCallback((connection: Connection) => {
-    // console.log(connection);
-    // console.log(getNodes());
-    const source = connection.source;
-    const target = connection.target;
-
+  const isValidConnection = (connection: Connection | Edge) => {
+    const { source, target } = connection;
     return true;
-  }, []);
+  };
 
   return (
     <>
       <Tooltip id="flow-tooltip" style={tooltipStyles as any} />
-      <ReactFlow
-        onInit={setReactFlowInstance as any}
+      <ReactFlow ref={reactFlowWrapper}
+        colorMode={colorMode}
+        onInit={setRfInstance as any}
         onEdgeContextMenu={undefined}
         defaultViewport={{ x: 0, y: 0, zoom: 1 }}
         fitViewOptions={{ maxZoom: 1 }}
@@ -168,7 +174,7 @@ export default function MecchiFlow({ nodeTypesKV, nodeTypes }: IProps) {
           }
         `}
           />
-          <ControlButton onClick={togglePalette} data-tooltip-id="flow-tooltip" data-tooltip-content="toggle palette and map">
+          <ControlButton onClick={togglePalette} data-tooltip-id="flow-tooltip" data-tooltip-content="toggle all panels">
             <div><BiSolidHide /></div>
           </ControlButton>
 
@@ -184,20 +190,27 @@ export default function MecchiFlow({ nodeTypesKV, nodeTypes }: IProps) {
           <ControlButton onClick={() => showSettings(true)} data-tooltip-id="flow-tooltip" data-tooltip-content="settings">
             <div><IoSettings /></div>
           </ControlButton>
+          <ControlButton onClick={() => (colorMode == 'dark' && setColorMode('light'), colorMode == 'light' && setColorMode('dark'))} data-tooltip-id="flow-tooltip" data-tooltip-content="switch theme">
+            <div>
+              {colorMode == 'dark' && <MdOutlineModeNight />}
+              {colorMode == 'light' && <MdModeNight />}
+            </div>
+          </ControlButton>
         </Controls>
 
         <Panel position="top-right" style={{ boxShadow: 'none', border: '1px solid #eee', borderBottom: '1px solid transparent', position: 'absolute', right: 40 }}>
           <ControlButton onClick={toggleSavedFlows} style={{
             color: savedFlowsVisible ? 'white' : 'initial',
             backgroundColor: savedFlowsVisible ? 'rgba(59,130,246)' : 'initial'
-          }} data-tooltip-id="flow-tooltip" data-tooltip-content="saved workflows" data-tooltip-place='left'>
+          }} data-tooltip-id="flow-tooltip" data-tooltip-content="saved templates" data-tooltip-place='left'>
             <div><FaWindowRestore /></div>
           </ControlButton>
         </Panel>
 
         {paletteVisible && <MiniMap zoomable pannable position='bottom-left' />}
         <MecchiPalette nodeTypes={nodeTypes} />
-        {paletteVisible && <MecchiSavedFlows />}
-      </ReactFlow></>
+        {paletteVisible && <MecchiSavedFlows instance={rfInstance} />}
+      </ReactFlow>
+    </>
   )
 }

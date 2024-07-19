@@ -10,7 +10,7 @@ import {
   OnConnect,
   applyNodeChanges,
   applyEdgeChanges
-} from 'reactflow';
+} from '@xyflow/react';
 
 import { nanoid } from 'nanoid';
 import { createWithEqualityFn } from 'zustand/traditional';

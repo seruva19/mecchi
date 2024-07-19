@@ -1,9 +1,9 @@
-import { Handle, Position } from "reactflow";
 import { tw } from "twind";
 import { Global, css } from "@emotion/react";
 import { MecchiNodeStore, useMecchiNodeStore } from "./node-store";
 import MecchiNode from "../workflow/node-base";
 import { MecchiIO, MecchiKV, MecchiNodeInfo } from "./nodes";
+import { Handle, Position } from "@xyflow/react";
 
 const handle: Record<string, string> = {
   'inactive': '⚪',

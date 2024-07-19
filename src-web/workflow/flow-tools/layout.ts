@@ -1,4 +1,4 @@
-import { Edge, Node } from "reactflow";
+import { Edge, Node } from "@xyflow/react";
 import dagre from '@dagrejs/dagre';
 
 const alignToDagre = {

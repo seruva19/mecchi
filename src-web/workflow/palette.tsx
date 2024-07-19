@@ -1,4 +1,4 @@
-import { ControlButton, Panel } from 'reactflow'
+
 import { tw } from 'twind'
 import { useMecchiUIStore } from '../stores/ui-store'
 import { AiOutlineControl } from "react-icons/ai";
@@ -6,13 +6,33 @@ import { MdOutlineElectricalServices } from "react-icons/md";
 import { SiConvertio } from "react-icons/si";
 import { MdOutlineAllInclusive } from "react-icons/md";
 import { SlEnergy } from "react-icons/sl";
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Global, css } from '@emotion/react'
 import { Scrollbars } from 'react-custom-scrollbars-2';
+import { ControlButton, Panel } from '@xyflow/react';
 
 export default function MecchiPalette({ nodeTypes }: { [k: string]: any }) {
   const { paletteVisible } = useMecchiUIStore();
   const [avNodes, setAvNodes] = useState<{ group: string, types: string[] }>({ group: '', types: [] });
+  const effectPerformedRef = useRef(false);
+
+  useEffect(() => {
+    if (!!Object.keys(nodeTypes).length && !effectPerformedRef.current) {
+      const allTypes = (Object.values(nodeTypes) as string[][]).reduce((a, b) => a.concat(b), []);
+      setAvNodes({
+        group: 'all',
+        types: allTypes
+      });
+      effectPerformedRef.current = true;
+    }
+
+    return () => {
+      if (effectPerformedRef.current) {
+        setAvNodes({ group: '', types: [] });
+        effectPerformedRef.current = false;
+      }
+    };
+  }, [nodeTypes]);
 
   const onDragStart = (event: any, nodeType: string) => {
     event.dataTransfer.setData('application/reactflow', nodeType);
@@ -83,7 +103,7 @@ export default function MecchiPalette({ nodeTypes }: { [k: string]: any }) {
           position: 'absolute',
           top: groups.length * 30,
         }}>
-          <Scrollbars style={{ width: 123, height: window.innerHeight - 340 }}
+          <Scrollbars style={{ width: 111, height: window.innerHeight - 340 }}
             autoHideTimeout={1000}
             autoHideDuration={200}>
             <div style={{

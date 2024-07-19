@@ -1,4 +1,4 @@
-import { Edge, Node } from 'reactflow'
+import { Edge, Node } from '@xyflow/react'
 import { MecchiEvent, MecchiKV, getMecchiNodes } from '../stores/nodes'
 
 // TODO: current implementation is sequential-only, so even operations that could be run simultaneously

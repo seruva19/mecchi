@@ -1,4 +1,4 @@
-import 'reactflow/dist/style.css';
+import '@xyflow/react/dist/style.css';
 import MecchiFlow from './flow';
 import { useState, useEffect } from 'react';
 import { getMecchiNodes } from '../stores/nodes';

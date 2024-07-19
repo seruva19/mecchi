@@ -3,7 +3,7 @@ import { createMecchiNodeView } from './view-node';
 
 export type MecchiKV = { [key: string]: any };
 export type MecchiIO = { name: string, type: 'ignition' | 'text' | 'sound' | 'tensor' | 'any' | 'undefined', required?: boolean };
-export type MecchiUnit = { name: string, title: string, type: string, values?: any[], range?: { min: number, max: number, step: number } };
+export type MecchiParam = { name: string, title: string, type: string, values?: any[], range?: { min: number, max: number, step: number } };
 export type MecchiEvent = { halt: boolean };
 
 export interface MecchiNodeInfo {
@@ -13,7 +13,7 @@ export interface MecchiNodeInfo {
   view: Function;
   inputs: Array<MecchiIO>;
   outputs: Array<MecchiIO>;
-  units: Array<MecchiUnit>;
+  params: Array<MecchiParam>;
   data: MecchiKV;
   transform: (inputs: MecchiKV, state: MecchiKV, event: MecchiEvent) => Promise<MecchiKV>;
 }
@@ -37,12 +37,18 @@ async function loadMecchiNodes() {
   const { nodes: nodePaths } = result;
 
   for (const path of nodePaths) {
-    const module = await import(/* @vite-ignore */ path);
-    mecchiNodes.push(module.default);
+    console.info('importing node:  ' + path);
 
-    if (!module.default.view) {
-      console.info('registered dynamic view for node: \'' + module.default.type + '\' (' + module.default.group + ')');
-      module.default.view = createMecchiNodeView(module.default);
+    const module = await import(/* @vite-ignore */ path);
+    if (!!module.default) {
+      mecchiNodes.push(module.default);
+
+      if (!module.default.view) {
+        console.info('registered dynamic view for node: \'' + module.default.type + '\' (' + module.default.group + ')');
+        module.default.view = createMecchiNodeView(module.default);
+      }
+    } else {
+      console.warn('found module \'' + path + '\', but it does not contain any node definition, so ignoring it');
     }
   }
 

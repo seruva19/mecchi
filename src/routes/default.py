@@ -3,8 +3,9 @@ import uuid
 from flask import Flask, render_template, request, send_from_directory
 from werkzeug.utils import secure_filename
 from utils import MecchiUtils
+from pathlib import Path
 
-workflows_dir = "flows"
+workflows_dir = "templates"
 
 
 def define_routes(app: Flask, mecchi_utils: MecchiUtils, nodes):
@@ -52,7 +53,15 @@ def define_routes(app: Flask, mecchi_utils: MecchiUtils, nodes):
 
     @app.route("/mecchi/workflows", methods=["GET"])
     def workflows():
-        workflows = [f for f in os.listdir(workflows_dir) if not f.startswith(".")]
+        workflows = []
+        for root, dirs, files in os.walk(workflows_dir):
+            for file in files:
+                if not file.startswith("."):
+                    relative_path = os.path.relpath(
+                        os.path.join(root, file), workflows_dir
+                    ).rsplit(".", 1)[0]
+                    workflows.append(relative_path)
+
         return {"mecchi": "👍", "flows": workflows}
 
     @app.route("/mecchi/workflow/load", methods=["POST"])
@@ -60,7 +69,9 @@ def define_routes(app: Flask, mecchi_utils: MecchiUtils, nodes):
         input = request.get_json()
 
         workflow_name = input["name"]
-        workflow_path = os.path.join(workflows_dir, f"{workflow_name}.json")
+        if not workflow_name.endswith(".json"):
+            workflow_name += ".json"
+        workflow_path = os.path.join(workflows_dir, f"{workflow_name}")
 
         if not os.path.exists(workflow_path):
             return {"mecchi": "🙄"}
@@ -72,15 +83,35 @@ def define_routes(app: Flask, mecchi_utils: MecchiUtils, nodes):
     @app.route("/mecchi/workflow/save", methods=["POST"])
     def writeWorkflow():
         input = request.get_json()
+
         workflow_name = input["name"]
+        if not workflow_name.endswith(".json"):
+            workflow_name += ".json"
+        print(workflow_name)
         workflow_json = input["flow"]
+        workflow_path = os.path.join(workflows_dir, workflow_name)
+        workflow_dir = os.path.dirname(workflow_path)
 
-        if not os.path.exists(workflows_dir):
-            os.makedirs(workflows_dir)
-
-        workflow_path = os.path.join(workflows_dir, f"{workflow_name}.json")
+        if not os.path.exists(workflow_dir):
+            os.makedirs(workflow_dir)
 
         with open(workflow_path, "w") as f:
             f.write(workflow_json)
 
         return {"mecchi": "👍"}
+
+    @app.route("/mecchi/workflow/delete", methods=["POST"])
+    def deleteWorkflow():
+        input = request.get_json()
+
+        workflow_name = input["name"]
+        if not workflow_name.endswith(".json"):
+            workflow_name += ".json"
+
+        workflow_path = os.path.join(workflows_dir, workflow_name)
+        try:
+            os.remove(workflow_path)
+            return {"mecchi": "👍"}
+        except Exception as e:
+            print(f"⛔ error removing flow: {e}")
+            return {"mecchi": "🙄"}

@@ -1,10 +1,4 @@
-import {
-  BaseEdge,
-  EdgeLabelRenderer,
-  EdgeProps,
-  getBezierPath,
-  useReactFlow,
-} from 'reactflow';
+
 import { createPortal } from 'react-dom';
 import { tw } from "twind";
 import { Global, css } from '@emotion/react'
@@ -19,6 +13,7 @@ import "react-contexify/dist/ReactContexify.css";
 import { nanoid } from 'nanoid';
 import { useMecchiNodeStore } from '../stores/node-store';
 import { useState } from 'react';
+import { EdgeProps, getBezierPath, BaseEdge, EdgeLabelRenderer } from '@xyflow/react';
 
 export default function CustomEdge({
   id,
@@ -88,6 +83,10 @@ export default function CustomEdge({
         .flow-edge:hover {
           opacity: 1;
         }
+
+        .flow-edge.front {
+          zIndex: 1001,
+        }
         `}
       />
       <BaseEdge path={edgePath} markerEnd={markerEnd} style={style} />
@@ -95,10 +94,11 @@ export default function CustomEdge({
         <div
           style={{
             position: 'absolute',
-            zIndex: 1001,
+            // zIndex: 1001,
             transform: `translate(-50%, -50%) translate(${labelX}px,${labelY}px)`,
             // transform: `translate(-50%, 0%) translate(${sourceX - 4}px,${sourceY - 10}px)`,
             fontSize: 12,
+            // background: 'white',
             pointerEvents: 'all',
           }}
           className="flow-edge"

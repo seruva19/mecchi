@@ -1,12 +1,13 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { ReactFlowProvider } from 'reactflow'
+
 import MecchiCanvas from './workflow/canvas'
 import { KBarAnimator, KBarPortal, KBarPositioner, KBarProvider, KBarResults, KBarSearch, useMatches } from "kbar";
 import { RenderResults } from './workflow/command-bar/results';
 import { actions } from './workflow/command-bar/kbar';
 import { Global, css } from '@emotion/react';
 import { globalStyles } from './styles';
+import { ReactFlowProvider } from '@xyflow/react';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <>
@@ -25,6 +26,6 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
           <MecchiCanvas />
         </ReactFlowProvider>
       </KBarProvider>
-    </React.StrictMode>,
+    </React.StrictMode>
   </>
 )
