@@ -1,5 +1,9 @@
 # Mecchi
 
+## Disclaimer
+
+This project is not dead, I'll resume active work on it in 2025. Unfortunately, I've had limited free time in 2024. If anyone uses this project (I don't think so), thanks for your patience!
+
 ## Vision
 
 Mecchi is an attempt to build an AI-powered node-based web audio editor with the long-term goal of evolving into a full-featured modular open-source DAW designed for creating generative music content 😀
