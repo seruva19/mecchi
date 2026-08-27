@@ -2,9 +2,8 @@
 
 ## Disclaimer
 
-This project is not dead, I'll resume active work on it in 2025. Unfortunately, I've had limited free time in 2024. If anyone uses this project (I don't think so), thanks for your patience!
-   
-upd 08/2025. Oh well, I didn't expect to get so involved in videogen AI in 2025. I'll probably push updating this project to 2026. And with the current pace of the AI adoption it will most likely be continued by one of my AI agents.
+> [!WARNING]
+> **This project has been discontinued and is no longer maintained.** No further development or support is planned. The repository remains available for archival and reference purposes only.
 
 ## Vision
 
